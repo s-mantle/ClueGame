@@ -9,6 +9,16 @@ import org.junit.jupiter.api.Test;
 import experiment.TestBoard;
 import experiment.TestBoardCell;
 
+
+/**
+ * Authors: Sam Mantle & Ben Isenhart
+ * Date 2 - 26 - 2024
+ * Collaborators: None
+ * Sources: None
+ * 
+ * BoardTestsExp: This class creates and implements 18 unique test cases to ensure that TestBoardCell & TestBoard are working as intended.
+ * These tests primarily pertain to movement validation under a variety of circumstances (room presence, player presence, edges, corners, etc.)
+ */
 public class BoardTestsExp {
 	TestBoard board;
 
@@ -17,6 +27,11 @@ public class BoardTestsExp {
 		board = new TestBoard();
 	}
 	
+	/*
+	 * The testAdjaceny# test cases all validate which squares a player is adjacent to given their current starting tile. These test cases
+	 * contain anywhere from 2 - 4 cells in their adjacency lists based on whether the player is at a corner (2 adjacent cells), at an edge
+	 * (3 adjacent cells), or in the "center" (4 adjacent cells)
+	 */
 	@Test
 	void testAdjacency0() {
 		TestBoardCell cell = board.getCell(2, 2);
@@ -72,6 +87,12 @@ public class BoardTestsExp {
 		Assert.assertEquals(4, testList.size());
 	}
 	
+	/*
+	 * The testTargetsNormal# test cases all validate which squares a player may move to given a starting cell and a number rolled on the die.
+	 * There is assumed to be no rooms or players obstructing movement for these cases. The test cases vary primarily by roll (1 - 6), but also
+	 * the final test case starts at a different position. There is a variable number of possible moves which are accounted for on a case by 
+	 * case basis.
+	 */
 	@Test
 	void testTargetsNormal1() {
 		TestBoardCell cell = board.getCell(0, 0);
@@ -166,7 +187,13 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(2, 3)));
 		Assert.assertTrue(targets.contains(board.getCell(3, 2)));
 	}
-	
+
+	/*
+	 * The testTargetsRoom#, testTargetsOccupied#, & testTargetsMixed# test cases all validate which squares a player may move to given a 
+	 * starting cell and a number rolled on the die. However, unlike the previous test cases, there are rooms and/ or players obstructing movement.
+	 * There is a variable number of possible moves which are accounted for on a case by case basis, and the presence of players or rooms also 
+	 * creates different blockers to movement or ending cells respectively.
+	 */
 	@Test
 	void testTargetsRoom1() {
 		TestBoardCell cell = board.getCell(0, 0);

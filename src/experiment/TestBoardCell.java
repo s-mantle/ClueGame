@@ -3,6 +3,14 @@ package experiment;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Authors: Ben Isenhart & Sam Mantle
+ * Date 2 - 26 - 2024
+ * Collaborators: None
+ * Sources: None
+ * 
+ * TestBoardCell: This class creates a fictitious board cell (without any concrete implementations) to be tested
+ */
 public class TestBoardCell {
 	private int row;
 	private int col;
