@@ -1,19 +1,25 @@
 package experiment;
 
+import java.util.Collections;
 import java.util.Set;
 
 public class TestBoard {
-	Set<TestBoardCell> targets;
+	Set<TestBoardCell> targets = Collections.emptySet();
 	
-	void calcTargets(TestBoardCell startCell, int pathlength) {
-		targets.add(startCell);
+	public TestBoard() {
+		
 	}
 	
-	TestBoardCell getCell(int row, int col) {
-		return new TestBoardCell(0, 0);
+	public void calcTargets(TestBoardCell startCell, int pathlength) {
+//		targets.add(startCell);
 	}
 	
-	Set<TestBoardCell> getTargets() {
+	public TestBoardCell getCell(int row, int col) {
+		TestBoardCell temp = new TestBoardCell(row, col);
+		return temp;
+	}
+	
+	public Set<TestBoardCell> getTargets() {
 		return targets;
 	}
 }

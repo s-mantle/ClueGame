@@ -1,41 +1,43 @@
 package experiment;
 
+import java.util.Collections;
 import java.util.Set;
 
 public class TestBoardCell {
 	private int row;
 	private int col;
-	private boolean partOfRoom;
-	private boolean occupied;
-	Set<TestBoardCell> boardCells;
-	
+	private boolean partOfRoom = false;
+	private boolean occupied = false;
+	Set<TestBoardCell> boardCells = Collections.emptySet();
+
+
 	public TestBoardCell(int row, int col) {
 		super();
 		this.row = row;
 		this.col = col;
 	}
 
-	void addAdjacency(TestBoardCell cell) {
+	public void addAdjacency(TestBoardCell cell) {
 		boardCells.add(cell);
 	}
 	
-	Set<TestBoardCell> getAdjList() {
+	public Set<TestBoardCell> getAdjList() {
 		return boardCells;
 	}
 	
-	void setRoom(boolean roomStatus) {
+	public void setRoom(boolean roomStatus) {
 		this.partOfRoom = roomStatus;
 	}
 	
-	boolean isRoom() {
+	public boolean isRoom() {
 		return partOfRoom;
 	}
 	
-	void setOccupied(boolean occupiedStatus) {
+	public void setOccupied(boolean occupiedStatus) {
 		this.occupied = occupiedStatus;
 	}
 	
-	boolean getOccupied() {
+	public boolean getOccupied() {
 		return occupied;
 	}
 	
