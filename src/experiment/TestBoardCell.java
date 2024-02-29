@@ -14,9 +14,9 @@ import java.util.Set;
 public class TestBoardCell {
 	private int row;
 	private int col;
-	private boolean partOfRoom = false;
-	private boolean occupied = false;
-	Set<TestBoardCell> boardCells = Collections.emptySet();
+	private boolean isRoom = false;
+	private boolean isOccupied = false;
+	Set<TestBoardCell> adjList = Collections.emptySet();
 
 
 	public TestBoardCell(int row, int col) {
@@ -26,27 +26,27 @@ public class TestBoardCell {
 	}
 
 	public void addAdjacency(TestBoardCell cell) {
-		boardCells.add(cell);
+		adjList.add(cell);
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
-		return boardCells;
+		return adjList;
 	}
 	
 	public void setRoom(boolean roomStatus) {
-		this.partOfRoom = roomStatus;
+		this.isRoom = roomStatus;
 	}
 	
 	public boolean isRoom() {
-		return partOfRoom;
+		return isRoom;
 	}
 	
 	public void setOccupied(boolean occupiedStatus) {
-		this.occupied = occupiedStatus;
+		this.isOccupied = occupiedStatus;
 	}
 	
 	public boolean getOccupied() {
-		return occupied;
+		return isOccupied;
 	}
 	
 }

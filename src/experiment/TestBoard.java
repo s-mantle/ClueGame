@@ -12,7 +12,12 @@ import java.util.Set;
  * TestBoard: This class creates a fictitious board of test cells (again without any concrete implementations) to be tested
  */
 public class TestBoard {
-	Set<TestBoardCell> targets = Collections.emptySet();
+	private TestBoardCell[][] grid;
+	private Set<TestBoardCell> targets = Collections.emptySet();
+	private Set<TestBoardCell> visited;
+	
+	final static int COLS = 4;
+	final static int ROWS = 4;
 	
 	public TestBoard() {
 		
