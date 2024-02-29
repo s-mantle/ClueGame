@@ -16,6 +16,8 @@ public class TestBoardCell {
 	private int col;
 	private boolean isRoom = false;
 	private boolean isOccupied = false;
+	
+	//Should be an individual adjList for each individual cell to show where is can move
 	Set<TestBoardCell> adjList = Collections.emptySet();
 
 
@@ -25,6 +27,7 @@ public class TestBoardCell {
 		this.col = col;
 	}
 
+	//adds all the cells that can be moved to for this specific cell
 	public void addAdjacency(TestBoardCell cell) {
 		adjList.add(cell);
 	}

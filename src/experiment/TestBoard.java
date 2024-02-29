@@ -20,13 +20,24 @@ public class TestBoard {
 	final static int ROWS = 4;
 	
 	public TestBoard() {
+		grid = new TestBoardCell[ROWS][COLS];
+		
+		//Should we be filling test board with the cells that are in it here?
+		//Grid will be a 4 by 4 right now
 		
 	}
 	
-	public void calcTargets(TestBoardCell startCell, int pathlength) {
-//		targets.add(startCell);
+	//Use gird to calculate the adjacency list between each cell
+	public void calcAdjList() {
+		
 	}
 	
+	//Calculates the targets that the player can get to
+	public void calcTargets(TestBoardCell startCell, int pathlength) {
+		
+	}
+	
+	//Does this return the cells adjacency list?
 	public TestBoardCell getCell(int row, int col) {
 		TestBoardCell temp = new TestBoardCell(row, col);
 		return temp;
