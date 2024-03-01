@@ -14,52 +14,88 @@ import java.util.Set;
 public class TestBoardCell {
 	private int row;
 	private int col;
-	private boolean isRoom = false;
-	private boolean isOccupied = false;
+	private boolean isRoom;
+	private boolean isOccupied;
 	private String letter;
-	//Should be an individual adjList for each individual cell to show where is can move
-	Set<TestBoardCell> adjList;
+	private Set<TestBoardCell> adjList;
 
-
+	/**
+	 * Sets up the basic variables in TestBoardCell
+	 * 
+	 * @param row
+	 * @param col
+	 */
 	public TestBoardCell(int row, int col) {
 		super();
 		this.row = row;
 		this.col = col;
+		this.isRoom = false;
+		this.isOccupied = false;
 		this.adjList = new HashSet<TestBoardCell>();
 	}
 	
-	//Helps to print the board to ensure grid[][] is set up right
+	/**
+	 * Helper method to return the letter that the cell is
+	 * W-Walkway
+	 * R-Room
+	 * O-Occupied
+	 */
 	public String getLetter() {
 		return letter;
 	}
-
-	//Helps to print the board to ensure grid[][] is set up right
+	
+	/**
+	 * Sets the cells letter to the given 
+	 * @param letter
+	 */
 	public void setLetter(String letter) {
 		this.letter = letter;
 	}
 	
-	//adds all the cells that can be moved to for this specific cell
+	/**
+	 * Adds a cell to the adjacency list
+	 * 
+	 * @param cell
+	 */
 	public void addAdjacency(TestBoardCell cell) {
 		adjList.add(cell);
 	}
 	
+	/**
+	 * Returns adjacency list
+	 */
 	public Set<TestBoardCell> getAdjList() {
 		return adjList;
 	}
 
-	//Change to just true
+	/**
+	 * Sets isRoom variable to true 
+	 * 
+	 * @param roomStatus
+	 */
 	public void setRoom(boolean roomStatus) {
 		this.isRoom = roomStatus;
 	}
 	
+	/**
+	 * Checks is a cell is a room
+	 */
 	public boolean isRoom() {
 		return isRoom;
 	}
 	
+	/**
+	 * Sets a cell to occupied if a player is on it
+	 * 
+	 * @param occupiedStatus
+	 */
 	public void setOccupied(boolean occupiedStatus) {
 		this.isOccupied = occupiedStatus;
 	}
 	
+	/**
+	 * Returns if a cell is occupied
+	 */
 	public boolean getOccupied() {
 		return isOccupied;
 	}
