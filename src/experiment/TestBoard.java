@@ -1,6 +1,5 @@
 package experiment;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -19,13 +18,6 @@ public class TestBoard {
 	private TestBoardCell[][] grid;
 	private Set<TestBoardCell> targets;
 	private Set<TestBoardCell> visited;
-	
-	
-//	W,W,O,W
-//	R,W,W,W
-//	W,W,W,W
-//	W,W,W,W
-	
 	
 	final static int COLS = 4;
 	final static int ROWS = 4;
@@ -95,9 +87,7 @@ public class TestBoard {
 		targets = new HashSet<>();
 		
 		visited.add(startCell);
-		
-//		System.out.println(startCell.getAdjList());
-				
+						
 		findAllTargets(startCell, pathLength);
 	}
 	
@@ -107,11 +97,17 @@ public class TestBoard {
 				continue;
 			}
 			
-//			System.out.println(numSteps + ": " + adjCell.getRow() + ", " + adjCell.getCol());
-			
+			if (adjCell.isRoom()) {
+				targets.add(adjCell);
+				continue;
+			}
+			else if (adjCell.getOccupied()) {
+				continue;
+			}
+				
 			visited.add(adjCell);
-			if (numSteps == 1 & !targets.contains(adjCell)) {
-//				System.out.println(numSteps + ": " + adjCell.getRow() + ", " + adjCell.getCol());
+			
+			if (numSteps == 1) {
 				targets.add(adjCell);
 			}
 			else {
