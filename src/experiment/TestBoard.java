@@ -31,28 +31,6 @@ public class TestBoard {
 		}
 		File file = new File("TestBoardCSV.csv");
 		Scanner scanner = new Scanner(file);
-		scanner.useDelimiter(",");
-		
-		/*int count = 0;
-		for(int i = 0; i < ROWS; i++) {
-			for(int j = 0; j < COLS; j++) {
-				TestBoardCell cell = new TestBoardCell(i,j);
-				grid[i][j] = cell;
-				String currCell;
-				if(scanner.hasNext()) { 	
-					currCell = scanner.next();
-					cell.setLetter(currCell);
-					if(currCell == "R") {
-						cell.setRoom(true);
-					}else if(currCell == "O") {
-						cell.setOccupied(true);
-					}
-				}
-				count++;
-				//System.out.print("Cell: "+i+" "+j+" (");
-				System.out.print(grid[i][j].getLetter()+" ");
-			}
-		}*/
 		
 		for(int i = 0; i < ROWS; i++) {
 			String[] line = scanner.nextLine().split(",");
@@ -87,10 +65,22 @@ public class TestBoard {
 			for(int j = 0; j < COLS; j++){
 				//Does not calculate for doors yet, purely all available cells
 				System.out.println("At cell: " + i + " " + j);
-				if(i-1 > 0) { grid[i][j].addAdjacency(grid[i-1][j]); }
-				if(i+1 < ROWS) { grid[i][j].addAdjacency(grid[i-1][j]); }
-				if(j-1 > 0) { grid[i][j].addAdjacency(grid[i-1][j]); }
-				if(j+1 < COLS) { grid[i][j].addAdjacency(grid[i-1][j]); }
+				if(i-1 > 0) { 
+					System.out.println("i-1: "+ (i-1));
+					grid[i][j].addAdjacency(grid[i-1][j]);
+					}
+				if(i+1 < ROWS) { 
+					System.out.println("i+1: "+ (i+1));
+					grid[i][j].addAdjacency(grid[i+1][j]); 
+					}
+				if(j-1 > 0) { 
+					System.out.println("j-1: "+ (j-1));
+					grid[i][j].addAdjacency(grid[i][j-1]); 
+					}
+				if(j+1 < COLS) { 
+					System.out.println("j+1: "+ (j+1));
+					grid[i][j].addAdjacency(grid[i][j+1]); 
+					}
 			}
 		}
 	}

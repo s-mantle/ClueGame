@@ -1,6 +1,7 @@
 package experiment;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,13 +20,14 @@ public class TestBoardCell {
 	private String letter;
 
 	//Should be an individual adjList for each individual cell to show where is can move
-	Set<TestBoardCell> adjList = Collections.emptySet();
+	Set<TestBoardCell> adjList;
 
 
 	public TestBoardCell(int row, int col) {
 		super();
 		this.row = row;
 		this.col = col;
+		this.adjList = new HashSet<TestBoardCell>();
 	}
 	
 	public String getLetter() {
