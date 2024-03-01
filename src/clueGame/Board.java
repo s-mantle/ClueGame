@@ -14,8 +14,9 @@ public class Board{
 	 */
 	private BoardCell[][] grid;
 	
-	final static int COLS = 4;
-	final static int ROWS = 4;
+	// Updated values for 306 Test Cases
+	final static int COLS = 24;
+	final static int ROWS = 25;
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
@@ -39,15 +40,15 @@ public class Board{
 	public void initialize() {
 		grid = new BoardCell[ROWS][COLS];
 		try {
-			File file = new File("TestBoardCSV.csv");
+			File file = new File(layoutConfigFile);
 			Scanner scanner = new Scanner(file);
-			
+						
 			for (int i = 0; i < ROWS; i++) {
 				String[] line = scanner.nextLine().split(",");
-				for (int j = 0; j < line.length; j++){
+				for (int j = 0; j < COLS; j++){
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
-					
+
 					cell.setLetter(line[j]);
 					if(line[j] == "R") {
 						cell.setRoom(true);
