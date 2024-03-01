@@ -15,6 +15,14 @@ import java.util.Set;
 public class BoardCell {
 	private int row;
 	private int col;
+	
+	private char initial;
+	private boolean doorwayStatus;
+	private DoorDirection doorDirection;
+	private boolean roomLabel;
+	private boolean roomCenter;
+	private char secretPassage;
+	
 	private boolean isRoom;
 	private boolean isOccupied;
 	private String letter;
@@ -112,4 +120,23 @@ public class BoardCell {
 		return isOccupied;
 	}
 	
+	public boolean isDoorway() {
+		return this.doorwayStatus;
+	}
+	
+	public DoorDirection getDoorDirection() {
+		return this.doorDirection;
+	}
+	
+	public boolean isLabel() {
+		return this.roomLabel;
+	}
+	
+	public boolean isRoomCenter() {
+		return this.roomCenter;
+	}
+	
+	public char getSecretPassage() {
+		return this.secretPassage;
+	}
 }

@@ -4,6 +4,7 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -12,11 +13,16 @@ public class Board{
 	 * variable and methods used for singleton pattern
 	 */
 	private BoardCell[][] grid;
-	private Set<BoardCell> targets;
-	private Set<BoardCell> visited;
-
+	
 	final static int COLS = 4;
 	final static int ROWS = 4;
+
+	private String layoutConfigFile;
+	private String setupConfigFile;
+	private Map<Character, Room> roomMap;
+	
+	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
 
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
@@ -30,37 +36,36 @@ public class Board{
 	/*
 	 * initialize the board (since we are using singleton pattern)
 	 */
-	public void initialize() throws FileNotFoundException {
+	public void initialize() {
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File("TestBoardCSV.csv");
+			Scanner scanner = new Scanner(file);
+			
+			for (int i = 0; i < ROWS; i++) {
+				String[] line = scanner.nextLine().split(",");
+				for (int j = 0; j < line.length; j++){
+					BoardCell cell = new BoardCell(i,j);
+					grid[i][j] = cell;
+					
+					cell.setLetter(line[j]);
+					if(line[j] == "R") {
+						cell.setRoom(true);
+					}
+					else if(line[j] == "O") {
+						cell.setOccupied(true);
+					}
+				}
+			}
+			
+			scanner.close();
+			this.calcAdjList();
 		}
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
 		}
-		
-		File file = new File("TestBoardCSV.csv");
-		Scanner scanner = new Scanner(file);
-		
-		for (int i = 0; i < ROWS; i++) {
-			String[] line = scanner.nextLine().split(",");
-			for (int j = 0; j < line.length; j++){
-				BoardCell cell = new BoardCell(i,j);
-				grid[i][j] = cell;
-				
-				cell.setLetter(line[j]);
-				if(line[j] == "R") {
-					cell.setRoom(true);
-				}
-				else if(line[j] == "O") {
-					cell.setOccupied(true);
-				}
-			}
-		}
-		
-		scanner.close();
-		this.calcAdjList();
 	}
+	
 	private void calcAdjList() {
 		for (int i = 0; i < ROWS; i++)
 		{
@@ -145,5 +150,36 @@ public class Board{
 	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+	
+	public void setConfigFiles(String csvFile, String txtFile) {
+		this.layoutConfigFile = csvFile;
+		this.setupConfigFile = txtFile;
+	}
+	
+	// FIX IMPLEMENTATION
+	public void loadSetupConfig() {
+		
+	}
+	// FIX IMPLEMENTATION
+	public void loadLayoutConfig() {
+		
+	}
+	
+	// FIX IMPLEMENTATION
+	public Room getRoom(char letter) {
+		return new Room();
+	}
+	// FIX IMPLEMENTATION
+	public Room getRoom(BoardCell cell) {
+		return new Room();
+	}
+	
+	public int getNumRows() {
+		return ROWS;
+	}
+	
+	public int getNumColumns() {
+		return COLS;
 	}
 }
