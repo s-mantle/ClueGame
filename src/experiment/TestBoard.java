@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
  * Collaborators: None
  * Sources: None
  * 
- * TestBoard: This class creates a fictitious board of test cells (again without any concrete implementations) to be tested
+ * TestBoard: This class creates a board of test cells to be tested
  */
 public class TestBoard {
 	private TestBoardCell[][] grid;
@@ -21,6 +21,12 @@ public class TestBoard {
 	final static int COLS = 4;
 	final static int ROWS = 4;
 	
+	/**
+	 * Constructor for TestBoard, populates the 2D array grid with cells given by the 4x4 TestBoardCSV.csv
+	 * Also determines if cells are occupied or if cells are a room
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	public TestBoard() throws FileNotFoundException{
 		grid = new TestBoardCell[ROWS][COLS];
 		try {
@@ -51,15 +57,12 @@ public class TestBoard {
 		
 		scanner.close();
 		this.calcAdjList();
-		
-		//Should we be filling test board with the cells that are in it here?
-		//Grid will be a 4 by 4 right now
-		
 	}
 	
-	//Use grid to calculate the adjacency list between each cell
+	/**
+	 * Calculates the adjacency list for each cell in grid[][]
+	 */
 	public void calcAdjList() {
-		//Loops through all index in grid
 		for (int i = 0; i < ROWS; i++)
 		{
 			for (int j = 0; j < COLS; j++){
@@ -80,16 +83,29 @@ public class TestBoard {
 		}
 	}
 	
-	//Calculates the targets that the player can get to
+	/**
+	 * Calculates the targets that the player can move to using the adjacency list of each cell
+	 * 
+	 * @param startCell
+	 * @param pathlength
+	 */
 	public void calcTargets(TestBoardCell startCell, int pathlength) {
 		
 	}
 	
-	//Does this return the cells adjacency list?
+	/**
+	 * Returns the cell at the grids row,col
+	 * 
+	 * @param row
+	 * @param col
+	 */
 	public TestBoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
 	
+	/**
+	 * Gets the targets that can be moved to by the player
+	 */
 	public Set<TestBoardCell> getTargets() {
 		return targets;
 	}
