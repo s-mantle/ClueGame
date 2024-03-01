@@ -1,7 +1,10 @@
 package experiment;
 
 import java.util.Collections;
+import java.util.Scanner;
 import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Authors: Ben Isenhart & Sam Mantle
@@ -19,17 +22,60 @@ public class TestBoard {
 	final static int COLS = 4;
 	final static int ROWS = 4;
 	
-	public TestBoard() {
+	public TestBoard() throws FileNotFoundException{
 		grid = new TestBoardCell[ROWS][COLS];
+		try {
+			File file = new File("TestBoardCSV.csv");
+		}catch(Exception FileNotFoundException){
+			System.out.println("The given file cannot be found");
+		}
+		File file = new File("TestBoardCSV.csv");
+		Scanner scanner = new Scanner(file);
+		scanner.useDelimiter(",");
+		
+		int count = 0;
+		for(int i = 0; i < ROWS; i++) {
+			for(int j = 0; j < COLS; j++) {
+				TestBoardCell cell = new TestBoardCell(i,j);
+				grid[i][j] = cell;
+				String currCell;
+				if(scanner.hasNext()) { 	
+					currCell = scanner.next();
+					cell.setLetter(currCell);
+					if(currCell == "R") {
+						cell.setRoom(true);
+					}else if(currCell == "O") {
+						cell.setOccupied(true);
+					}
+				}
+				count++;
+				//System.out.print("Cell: "+i+" "+j+" (");
+				System.out.print(grid[i][j].getLetter()+" ");
+			}
+		}
+		System.out.println(count);
+		scanner.close();
+		this.calcAdjList();
 		
 		//Should we be filling test board with the cells that are in it here?
 		//Grid will be a 4 by 4 right now
 		
 	}
 	
-	//Use gird to calculate the adjacency list between each cell
+	//Use grid to calculate the adjacency list between each cell
 	public void calcAdjList() {
-		
+		//Loops through all index in grid
+		for(int i = 0; i < ROWS; i++)
+		{
+			for(int j = 0; j < COLS; j++){
+				//Does not calculate for doors yet, purely all available cells
+				System.out.println("At cell: " + i + " " + j);
+				if(i-1 > 0) { grid[i][j].addAdjacency(grid[i-1][j]); }
+				if(i+1 < ROWS) { grid[i][j].addAdjacency(grid[i-1][j]); }
+				if(j-1 > 0) { grid[i][j].addAdjacency(grid[i-1][j]); }
+				if(j+1 < COLS) { grid[i][j].addAdjacency(grid[i-1][j]); }
+			}
+		}
 	}
 	
 	//Calculates the targets that the player can get to
@@ -45,5 +91,9 @@ public class TestBoard {
 	
 	public Set<TestBoardCell> getTargets() {
 		return targets;
+	}
+	
+	public static void main(String [] args) throws FileNotFoundException {
+		TestBoard test = new TestBoard();
 	}
 }
