@@ -1,0 +1,111 @@
+commit c420041bb1365a6bded4391de6f4ec62ef0f0481
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:58:14 2024 -0700
+
+    Copied Code from TestBoard, TestBoardCell over
+
+commit 83513c49faaa4a44b907f776d42bc80eb3690787
+Merge: 5944191 8902dc7
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:43:51 2024 -0700
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit 5944191df429e625ee1b6a5a99f24da6a23ff68f
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:43:27 2024 -0700
+
+    Files for Clue Init 1
+
+commit 8902dc7a03e4a1830f68e3598188f0a2896f931d
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Feb 29 21:42:44 2024 -0700
+
+    Missed Conflict Resolved
+
+commit cf2b18e03e7b938cb0c4fe989aa072d35d03a99b
+Merge: 9dd93f7 d063fbc
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Feb 29 21:41:35 2024 -0700
+
+    Merged Conflicts
+
+commit 9dd93f72db447f2969e7e6caf22a1eac21dfcd32
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Feb 29 21:38:17 2024 -0700
+
+    All test cases passing
+
+commit d063fbcf103ab820ca06cdb29776c5773333ceda
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:29:56 2024 -0700
+
+    Files for Clue Init 1
+
+commit 12d72bcc89f377cc0d2958784678a63a86fdd6f6
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Feb 29 21:26:53 2024 -0700
+
+    All testTargetsNormal#() pass
+
+commit 1026f149ca1a4fc6bbea5bb11246ffae830e53c3
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:16:32 2024 -0700
+
+    Added a comment about TA saying scanner was ok to use
+
+commit 8a4568e599bcf58afef71b3c60bcba3b0ed71756
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:09:21 2024 -0700
+
+    Comments for TestBoard
+
+commit 0a9a9d77fe28bc833d1271a95d753ae0de1318d4
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 21:00:18 2024 -0700
+
+    Comments for TestBoardCell
+
+commit dfc5d9cf723f4470080ec13bb99bee1b18847a6d
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Feb 29 20:17:50 2024 -0700
+
+    All testAdjacency#() pass
+
+commit 9b0713f7968c3b764ece0b14d025dfac33bb1e06
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 18:17:58 2024 -0700
+
+    Removed Debugging SOUT, cleaned code
+
+commit 37a3dce093888d53c30a2e8d1cecd8bcac7ffba5
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 17:55:47 2024 -0700
+
+    Changed how grid reads the csv file, set up calcTargets *No Errors*
+
+commit 85c7fefcb44733970d2deb73783f309f752b3127
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 17:21:19 2024 -0700
+
+    Changed Grid test to avoid scanner.next() error
+
+commit 4e51f7ba6edd6d3453e473059cb5f108a7e89cfa
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 17:11:56 2024 -0700
+
+    Updated TestBoard Constructor to populate grid
+    
+    CSV file needs a comma at the end to work, needs to be updated to read newline and then split
+
+commit 3d648ad4758ba05a34a923f954ca081ce7207d1c
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 15:56:48 2024 -0700
+
+    Added more comments to TestBoard and TestBoardCell
+
+commit 7c6dc7014e6adac30c4087d3e65e7fbc891370af
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Thu Feb 29 15:34:13 2024 -0700
+
+    Variables for TestBoard, TestBoardCell
