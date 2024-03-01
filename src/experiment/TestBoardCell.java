@@ -30,14 +30,16 @@ public class TestBoardCell {
 		this.adjList = new HashSet<TestBoardCell>();
 	}
 	
+	//Helps to print the board to ensure grid[][] is set up right
 	public String getLetter() {
 		return letter;
 	}
 
-
+	//Helps to print the board to ensure grid[][] is set up right
 	public void setLetter(String letter) {
 		this.letter = letter;
 	}
+	
 	//adds all the cells that can be moved to for this specific cell
 	public void addAdjacency(TestBoardCell cell) {
 		adjList.add(cell);

@@ -44,9 +44,7 @@ public class TestBoard {
 				}else if(line[j] == "O") {
 					cell.setOccupied(true);
 				}
-				System.out.print(grid[i][j].getLetter()+" ");
 			}
-			System.out.println();
 		}
 		
 		scanner.close();
@@ -64,23 +62,18 @@ public class TestBoard {
 		{
 			for(int j = 0; j < COLS; j++){
 				//Does not calculate for doors yet, purely all available cells
-				System.out.println("At cell: " + i + " " + j);
 				if(i-1 > 0) { 
-					System.out.println("i-1: "+ (i-1));
 					grid[i][j].addAdjacency(grid[i-1][j]);
-					}
+				}
 				if(i+1 < ROWS) { 
-					System.out.println("i+1: "+ (i+1));
 					grid[i][j].addAdjacency(grid[i+1][j]); 
-					}
+				}
 				if(j-1 > 0) { 
-					System.out.println("j-1: "+ (j-1));
 					grid[i][j].addAdjacency(grid[i][j-1]); 
-					}
+				}
 				if(j+1 < COLS) { 
-					System.out.println("j+1: "+ (j+1));
 					grid[i][j].addAdjacency(grid[i][j+1]); 
-					}
+				}
 			}
 		}
 	}
@@ -100,7 +93,4 @@ public class TestBoard {
 		return targets;
 	}
 	
-	public static void main(String [] args) throws FileNotFoundException {
-		TestBoard test = new TestBoard();
-	}
 }
