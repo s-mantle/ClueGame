@@ -17,7 +17,18 @@ public class TestBoardCell {
 	private boolean isRoom;
 	private boolean isOccupied;
 	private String letter;
+	//Should be an individual adjList for each individual cell to show where is can move
 	private Set<TestBoardCell> adjList;
+
+//	public int getRow() {
+//		return row;
+//	}
+//	
+//	public int getCol() {
+//		return col;
+//	}
+
+	
 
 	/**
 	 * Sets up the basic variables in TestBoardCell

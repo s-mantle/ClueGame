@@ -13,7 +13,7 @@ import experiment.TestBoardCell;
 
 /**
  * Authors: Sam Mantle & Ben Isenhart
- * Date 2 - 29 - 2024
+ * Date 2 - 26 - 2024
  * Collaborators: None
  * Sources: None
  * 
@@ -94,43 +94,45 @@ public class BoardTestsExp {
 	 * the final test case starts at a different position. There is a variable number of possible moves which are accounted for on a case by 
 	 * case basis.
 	 */
-	//@Test
+	@Test
 	void testTargetsNormal1() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 1);
 		Set<TestBoardCell> targets = board.getTargets();
-		
+				
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
-		
+						
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 0)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal3() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
-		
-		Assert.assertEquals(4, targets.size());
+				
+		Assert.assertEquals(6, targets.size());	// Edited from 4 -> 6 due to the realization of new possible cells
 		Assert.assertTrue(targets.contains(board.getCell(0, 3)));
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
+		Assert.assertTrue(targets.contains(board.getCell(1, 0)));	// Added, we didn't consider this movement
+		Assert.assertTrue(targets.contains(board.getCell(0, 1)));	// Added, we didn't consider this movement
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal4() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 4);
@@ -145,7 +147,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal5() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 5);
@@ -162,7 +164,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal6() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 6);
@@ -178,7 +180,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(2, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal0() {
 		TestBoardCell cell = board.getCell(3, 3);
 		board.calcTargets(cell, 1);
@@ -195,71 +197,77 @@ public class BoardTestsExp {
 	 * There is a variable number of possible moves which are accounted for on a case by case basis, and the presence of players or rooms also 
 	 * creates different blockers to movement or ending cells respectively.
 	 */
-	//@Test
+	@Test
 	void testTargetsRoom1() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setRoom(true);
 		board.calcTargets(cell, 1);
 		Set<TestBoardCell> targets = board.getTargets();
+				
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsRoom2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setRoom(true);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
-		Assert.assertEquals(2, targets.size());
+				
+		Assert.assertEquals(3, targets.size());	// Edited from 2 -> 3, we literally just typed the wrong number
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsOccupied1() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setOccupied(true);
 		board.calcTargets(cell, 1);
 		Set<TestBoardCell> targets = board.getTargets();
+				
 		Assert.assertEquals(1, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 1)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsOccupied2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setOccupied(true);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
+		
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsMixed1() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setOccupied(true);
 		board.getCell(0, 2).setRoom(true);
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
+		
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 1)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsMixed2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.getCell(1, 0).setOccupied(true);
 		board.getCell(1, 1).setRoom(true);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
-		Assert.assertEquals(3, targets.size());
+		
+		Assert.assertEquals(2, targets.size());	// Edited from 3 -> 2, we literally just typed the wrong number (again)
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}

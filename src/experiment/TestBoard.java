@@ -1,5 +1,6 @@
 package experiment;
 
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.io.File;
@@ -89,10 +90,42 @@ public class TestBoard {
 	 * Calculates the targets that the player can move to using the adjacency list of each cell
 	 * 
 	 * @param startCell
-	 * @param pathlength
+	 * @param pathLength
 	 */
-	public void calcTargets(TestBoardCell startCell, int pathlength) {
-		
+	public void calcTargets(TestBoardCell startCell, int pathLength) {
+		visited = new HashSet<>();
+		targets = new HashSet<>();
+	
+		visited.add(startCell);
+						
+		findAllTargets(startCell, pathLength);
+	}
+	
+	public void findAllTargets(TestBoardCell startCell, int numSteps) {
+		for (TestBoardCell adjCell: startCell.getAdjList()) {
+			if (visited.contains(adjCell)) {
+				continue;
+			}
+			
+			if (adjCell.isRoom()) {
+				targets.add(adjCell);
+				continue;
+			}
+			else if (adjCell.getOccupied()) {
+				continue;
+			}
+				
+			visited.add(adjCell);
+			
+			if (numSteps == 1) {
+				targets.add(adjCell);
+			}
+			else {
+				findAllTargets(adjCell, numSteps - 1);
+			}
+			
+			visited.remove(adjCell);
+		}
 	}
 	
 	/**
