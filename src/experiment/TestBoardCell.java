@@ -20,6 +20,13 @@ public class TestBoardCell {
 	//Should be an individual adjList for each individual cell to show where is can move
 	Set<TestBoardCell> adjList;
 
+	public int getRow() {
+		return row;
+	}
+	
+	public int getCol() {
+		return col;
+	}
 
 	public TestBoardCell(int row, int col) {
 		super();

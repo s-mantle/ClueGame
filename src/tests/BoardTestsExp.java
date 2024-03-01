@@ -94,22 +94,24 @@ public class BoardTestsExp {
 	 * the final test case starts at a different position. There is a variable number of possible moves which are accounted for on a case by 
 	 * case basis.
 	 */
-	//@Test
+	@Test
 	void testTargetsNormal1() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 1);
 		Set<TestBoardCell> targets = board.getTargets();
-		
+				
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
+				
+		System.out.println(targets);
 		
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
@@ -117,20 +119,22 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal3() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
-		
-		Assert.assertEquals(4, targets.size());
+				
+		Assert.assertEquals(6, targets.size());	// Edited from 4 -> 6 due to the realization of new possible cells
 		Assert.assertTrue(targets.contains(board.getCell(0, 3)));
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 1)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
+		Assert.assertTrue(targets.contains(board.getCell(1, 0)));	// Added, we didn't consider this movement
+		Assert.assertTrue(targets.contains(board.getCell(0, 1)));	// Added, we didn't consider this movement
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal4() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 4);
@@ -145,7 +149,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal5() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 5);
@@ -162,7 +166,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal6() {
 		TestBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 6);
@@ -178,7 +182,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(2, 0)));
 	}
 	
-	//@Test
+	@Test
 	void testTargetsNormal0() {
 		TestBoardCell cell = board.getCell(3, 3);
 		board.calcTargets(cell, 1);

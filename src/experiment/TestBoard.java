@@ -1,5 +1,7 @@
 package experiment;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.io.File;
@@ -17,6 +19,13 @@ public class TestBoard {
 	private TestBoardCell[][] grid;
 	private Set<TestBoardCell> targets;
 	private Set<TestBoardCell> visited;
+	
+	
+//	W,W,O,W
+//	R,W,W,W
+//	W,W,W,W
+//	W,W,W,W
+	
 	
 	final static int COLS = 4;
 	final static int ROWS = 4;
@@ -81,8 +90,36 @@ public class TestBoard {
 	}
 	
 	//Calculates the targets that the player can get to
-	public void calcTargets(TestBoardCell startCell, int pathlength) {
+	public void calcTargets(TestBoardCell startCell, int pathLength) {
+		visited = new HashSet<>();
+		targets = new HashSet<>();
 		
+		visited.add(startCell);
+		
+//		System.out.println(startCell.getAdjList());
+				
+		findAllTargets(startCell, pathLength);
+	}
+	
+	public void findAllTargets(TestBoardCell startCell, int numSteps) {
+		for (TestBoardCell adjCell: startCell.getAdjList()) {
+			if (visited.contains(adjCell)) {
+				continue;
+			}
+			
+//			System.out.println(numSteps + ": " + adjCell.getRow() + ", " + adjCell.getCol());
+			
+			visited.add(adjCell);
+			if (numSteps == 1 & !targets.contains(adjCell)) {
+//				System.out.println(numSteps + ": " + adjCell.getRow() + ", " + adjCell.getCol());
+				targets.add(adjCell);
+			}
+			else {
+				findAllTargets(adjCell, numSteps - 1);
+			}
+			
+			visited.remove(adjCell);
+		}
 	}
 	
 	//Does this return the cells adjacency list?
