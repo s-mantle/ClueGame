@@ -14,9 +14,8 @@ public class Board{
 	 */
 	private BoardCell[][] grid;
 	
-	// Updated values for 306 Test Cases
-	final static int COLS = 24;
-	final static int ROWS = 25;
+	int COLS = 24;
+	int ROWS = 25;
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
@@ -182,5 +181,14 @@ public class Board{
 	
 	public int getNumColumns() {
 		return COLS;
+	}
+	
+	// VERY TEMPORARY SETTERS
+	public void setNumRows(int numRows) {
+		this.ROWS = numRows;
+	}
+	
+	public void setNumCols(int numCols) {
+		this.COLS = numCols;
 	}
 }
