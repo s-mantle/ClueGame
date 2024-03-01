@@ -90,9 +90,9 @@ public class TestBoard {
 	 * Calculates the targets that the player can move to using the adjacency list of each cell
 	 * 
 	 * @param startCell
-	 * @param pathlength
+	 * @param pathLength
 	 */
-	public void calcTargets(TestBoardCell startCell, int pathlength) {
+	public void calcTargets(TestBoardCell startCell, int pathLength) {
 		visited = new HashSet<>();
 		targets = new HashSet<>();
 	
