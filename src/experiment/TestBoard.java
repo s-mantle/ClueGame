@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
  * Sources: None
  * 
  * TestBoard: This class creates a board of test cells to be tested
+ * 
+ * TA said that it was ok to write in scanner for this instead of hard coding a 4x4 board
  */
 public class TestBoard {
 	private TestBoardCell[][] grid;
