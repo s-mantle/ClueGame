@@ -87,7 +87,7 @@ public class TestBoard {
 	}
 	
 	/**
-	 * Calculates the targets that the player can move to using the adjacency list of each cell
+	 * Initializes visited and targets, calls findAllTargets
 	 * 
 	 * @param startCell
 	 * @param pathLength
@@ -101,6 +101,12 @@ public class TestBoard {
 		findAllTargets(startCell, pathLength);
 	}
 	
+	/**
+	 * Calculates the targets that the player can move to using the adjacency list of each cell
+	 * 
+	 * @param startCell
+	 * @param numSteps
+	 */
 	public void findAllTargets(TestBoardCell startCell, int numSteps) {
 		for (TestBoardCell adjCell: startCell.getAdjList()) {
 			if (visited.contains(adjCell)) {
