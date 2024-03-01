@@ -267,7 +267,7 @@ public class BoardTestsExp {
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
 		
-		Assert.assertEquals(2, targets.size());
+		Assert.assertEquals(2, targets.size());	// Edited from 3 -> 2, we literally just typed the wrong number (again)
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}
