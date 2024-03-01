@@ -1,6 +1,5 @@
 package experiment;
 
-import java.util.Collections;
 import java.util.Scanner;
 import java.util.Set;
 import java.io.File;
@@ -16,7 +15,7 @@ import java.io.FileNotFoundException;
  */
 public class TestBoard {
 	private TestBoardCell[][] grid;
-	private Set<TestBoardCell> targets = Collections.emptySet();
+	private Set<TestBoardCell> targets;
 	private Set<TestBoardCell> visited;
 	
 	final static int COLS = 4;
@@ -26,22 +25,25 @@ public class TestBoard {
 		grid = new TestBoardCell[ROWS][COLS];
 		try {
 			File file = new File("TestBoardCSV.csv");
-		}catch(Exception FileNotFoundException){
+		}
+		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
 		}
+		
 		File file = new File("TestBoardCSV.csv");
 		Scanner scanner = new Scanner(file);
 		
-		for(int i = 0; i < ROWS; i++) {
+		for (int i = 0; i < ROWS; i++) {
 			String[] line = scanner.nextLine().split(",");
-			for(int j = 0; j < line.length; j++){
+			for (int j = 0; j < line.length; j++){
 				TestBoardCell cell = new TestBoardCell(i,j);
 				grid[i][j] = cell;
 				
 				cell.setLetter(line[j]);
 				if(line[j] == "R") {
 					cell.setRoom(true);
-				}else if(line[j] == "O") {
+				}
+				else if(line[j] == "O") {
 					cell.setOccupied(true);
 				}
 			}
@@ -58,20 +60,20 @@ public class TestBoard {
 	//Use grid to calculate the adjacency list between each cell
 	public void calcAdjList() {
 		//Loops through all index in grid
-		for(int i = 0; i < ROWS; i++)
+		for (int i = 0; i < ROWS; i++)
 		{
-			for(int j = 0; j < COLS; j++){
+			for (int j = 0; j < COLS; j++){
 				//Does not calculate for doors yet, purely all available cells
-				if(i-1 > 0) { 
+				if (i-1 >= 0) { 
 					grid[i][j].addAdjacency(grid[i-1][j]);
 				}
-				if(i+1 < ROWS) { 
+				if (i+1 < ROWS) { 
 					grid[i][j].addAdjacency(grid[i+1][j]); 
 				}
-				if(j-1 > 0) { 
+				if (j-1 >= 0) { 
 					grid[i][j].addAdjacency(grid[i][j-1]); 
 				}
-				if(j+1 < COLS) { 
+				if (j+1 < COLS) { 
 					grid[i][j].addAdjacency(grid[i][j+1]); 
 				}
 			}
@@ -85,8 +87,7 @@ public class TestBoard {
 	
 	//Does this return the cells adjacency list?
 	public TestBoardCell getCell(int row, int col) {
-		TestBoardCell temp = new TestBoardCell(row, col);
-		return temp;
+		return grid[row][col];
 	}
 	
 	public Set<TestBoardCell> getTargets() {

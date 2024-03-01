@@ -1,6 +1,5 @@
 package experiment;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +17,6 @@ public class TestBoardCell {
 	private boolean isRoom = false;
 	private boolean isOccupied = false;
 	private String letter;
-
 	//Should be an individual adjList for each individual cell to show where is can move
 	Set<TestBoardCell> adjList;
 

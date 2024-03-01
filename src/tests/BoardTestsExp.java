@@ -45,18 +45,18 @@ public class BoardTestsExp {
 		Assert.assertEquals(4, testList.size());
 	}
 	
-	//@Test
+	@Test
 	void testAdjacency1() {
 		TestBoardCell cell = board.getCell(0, 1);
 		Set<TestBoardCell> testList = cell.getAdjList();
-		
-		Assert.assertTrue(testList.contains(board.getCell(1,  0)));
+				
+		Assert.assertTrue(testList.contains(board.getCell(1,  1)));	// Edited from (1, 0) -> (1, 1). Was impossible before
 		Assert.assertTrue(testList.contains(board.getCell(0,  2)));
 		Assert.assertTrue(testList.contains(board.getCell(0,  0)));
 		Assert.assertEquals(3, testList.size());
 	}
 	
-	//@Test
+	@Test
 	void testAdjacency2() {
 		TestBoardCell cell = board.getCell(0, 0);
 		Set<TestBoardCell> testList = cell.getAdjList();
@@ -66,7 +66,7 @@ public class BoardTestsExp {
 		Assert.assertEquals(2, testList.size());
 	}
 	
-	//@Test
+	@Test
 	void testAdjacency3() {
 		TestBoardCell cell = board.getCell(3, 3);
 		Set<TestBoardCell> testList = cell.getAdjList();
@@ -76,7 +76,7 @@ public class BoardTestsExp {
 		Assert.assertEquals(2, testList.size());
 	}
 	
-	//@Test
+	@Test
 	void testAdjacency4() {
 		TestBoardCell cell = board.getCell(1, 1);
 		Set<TestBoardCell> testList = cell.getAdjList();
