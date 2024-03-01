@@ -33,7 +33,7 @@ public class TestBoard {
 		Scanner scanner = new Scanner(file);
 		scanner.useDelimiter(",");
 		
-		int count = 0;
+		/*int count = 0;
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLS; j++) {
 				TestBoardCell cell = new TestBoardCell(i,j);
@@ -52,8 +52,25 @@ public class TestBoard {
 				//System.out.print("Cell: "+i+" "+j+" (");
 				System.out.print(grid[i][j].getLetter()+" ");
 			}
+		}*/
+		
+		for(int i = 0; i < ROWS; i++) {
+			String[] line = scanner.nextLine().split(",");
+			for(int j = 0; j < line.length; j++){
+				TestBoardCell cell = new TestBoardCell(i,j);
+				grid[i][j] = cell;
+				
+				cell.setLetter(line[j]);
+				if(line[j] == "R") {
+					cell.setRoom(true);
+				}else if(line[j] == "O") {
+					cell.setOccupied(true);
+				}
+				System.out.print(grid[i][j].getLetter()+" ");
+			}
+			System.out.println();
 		}
-		System.out.println(count);
+		
 		scanner.close();
 		this.calcAdjList();
 		
