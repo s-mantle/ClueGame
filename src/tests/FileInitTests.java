@@ -9,7 +9,7 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
-public class FileInitTestsOurs {
+public class FileInitTests {
 	public static final int ROWS = 15;
 	public static final int COLS = 13;
 	public static final int LEGEND_SIZE = 12;

@@ -1,0 +1,15 @@
+// Rooms and room cards
+Room, Armory, A
+Room, Ballet Room, B
+Room, Choir Hall, C
+Room, Dungeon, D
+Room, Engine Room, E
+Room, Fireplace, F
+Room, Great Hall, G
+Room, Hospital, H
+Room, Inglenook, I
+Room, Jailroom, J
+
+// Other spaces on board
+Space, Unused, X
+Space, Walkway, W
