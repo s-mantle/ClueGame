@@ -67,7 +67,6 @@ public class Board{
 					}
 				}
 			}
-			
 			scanner.close();
 			this.calcAdjList();
 		}
@@ -168,17 +167,27 @@ public class Board{
 	}
 	
 	// FIX IMPLEMENTATION
-	public void loadSetupConfig() throws BadConfigFormatException {
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		System.out.println(setupConfigFile);
+		File file;
+		//This works?  IDK
 		try {
-			File file = new File(setupConfigFile);
+			file = new File(setupConfigFile);
+		}
+		catch(Exception FileNotFoundException) {
+			System.out.println("The given file cannot be found");
+		}
+		
+		
+//		try {
+			file = new File(setupConfigFile);
 			Scanner scanner = new Scanner(file);
 
 			while(scanner.hasNext())
 			{
 				String[] line = scanner.nextLine().split(",");
 				if(line[0].substring(0,2)!="//") {
-					//TODO check is line[2] is a character
+					//TODO check if line[2] is a character
 					if(line[0] == "Room" && line[1] != null && line[2] != null){
 						char roomChar = line[2].charAt(0);
 						String roomName = line[1];
@@ -191,10 +200,10 @@ public class Board{
 
 			}
 			scanner.close();
-		}
-		catch (Exception FileNotFoundException) {
-			System.out.println("The given file cannot be found");
-		}
+//		}
+//		catch (Exception FileNotFoundException) {
+//			System.out.println("The given file cannot be found");
+//		}
 			
 	}
 	// FIX IMPLEMENTATION
