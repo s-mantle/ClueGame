@@ -25,7 +25,7 @@ public class BoardCell {
 	
 	private boolean isRoom;
 	private boolean isOccupied;
-	private String letter;
+	private char letter;
 	//Should be an individual adjList for each individual cell to show where is can move
 	private Set<BoardCell> adjList;
 
@@ -60,7 +60,7 @@ public class BoardCell {
 	 * R-Room
 	 * O-Occupied
 	 */
-	public String getLetter() {
+	public char getLetter() {
 		return letter;
 	}
 	
@@ -68,7 +68,7 @@ public class BoardCell {
 	 * Sets the cells letter to the given 
 	 * @param letter
 	 */
-	public void setLetter(String letter) {
+	public void setLetter(char letter) {
 		this.letter = letter;
 	}
 	
@@ -124,16 +124,32 @@ public class BoardCell {
 		return this.doorwayStatus;
 	}
 	
+	public void setDoorway(boolean status) {
+		this.doorwayStatus = status;
+	}
+	
 	public DoorDirection getDoorDirection() {
 		return this.doorDirection;
+	}
+	
+	public void setDoorDirection(DoorDirection direction) {
+		this.doorDirection = direction;
 	}
 	
 	public boolean isLabel() {
 		return this.roomLabel;
 	}
 	
+	public void setRoomLabel(boolean status) {
+		this.roomLabel = status;
+	}
+	
 	public boolean isRoomCenter() {
 		return this.roomCenter;
+	}
+	
+	public void setRoomCenter(boolean status) {
+		this.roomCenter = status;
 	}
 	
 	public char getSecretPassage() {

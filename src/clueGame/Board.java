@@ -10,11 +10,6 @@ import java.util.Set;
 
 /**
  * TODO
- * Set up room and assign centerCell and labelCell to rooms inside of initialize
- * Assign doorways inside of initialize
- * Finish getRoom(char), getRoom(cell)
- * Discuss ROWS and COLS - currently set inside of loadLayoutConfigFile
- * 
  * FINAl
  * Check all tests pass at the same time
  * Add exception handling to a log for extra points [5pts]
@@ -36,7 +31,7 @@ public class Board{
 	
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-
+		
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
 	private Board() {
@@ -54,6 +49,15 @@ public class Board{
 	public void initialize() {
 		//Not sure if we need to call loadLayoutConfigFile and loadSetupConfigFile here
 		//They are need in order to get ROWS and COLS
+		
+		try {
+			this.loadSetupConfig();
+			this.loadLayoutConfig();
+		}
+		catch (Exception FileNotFoundException) {
+			// Fix Later
+		}
+			
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File(layoutConfigFile);
@@ -64,14 +68,57 @@ public class Board{
 				for (int j = 0; j < COLS; j++){
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
-
-					cell.setLetter(line[j]);
-					if(line[j] == "R") {
+					
+					cell.setLetter(line[j].charAt(0));
+					if (roomMap.containsKey(cell.getLetter())) {
 						cell.setRoom(true);
 					}
-					else if(line[j] == "O") {
-						cell.setOccupied(true);
+					
+					if (line[j].length() == 2){
+						char designator = line[j].charAt(1);
+						
+						if (roomMap.containsKey(designator)) {
+							// TODO: Implement secretPassages
+							;
+						}
+						else if (designator == '#') {
+							cell.setRoomLabel(true);
+							roomMap.get(line[j].charAt(0)).setLabelCell(cell);
+						}
+						else if (designator == '*' ) {
+							cell.setRoomCenter(true);
+							roomMap.get(line[j].charAt(0)).setCenterCell(cell);
+						}
+						else {
+							cell.setDoorway(true);
+							if (designator == '^' ) {
+								cell.setDoorDirection(DoorDirection.UP);
+							}
+							else if (designator == 'v' ) {
+								cell.setDoorDirection(DoorDirection.DOWN);
+							}
+							else if (designator == '<' ) {
+								cell.setDoorDirection(DoorDirection.LEFT);
+							}
+							else if (designator == '>' ) {
+								cell.setDoorDirection(DoorDirection.RIGHT);
+							}
+						}
 					}
+					else {
+						cell.setDoorDirection(DoorDirection.NONE);
+					}
+					
+					
+					
+
+//					cell.setLetter(line[j]);
+//					if(line[j] == "R") {
+//						cell.setRoom(true);
+//					}
+//					else if(line[j] == "O") {
+//						cell.setOccupied(true);
+//					}
 				}
 			}
 			scanner.close();
@@ -272,13 +319,12 @@ public class Board{
 		COLS = columnLength;
 	}
 	
-	// FIX IMPLEMENTATION
 	public Room getRoom(char letter) {
-		return new Room();
+		return roomMap.get(letter);
 	}
-	// FIX IMPLEMENTATION
+
 	public Room getRoom(BoardCell cell) {
-		return new Room();
+		return roomMap.get(cell.getLetter());
 	}
 	
 	public int getNumRows() {

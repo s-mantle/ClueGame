@@ -14,8 +14,16 @@ public class Room {
 		return this.name;
 	}
 	
+	public void setLabelCell(BoardCell cell) {
+		this.labelCell = cell;
+	}
+	
 	public BoardCell getLabelCell() {
 		return this.labelCell;
+	}
+
+	public void setCenterCell(BoardCell cell) {
+		this.centerCell = cell;
 	}
 	
 	public BoardCell getCenterCell() {
