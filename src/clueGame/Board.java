@@ -11,7 +11,6 @@ import java.util.Set;
 
 /**
  * TODO
- * Add exception handling to a log for extra points [5pts]
  * Refactor to git diff
  */
 
