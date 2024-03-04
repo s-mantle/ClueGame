@@ -45,9 +45,7 @@ public class Board{
 	 * 
 	 */
 	public void initialize() {
-		//Not sure if we need to call loadLayoutConfigFile and loadSetupConfigFile here
-		//They are need in order to get ROWS and COLS
-			
+		
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File(layoutConfigFile);
@@ -55,6 +53,7 @@ public class Board{
 						
 			for (int i = 0; i < ROWS; i++) {
 				String[] line = scanner.nextLine().split(",");
+				
 				for (int j = 0; j < COLS; j++){
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
@@ -99,6 +98,7 @@ public class Board{
 					}
 				}
 			}
+			
 			scanner.close();
 			this.calcAdjList();
 		}
@@ -111,17 +111,17 @@ public class Board{
 		for (int i = 0; i < ROWS; i++)
 		{
 			for (int j = 0; j < COLS; j++){
-				//Does not calculate for doors yet, purely all available cells
-				if (i-1 >= 0) { 
+				// Does not calculate for doors yet, purely all available cells
+				if (i - 1 >= 0) { 
 					grid[i][j].addAdjacency(grid[i-1][j]);
 				}
-				if (i+1 < ROWS) { 
+				if (i + 1 < ROWS) { 
 					grid[i][j].addAdjacency(grid[i+1][j]); 
 				}
-				if (j-1 >= 0) { 
+				if (j - 1 >= 0) { 
 					grid[i][j].addAdjacency(grid[i][j-1]); 
 				}
-				if (j+1 < COLS) { 
+				if (j + 1 < COLS) { 
 					grid[i][j].addAdjacency(grid[i][j+1]); 
 				}
 			}
@@ -217,17 +217,17 @@ public class Board{
 		file = new File(setupConfigFile);
 		Scanner scanner = new Scanner(file);
 
-		while(scanner.hasNext())
+		while (scanner.hasNext())
 		{
 			String[] line = scanner.nextLine().split(", ");
-			if(line.length > 1) {
+			if (line.length > 1) {
 				//TODO check if line[2] is a character
-				if((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
+				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
 					char roomChar = line[2].charAt(0);
 					String roomName = line[1];
 					Room tempRoom = new Room(roomName);
 					roomMap.put(roomChar, tempRoom);
-				}else {
+				} else {
 					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 				}
 			}
@@ -245,37 +245,37 @@ public class Board{
 		file = new File(layoutConfigFile);
 		Scanner scanner = new Scanner(file);
 
-		while(scanner.hasNext())
+		while (scanner.hasNext())
 		{
 			String[] line = scanner.nextLine().split(",");
-			if(columnLength == -1)
+			if (columnLength == -1)
 			{
 				columnLength = line.length;
 			}
-			if(line.length != columnLength)
+			if (line.length != columnLength)
 			{
 				throw new BadConfigFormatException("layoutConfigFile - Number of columns is not constant");
 			}
 			
-			for(int i = 0; i < line.length; i++)
+			for (int i = 0; i < line.length; i++)
 			{
-				if(line[i] == null) {
+				if (line[i] == null) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a null character in a row");
 				}
 				
-				//May need to change because an index can be both centerCell and roomCenter
-				if(line[i].length() >= 3) {
+				// May need to change because an index can be both centerCell and roomCenter
+				if (line[i].length() >= 3) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a string of 3 or more characters in a single index");
 				}
 				
 
 				char roomChar = line[i].charAt(0);
-				if(!roomMap.containsKey(roomChar)) {
+				if (!roomMap.containsKey(roomChar)) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a character not in setupConfigFile");
 				}
 
-				if(line[i].length() > 1) {
-					if((indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)){
+				if (line[i].length() > 1) {
+					if ((indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)){
 						throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
 					}
 				}

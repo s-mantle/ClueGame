@@ -29,16 +29,6 @@ public class BoardCell {
 	//Should be an individual adjList for each individual cell to show where is can move
 	private Set<BoardCell> adjList;
 
-//	public int getRow() {
-//		return row;
-//	}
-//	
-//	public int getCol() {
-//		return col;
-//	}
-
-	
-
 	/**
 	 * Sets up the basic variables in TestBoardCell
 	 * 
@@ -56,9 +46,6 @@ public class BoardCell {
 	
 	/**
 	 * Helper method to return the letter that the cell is
-	 * W-Walkway
-	 * R-Room
-	 * O-Occupied
 	 */
 	public char getLetter() {
 		return letter;
@@ -120,43 +107,43 @@ public class BoardCell {
 		return isOccupied;
 	}
 	
-	public boolean isDoorway() {
-		return this.doorwayStatus;
-	}
-	
 	public void setDoorway(boolean status) {
 		this.doorwayStatus = status;
 	}
 	
-	public DoorDirection getDoorDirection() {
-		return this.doorDirection;
+	public boolean isDoorway() {
+		return this.doorwayStatus;
 	}
 	
 	public void setDoorDirection(DoorDirection direction) {
 		this.doorDirection = direction;
 	}
 	
-	public boolean isLabel() {
-		return this.roomLabel;
+	public DoorDirection getDoorDirection() {
+		return this.doorDirection;
 	}
-	
+
 	public void setRoomLabel(boolean status) {
 		this.roomLabel = status;
 	}
 	
-	public boolean isRoomCenter() {
-		return this.roomCenter;
+	public boolean isLabel() {
+		return this.roomLabel;
 	}
 	
 	public void setRoomCenter(boolean status) {
 		this.roomCenter = status;
 	}
 	
-	public char getSecretPassage() {
-		return this.secretPassage;
+	public boolean isRoomCenter() {
+		return this.roomCenter;
 	}
 	
 	public void setSecretPassage(char letter) {
 		this.secretPassage = letter;
+	}
+	
+	public char getSecretPassage() {
+		return this.secretPassage;
 	}
 }
