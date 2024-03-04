@@ -10,10 +10,15 @@ import java.util.Set;
 
 /**
  * TODO
- * Read file first and ensure that it is valid ie. same # of columns
- * Need to figure out the width and height of the grid, done by reading by row and then splitting rows
- * 	Does not matter if the first column is short because subsequently when reading the other rows this will be found out?
- * Need to cross check the symbols with the room layout.txt
+ * Set up room and assign centerCell and labelCell to rooms inside of initialize
+ * Assign doorways inside of initialize
+ * Finish getRoom(char), getRoom(cell)
+ * Discuss ROWS and COLS - currently set inside of loadLayoutConfigFile
+ * 
+ * FINAl
+ * Check all tests pass at the same time
+ * Add exception handling to a log for extra points [5pts]
+ * Refactor to git diff
  */
 
 public class Board{
@@ -22,8 +27,8 @@ public class Board{
 	 */
 	private BoardCell[][] grid;
 	
-	int COLS = 24;
-	int ROWS = 25;
+	int COLS = -1;
+	int ROWS = -1;
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
@@ -47,6 +52,8 @@ public class Board{
 	 * 
 	 */
 	public void initialize() {
+		//Not sure if we need to call loadLayoutConfigFile and loadSetupConfigFile here
+		//They are need in order to get ROWS and COLS
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File(layoutConfigFile);
@@ -204,7 +211,7 @@ public class Board{
 //		}
 			
 	}
-	// FIX IMPLEMENTATION
+	
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
 		File file;
 		int columnLength = -1;
