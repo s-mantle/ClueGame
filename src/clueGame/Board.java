@@ -49,14 +49,6 @@ public class Board{
 	public void initialize() {
 		//Not sure if we need to call loadLayoutConfigFile and loadSetupConfigFile here
 		//They are need in order to get ROWS and COLS
-		
-		try {
-			this.loadSetupConfig();
-			this.loadLayoutConfig();
-		}
-		catch (Exception FileNotFoundException) {
-			// Fix Later
-		}
 			
 		grid = new BoardCell[ROWS][COLS];
 		try {
@@ -218,40 +210,54 @@ public class Board{
 	public void setConfigFiles(String csvFile, String txtFile) {
 		this.layoutConfigFile = csvFile;
 		this.setupConfigFile = txtFile;
+		
+		try {
+			theInstance.loadSetupConfig();
+		}
+		catch (FileNotFoundException | BadConfigFormatException e) {
+			System.out.println("loadSetupConfig(): " + e.toString());
+		}
+		
+		try {
+			theInstance.loadLayoutConfig();
+		}
+		catch (FileNotFoundException | BadConfigFormatException e) {
+			System.out.println("loadLayoutConfig(): " + e.toString());
+		}
 	}
 	
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		File file;
 		//This works?  IDK
-		try {
-			file = new File(setupConfigFile);
-		}
-		catch(Exception FileNotFoundException) {
-			System.out.println("The given file cannot be found");
-		}
+//		try {
+//			file = new File(setupConfigFile);
+//		}
+//		catch(Exception FileNotFoundException) {
+//			System.out.println("The given file cannot be found");
+//		}
 		
 		
 //		try {
-			file = new File(setupConfigFile);
-			Scanner scanner = new Scanner(file);
+		file = new File(setupConfigFile);
+		Scanner scanner = new Scanner(file);
 
-			while(scanner.hasNext())
-			{
-				String[] line = scanner.nextLine().split(",");
-				if(line[0].substring(0,2)!="//") {
-					//TODO check if line[2] is a character
-					if(line[0] == "Room" && line[1] != null && line[2] != null){
-						char roomChar = line[2].charAt(0);
-						String roomName = line[1];
-						Room tempRoom = new Room(roomName);
-						roomMap.put(roomChar, tempRoom);
-					}else {
-						throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
-					}
+		while(scanner.hasNext())
+		{
+			String[] line = scanner.nextLine().split(",");
+			if(line[0].substring(0,2)!="//") {
+				//TODO check if line[2] is a character
+				if(line[0] == "Room" && line[1] != null && line[2] != null){
+					char roomChar = line[2].charAt(0);
+					String roomName = line[1];
+					Room tempRoom = new Room(roomName);
+					roomMap.put(roomChar, tempRoom);
+				}else {
+					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 				}
-
 			}
-			scanner.close();
+
+		}
+		scanner.close();
 //		}
 //		catch (Exception FileNotFoundException) {
 //			System.out.println("The given file cannot be found");
@@ -265,12 +271,12 @@ public class Board{
 		int rows = 0;
 		String indicatorChar = "*#^v<>";
 		//This works?  IDK
-		try {
+//		try {
 			file = new File(layoutConfigFile);
-		}
-		catch(Exception FileNotFoundException) {
-			System.out.println("The given file cannot be found");
-		}
+//		}
+//		catch(Exception FileNotFoundException) {
+//			System.out.println("The given file cannot be found");
+//		}
 		
 
 		//		try {
