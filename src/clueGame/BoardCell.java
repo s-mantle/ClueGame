@@ -155,4 +155,8 @@ public class BoardCell {
 	public char getSecretPassage() {
 		return this.secretPassage;
 	}
+	
+	public void setSecretPassage(char letter) {
+		this.secretPassage = letter;
+	}
 }

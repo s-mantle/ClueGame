@@ -20,8 +20,6 @@ public class FileInitTests {
 	public static void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.setNumRows(15);
-		board.setNumCols(13);
 		board.initialize();
 	}
 	
@@ -61,7 +59,7 @@ public class FileInitTests {
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
 		
-		cell = board.getCell(11, 9);
+		cell = board.getCell(11, 8);	// Updated column from 9 -> 8. See not counting issue #4
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
 		
@@ -89,17 +87,18 @@ public class FileInitTests {
 				}
 			}
 		}
-		assertEquals(14, doorCount);
+		assertEquals(16, doorCount);	// Updated count from 14 -> 16. I can't count (3rd time)
 	}
 	
 	@Test
 	public void testRandomCellValues() {
+		// Updated all cells to be rooms - I misunderstand walkways and unused spaces initially
 		BoardCell cell;
 		
-		cell = board.getCell(5, 5);
+		cell = board.getCell(5, 4);	// Updated col from 5 -> 4. Fifth times the charm for counting!
 		assertFalse(cell.isLabel());
 		assertFalse(cell.isDoorway());
-		assertFalse(cell.isRoom());
+		assertTrue(cell.isRoom());
 		assertFalse(cell.isRoomCenter());
 		assertEquals('W', cell.getLetter());
 		
@@ -113,14 +112,14 @@ public class FileInitTests {
 		cell = board.getCell(0, 10);
 		assertFalse(cell.isLabel());
 		assertFalse(cell.isDoorway());
-		assertFalse(cell.isRoom());
+		assertTrue(cell.isRoom());
 		assertFalse(cell.isRoomCenter());
 		assertEquals('X', cell.getLetter());
 		
 		cell = board.getCell(7, 12);
 		assertFalse(cell.isLabel());
 		assertTrue(cell.isDoorway());
-		assertFalse(cell.isRoom());
+		assertTrue(cell.isRoom());
 		assertFalse(cell.isRoomCenter());
 		assertEquals('W', cell.getLetter());
 		

@@ -3,6 +3,7 @@ package clueGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
@@ -10,8 +11,6 @@ import java.util.Set;
 
 /**
  * TODO
- * FINAl
- * Check all tests pass at the same time
  * Add exception handling to a log for extra points [5pts]
  * Refactor to git diff
  */
@@ -27,7 +26,7 @@ public class Board{
 
 	private String layoutConfigFile;
 	private String setupConfigFile;
-	private Map<Character, Room> roomMap;
+	private Map<Character, Room> roomMap = new HashMap<>();
 	
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
@@ -70,8 +69,7 @@ public class Board{
 						char designator = line[j].charAt(1);
 						
 						if (roomMap.containsKey(designator)) {
-							// TODO: Implement secretPassages
-							;
+							cell.setSecretPassage(designator);
 						}
 						else if (designator == '#') {
 							cell.setRoomLabel(true);
@@ -100,17 +98,6 @@ public class Board{
 					else {
 						cell.setDoorDirection(DoorDirection.NONE);
 					}
-					
-					
-					
-
-//					cell.setLetter(line[j]);
-//					if(line[j] == "R") {
-//						cell.setRoom(true);
-//					}
-//					else if(line[j] == "O") {
-//						cell.setOccupied(true);
-//					}
 				}
 			}
 			scanner.close();
@@ -208,8 +195,8 @@ public class Board{
 	}
 	
 	public void setConfigFiles(String csvFile, String txtFile) {
-		this.layoutConfigFile = csvFile;
-		this.setupConfigFile = txtFile;
+		this.layoutConfigFile = "Data/" + csvFile;
+		this.setupConfigFile = "Data/" + txtFile;
 		
 		try {
 			theInstance.loadSetupConfig();
@@ -228,25 +215,15 @@ public class Board{
 	
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		File file;
-		//This works?  IDK
-//		try {
-//			file = new File(setupConfigFile);
-//		}
-//		catch(Exception FileNotFoundException) {
-//			System.out.println("The given file cannot be found");
-//		}
-		
-		
-//		try {
 		file = new File(setupConfigFile);
 		Scanner scanner = new Scanner(file);
 
 		while(scanner.hasNext())
 		{
-			String[] line = scanner.nextLine().split(",");
-			if(line[0].substring(0,2)!="//") {
+			String[] line = scanner.nextLine().split(", ");
+			if(line.length > 1) {
 				//TODO check if line[2] is a character
-				if(line[0] == "Room" && line[1] != null && line[2] != null){
+				if((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
 					char roomChar = line[2].charAt(0);
 					String roomName = line[1];
 					Room tempRoom = new Room(roomName);
@@ -258,11 +235,6 @@ public class Board{
 
 		}
 		scanner.close();
-//		}
-//		catch (Exception FileNotFoundException) {
-//			System.out.println("The given file cannot be found");
-//		}
-			
 	}
 	
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
@@ -270,16 +242,7 @@ public class Board{
 		int columnLength = -1;
 		int rows = 0;
 		String indicatorChar = "*#^v<>";
-		//This works?  IDK
-//		try {
-			file = new File(layoutConfigFile);
-//		}
-//		catch(Exception FileNotFoundException) {
-//			System.out.println("The given file cannot be found");
-//		}
 		
-
-		//		try {
 		file = new File(layoutConfigFile);
 		Scanner scanner = new Scanner(file);
 
@@ -313,7 +276,7 @@ public class Board{
 				}
 
 				if(line[i].length() > 1) {
-					if(indicatorChar.indexOf(line[i].charAt(1)) == -1){
+					if((indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)){
 						throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
 					}
 				}
@@ -339,14 +302,5 @@ public class Board{
 	
 	public int getNumColumns() {
 		return COLS;
-	}
-	
-	// VERY TEMPORARY SETTERS
-	public void setNumRows(int numRows) {
-		this.ROWS = numRows;
-	}
-	
-	public void setNumCols(int numCols) {
-		this.COLS = numCols;
 	}
 }
