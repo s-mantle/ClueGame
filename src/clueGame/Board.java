@@ -166,9 +166,7 @@ public class Board{
 		this.setupConfigFile = txtFile;
 	}
 	
-	// FIX IMPLEMENTATION
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
-		System.out.println(setupConfigFile);
 		File file;
 		//This works?  IDK
 		try {
@@ -194,7 +192,7 @@ public class Board{
 						Room tempRoom = new Room(roomName);
 						roomMap.put(roomChar, tempRoom);
 					}else {
-						throw new BadConfigFormatException(setupConfigFile);
+						throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 					}
 				}
 
@@ -207,8 +205,64 @@ public class Board{
 			
 	}
 	// FIX IMPLEMENTATION
-	public void loadLayoutConfig() {
+	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
+		File file;
+		int columnLength = -1;
+		int rows = 0;
+		String indicatorChar = "*#^v<>";
+		//This works?  IDK
+		try {
+			file = new File(layoutConfigFile);
+		}
+		catch(Exception FileNotFoundException) {
+			System.out.println("The given file cannot be found");
+		}
 		
+
+		//		try {
+		file = new File(layoutConfigFile);
+		Scanner scanner = new Scanner(file);
+
+		while(scanner.hasNext())
+		{
+			String[] line = scanner.nextLine().split(",");
+			if(columnLength == -1)
+			{
+				columnLength = line.length;
+			}
+			if(line.length != columnLength)
+			{
+				throw new BadConfigFormatException("layoutConfigFile - Number of columns is not constant");
+			}
+			
+			for(int i = 0; i < line.length; i++)
+			{
+				if(line[i] == null) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a null character in a row");
+				}
+				
+				//May need to change because an index can be both centerCell and roomCenter
+				if(line[i].length() >= 3) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a string of 3 or more characters in a single index");
+				}
+				
+
+				char roomChar = line[i].charAt(0);
+				if(!roomMap.containsKey(roomChar)) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a character not in setupConfigFile");
+				}
+
+				if(line[i].length() > 1) {
+					if(indicatorChar.indexOf(line[i].charAt(1)) == -1){
+						throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
+					}
+				}
+			}
+			rows++;
+		}
+		scanner.close();
+		ROWS = rows;
+		COLS = columnLength;
 	}
 	
 	// FIX IMPLEMENTATION

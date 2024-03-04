@@ -14,7 +14,7 @@ public class BadConfigFormatException extends Exception {
 
 	@Override
 	public String toString() {
-		return "The configuration of the file: " + error + "is not allowed";
+		return error;
 	}
 	
 	
