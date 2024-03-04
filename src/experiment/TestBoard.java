@@ -33,7 +33,7 @@ public class TestBoard {
 	public TestBoard() throws FileNotFoundException{
 		grid = new TestBoardCell[ROWS][COLS];
 		try {
-			File file = new File("TestBoardCSV.csv");
+			File file = new File("Data/TestBoardCSV.csv");
 		}
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");

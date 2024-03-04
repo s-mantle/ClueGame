@@ -168,30 +168,34 @@ public class Board{
 	}
 	
 	// FIX IMPLEMENTATION
-	public void loadSetupConfig() {
+	public void loadSetupConfig() throws BadConfigFormatException {
+		System.out.println(setupConfigFile);
 		try {
 			File file = new File(setupConfigFile);
 			Scanner scanner = new Scanner(file);
-						
+
 			while(scanner.hasNext())
 			{
 				String[] line = scanner.nextLine().split(",");
 				if(line[0].substring(0,2)!="//") {
-					if(line[0] == "Room"){
-						
+					//TODO check is line[2] is a character
+					if(line[0] == "Room" && line[1] != null && line[2] != null){
+						char roomChar = line[2].charAt(0);
+						String roomName = line[1];
+						Room tempRoom = new Room(roomName);
+						roomMap.put(roomChar, tempRoom);
 					}else {
-						
+						throw new BadConfigFormatException(setupConfigFile);
 					}
 				}
-				
+
 			}
-			
 			scanner.close();
-			this.calcAdjList();
 		}
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
 		}
+			
 	}
 	// FIX IMPLEMENTATION
 	public void loadLayoutConfig() {
