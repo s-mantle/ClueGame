@@ -8,6 +8,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * TODO
+ * Read file first and ensure that it is valid ie. same # of columns
+ * Need to figure out the width and height of the grid, done by reading by row and then splitting rows
+ * 	Does not matter if the first column is short because subsequently when reading the other rows this will be found out?
+ * Need to cross check the symbols with the room layout.txt
+ */
+
 public class Board{
 	/*
 	 * variable and methods used for singleton pattern
@@ -33,8 +41,10 @@ public class Board{
 	public static Board getInstance() {
 		return theInstance;
 	}
+	
 	/*
 	 * initialize the board (since we are using singleton pattern)
+	 * 
 	 */
 	public void initialize() {
 		grid = new BoardCell[ROWS][COLS];
@@ -159,7 +169,29 @@ public class Board{
 	
 	// FIX IMPLEMENTATION
 	public void loadSetupConfig() {
-		
+		try {
+			File file = new File(setupConfigFile);
+			Scanner scanner = new Scanner(file);
+						
+			while(scanner.hasNext())
+			{
+				String[] line = scanner.nextLine().split(",");
+				if(line[0].substring(0,2)!="//") {
+					if(line[0] == "Room"){
+						
+					}else {
+						
+					}
+				}
+				
+			}
+			
+			scanner.close();
+			this.calcAdjList();
+		}
+		catch (Exception FileNotFoundException) {
+			System.out.println("The given file cannot be found");
+		}
 	}
 	// FIX IMPLEMENTATION
 	public void loadLayoutConfig() {
