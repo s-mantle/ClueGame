@@ -354,4 +354,13 @@ public class Board{
 	public int getNumColumns() {
 		return COLS;
 	}
+	
+	/**
+	 * Returns the adj list for the tests to run
+	 * @param row
+	 * @param col
+	 */
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return grid[row][col].getAdjList();
+	}
 }
