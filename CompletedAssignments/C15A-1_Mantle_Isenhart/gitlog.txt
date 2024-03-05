@@ -1,0 +1,79 @@
+commit a846da4a9a7743dc9eba16e4e00d188e41f90235
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 19:46:16 2024 -0700
+
+    Refactoring code
+
+commit 0c107eb780d88c7909e303d0c0677ee33c1ab867
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 18:40:46 2024 -0700
+
+    Comments for all files
+
+commit 3b06c738d690c3d77d2fefac74e9f9b682df3adf
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 4 13:41:39 2024 -0700
+
+    Minor Tweaks
+
+commit 2a4d436156a2b4c2b466507a7acfdad39ca2d202
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 4 13:30:34 2024 -0700
+
+    Extra Credit Done - Just refactoring/ git diff to complete (and comments)
+
+commit 9feddaba84470144cda43395a2e737ca24d60a1c
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 4 13:22:22 2024 -0700
+
+    All Tests pass
+
+commit 0c969e130688ae54beb4188ee23c7c7b62bb8044
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 4 12:28:46 2024 -0700
+
+    Trying to fix exceptions
+
+commit 243160866e99bcc24151747a1443a8869daee3cf
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 4 12:06:10 2024 -0700
+
+    Room & Door implementation
+
+commit 25a15a9694324cc304ac0ed85215d17a9949ec70
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 00:56:19 2024 -0700
+
+    Added a TODO list for tomorrow
+
+commit 55a5911684ba12d11586c12b4e4d6027e4325201
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 00:43:54 2024 -0700
+
+    loadLayoutConfig completed - ExceptionTests, ExceptionTest306 run successfully
+
+commit d20eede0290a4145cda63a29b5a8da10b8222b55
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 00:00:46 2024 -0700
+
+    loadSetupConfigFiles
+    
+    This now works, however it is not set up right.  Will go into office hours to check further
+
+commit 3232fe376a572fe892d6d8d69f66eb8ec18bb2ba
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Sun Mar 3 23:36:06 2024 -0700
+
+    Updated Path in TestBoard to try to fix FileNotFound
+
+commit 1a4dc384431fa6a76e5535ee7037283b51e68bcd
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Sun Mar 3 22:55:42 2024 -0700
+
+    Moved Files to Data folder, Created loadSetupConfig
+
+commit db0aabf24072b0ddcc876aefcdefed870c00d05b
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Sun Mar 3 22:21:38 2024 -0700
+
+    BadConfigFormatException created
