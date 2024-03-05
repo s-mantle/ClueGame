@@ -73,6 +73,7 @@ public class Board{
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
 					cell.setLetter(line[j].charAt(0));
+					cell.setDoorDirection(DoorDirection.NONE);
 					
 					//Checks if the cell is a room
 					if (roomMap.containsKey(cell.getLetter())) {
@@ -114,20 +115,130 @@ public class Board{
 							}
 						}
 					}
-					//May be incorrect implementation, not all cells will be populated with a DoorDirection
-					//Fix - Move before the if else chains
-					else {
-						cell.setDoorDirection(DoorDirection.NONE);
-					}
 				}
 			}
-			
 			scanner.close();
 			this.calcAdjList();
 		}
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
 		}
+	}
+	
+	/**
+	 * Sets the configFiles to their appropriate variables
+	 * Calls loadSetupConfig to ensure setup.txt is valid
+	 * Calls loadLayoutConfig to ensure ClueLayout.csv is valid
+	 * 
+	 * @param csvFile
+	 * @param txtFile
+	 */
+	public void setConfigFiles(String csvFile, String txtFile) {
+		this.layoutConfigFile = "Data/" + csvFile;
+		this.setupConfigFile = "Data/" + txtFile;
+		
+		try {theInstance.loadSetupConfig();}
+		catch (FileNotFoundException | BadConfigFormatException e) {
+			System.out.println("loadSetupConfig(): " + e.toString());
+		}
+		
+		try {theInstance.loadLayoutConfig();}
+		catch (FileNotFoundException | BadConfigFormatException e) {
+			System.out.println("loadLayoutConfig(): " + e.toString());
+		}
+	}
+	
+	/**
+	 * Opens the setupConfigFile, and loops through to ensure the file adheres to the guidelines set for the files
+	 * 
+	 * Throws BadConfigException if there are any null inputs, or if Room/Space is miss spelled
+	 * Throws FileNotFOundException if the given file cannot be found
+	 * 
+	 * @throws BadConfigFormatException
+	 * @throws FileNotFoundException
+	 */
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
+		File file;
+		file = new File(setupConfigFile);
+		Scanner scanner = new Scanner(file);
+
+		while (scanner.hasNext())
+		{
+			String[] line = scanner.nextLine().split(", ");
+			if (line.length > 1) {
+				//TODO check if line[2] is a character
+				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
+				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
+					Room tempRoom = new Room(line[1]);
+					roomMap.put(line[2].charAt(0), tempRoom);
+				} else {
+					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
+				}
+			}
+		}
+		scanner.close();
+	}
+	
+	/**
+	 * Opens the layoutConfigFile and loops through to ensure that the columns are the same length, and there are no null entires
+	 * Checks that all characters inside of the csv file are listed within the setup file, and that there are no invalid characters
+	 * Sets ROWS and COLS so that grid[][] can be made correctly
+	 * 
+	 * Throws BadConfigException if the file does not adhere to the guidelines set
+	 * Throws FileNotFOundException if the given file cannot be found
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws BadConfigFormatException
+	 */
+	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
+		File file;
+		int columnLength = -1;
+		int rows = 0;
+		String indicatorChar = "*#^v<>";
+		
+		file = new File(layoutConfigFile);
+		Scanner scanner = new Scanner(file);
+		
+		//Continues running while there are still lines in the csv file
+		while (scanner.hasNext())
+		{
+			String[] line = scanner.nextLine().split(",");
+			if (columnLength == -1){columnLength = line.length;}
+			
+			//Checks if the columns are not the same length
+			if (line.length != columnLength){
+				throw new BadConfigFormatException("layoutConfigFile - Number of columns is not constant");
+			}
+			
+			//Loops through the line array (row i that contains n columns)
+			for (int i = 0; i < line.length; i++)
+			{
+				char roomChar = line[i].charAt(0);
+				//Checks if an index is null
+				if (line[i] == null) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a null character in a row");
+				}
+				
+				//Checks if an index has more than 3 characters (not possible by the guidelines set for ClueGame)
+				if (line[i].length() >= 3) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a string of 3 or more characters in a single index");
+				}
+				
+				//Checks if the character is listed in the setup file
+				if (!roomMap.containsKey(roomChar)) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains a character not in setupConfigFile");
+				}
+
+				//Checks if there is a second character and if it is a valid character (Room char or a doorway/label char)
+				if (line[i].length() > 1 && (indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)) {
+					throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
+				}
+			}
+			rows++;
+		}
+		scanner.close();
+		ROWS = rows;
+		COLS = columnLength;
 	}
 	
 	/**
@@ -139,18 +250,13 @@ public class Board{
 		{
 			for (int j = 0; j < COLS; j++){
 				// Does not calculate for doors yet, purely all available cells
-				if (i - 1 >= 0) { 
-					grid[i][j].addAdjacency(grid[i-1][j]);
-				}
-				if (i + 1 < ROWS) { 
-					grid[i][j].addAdjacency(grid[i+1][j]); 
-				}
-				if (j - 1 >= 0) { 
-					grid[i][j].addAdjacency(grid[i][j-1]); 
-				}
-				if (j + 1 < COLS) { 
-					grid[i][j].addAdjacency(grid[i][j+1]); 
-				}
+				if (i - 1 >= 0) {grid[i][j].addAdjacency(grid[i-1][j]);}
+				
+				if (i + 1 < ROWS) {grid[i][j].addAdjacency(grid[i+1][j]);}
+				
+				if (j - 1 >= 0) {grid[i][j].addAdjacency(grid[i][j-1]);}
+				
+				if (j + 1 < COLS) {grid[i][j].addAdjacency(grid[i][j+1]);}
 			}
 		}
 	}
@@ -178,17 +284,13 @@ public class Board{
 	 */
 	private void findAllTargets(BoardCell startCell, int numSteps) {
 		for (BoardCell adjCell: startCell.getAdjList()) {
-			if (visited.contains(adjCell)) {
-				continue;
-			}
+			if (visited.contains(adjCell)) {continue;}
 			
 			if (adjCell.isRoom()) {
 				targets.add(adjCell);
 				continue;
 			}
-			else if (adjCell.getOccupied()) {
-				continue;
-			}
+			else if (adjCell.getOccupied()) {continue;}
 				
 			visited.add(adjCell);
 			
@@ -218,134 +320,6 @@ public class Board{
 	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
-	}
-	
-	/**
-	 * Sets the configFiles to their appropriate variables
-	 * Calls loadSetupConfig to ensure setup.txt is valid
-	 * Calls loadLayoutConfig to ensure ClueLayout.csv is valid
-	 * 
-	 * @param csvFile
-	 * @param txtFile
-	 */
-	public void setConfigFiles(String csvFile, String txtFile) {
-		this.layoutConfigFile = "Data/" + csvFile;
-		this.setupConfigFile = "Data/" + txtFile;
-		
-		try {
-			theInstance.loadSetupConfig();
-		}
-		catch (FileNotFoundException | BadConfigFormatException e) {
-			System.out.println("loadSetupConfig(): " + e.toString());
-		}
-		
-		try {
-			theInstance.loadLayoutConfig();
-		}
-		catch (FileNotFoundException | BadConfigFormatException e) {
-			System.out.println("loadLayoutConfig(): " + e.toString());
-		}
-	}
-	
-	/**
-	 * Opens the setupConfigFile, and loops through to ensure the file adheres to the guidelines set for the files
-	 * 
-	 * Throws BadConfigException if there are any null inputs, or if Room/Space is miss spelled
-	 * Throws FileNotFOundException if the given file cannot be found
-	 * 
-	 * @throws BadConfigFormatException
-	 * @throws FileNotFoundException
-	 */
-	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
-		File file;
-		file = new File(setupConfigFile);
-		Scanner scanner = new Scanner(file);
-
-		while (scanner.hasNext())
-		{
-			String[] line = scanner.nextLine().split(", ");
-			if (line.length > 1) {
-				//TODO check if line[2] is a character
-				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
-				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
-					char roomChar = line[2].charAt(0);
-					String roomName = line[1];
-					Room tempRoom = new Room(roomName);
-					roomMap.put(roomChar, tempRoom);
-				} else {
-					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
-				}
-			}
-
-		}
-		scanner.close();
-	}
-	
-	/**
-	 * Opens the layoutConfigFile and loops through to ensure that the columns are the same length, and there are no null entires
-	 * Checks that all characters inside of the csv file are listed within the setup file, and that there are no invalid characters
-	 * Sets ROWS and COLS so that grid[][] can be made correctly
-	 * 
-	 * Throws BadConfigException if the file does not adhere to the guidelines set
-	 * Throws FileNotFOundException if the given file cannot be found
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws BadConfigFormatException
-	 */
-	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
-		File file;
-		int columnLength = -1;
-		int rows = 0;
-		String indicatorChar = "*#^v<>";
-		
-		file = new File(layoutConfigFile);
-		Scanner scanner = new Scanner(file);
-		
-		//Continues running while there are still lines in the csv file
-		while (scanner.hasNext())
-		{
-			String[] line = scanner.nextLine().split(",");
-			if (columnLength == -1)
-			{
-				columnLength = line.length;
-			}
-			//Checks if the columns are not the same length
-			if (line.length != columnLength)
-			{
-				throw new BadConfigFormatException("layoutConfigFile - Number of columns is not constant");
-			}
-			
-			//Loops through the line array (row i that contains n columns)
-			for (int i = 0; i < line.length; i++)
-			{
-				char roomChar = line[i].charAt(0);
-				//Checks if an index is null
-				if (line[i] == null) {
-					throw new BadConfigFormatException("layoutConfigFile - Contains a null character in a row");
-				}
-				
-				//Checks if an index has more than 3 characters (not possible by the guidelines set for ClueGame)
-				if (line[i].length() >= 3) {
-					throw new BadConfigFormatException("layoutConfigFile - Contains a string of 3 or more characters in a single index");
-				}
-				
-				//Checks if the character is listed in the setup file
-				if (!roomMap.containsKey(roomChar)) {
-					throw new BadConfigFormatException("layoutConfigFile - Contains a character not in setupConfigFile");
-				}
-
-				//Checks if there is a second character and if it is a valid character (Room char or a doorway/label char)
-				if (line[i].length() > 1) {
-					if ((indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)){
-						throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
-					}
-				}
-			}
-			rows++;
-		}
-		scanner.close();
-		ROWS = rows;
-		COLS = columnLength;
 	}
 	
 	/**

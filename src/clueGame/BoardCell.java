@@ -57,21 +57,6 @@ public class BoardCell {
 	}
 	
 	/**
-	 * Helper method to return the letter that the cell is
-	 */
-	public char getLetter() {
-		return letter;
-	}
-	
-	/**
-	 * Sets the cells letter to the given 
-	 * @param letter
-	 */
-	public void setLetter(char letter) {
-		this.letter = letter;
-	}
-	
-	/**
 	 * Adds a cell to the adjacency list
 	 * 
 	 * @param cell
@@ -85,6 +70,37 @@ public class BoardCell {
 	 */
 	public Set<BoardCell> getAdjList() {
 		return adjList;
+	}
+	
+	/**
+	 * Sets the cells door direction
+	 * 
+	 * @param direction
+	 */
+	public void setDoorDirection(DoorDirection direction) {
+		this.doorDirection = direction;
+	}
+	
+	/**
+	 * Returns the cells door direction
+	 */
+	public DoorDirection getDoorDirection() {
+		return this.doorDirection;
+	}
+	
+	/**
+	 * Helper method to return the letter that the cell is
+	 */
+	public char getLetter() {
+		return letter;
+	}
+	
+	/**
+	 * Sets the cells letter to the given 
+	 * @param letter
+	 */
+	public void setLetter(char letter) {
+		this.letter = letter;
 	}
 
 	/**
@@ -135,21 +151,6 @@ public class BoardCell {
 		return this.doorwayStatus;
 	}
 	
-	/**
-	 * Sets the cells door direction
-	 * 
-	 * @param direction
-	 */
-	public void setDoorDirection(DoorDirection direction) {
-		this.doorDirection = direction;
-	}
-	
-	/**
-	 * Returns the cells door direction
-	 */
-	public DoorDirection getDoorDirection() {
-		return this.doorDirection;
-	}
 
 	/**
 	 * Sets if the cell is a roomLabel

@@ -1,0 +1,41 @@
+Before:
+private void calcAdjList() {
+	for (int i = 0; i < ROWS; i++){
+		for (int j = 0; j < COLS; j++){
+			// Does not calculate for doors yet, purely all available cells
+			if (i - 1 >= 0) {
+				grid[i][j].addAdjacency(grid[i-1][j]);
+			}
+			
+			if (i + 1 < ROWS) {
+				grid[i][j].addAdjacency(grid[i+1][j]);
+			}
+				
+			if (j - 1 >= 0) {
+				grid[i][j].addAdjacency(grid[i][j-1]);
+			}
+				
+			if (j + 1 < COLS) {
+				grid[i][j].addAdjacency(grid[i][j+1]);
+			}
+		}
+	}
+}
+
+Condensed any one line if statements down to make the code more readable
+After:
+private void calcAdjList() {
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++){
+			// Does not calculate for doors yet, purely all available cells
+			if (i - 1 >= 0) {grid[i][j].addAdjacency(grid[i-1][j]);}
+				
+			if (i + 1 < ROWS) {grid[i][j].addAdjacency(grid[i+1][j]);}
+				
+			if (j - 1 >= 0) {grid[i][j].addAdjacency(grid[i][j-1]);}
+				
+			if (j + 1 < COLS) {grid[i][j].addAdjacency(grid[i][j+1]);}
+		}
+	}
+}
