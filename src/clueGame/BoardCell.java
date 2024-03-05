@@ -1,32 +1,44 @@
-//Copy of TestBoardCell.java
+/**
+ * @Author Ben Isenhart
+ * @Author Sam Mantle
+ * Date 3 - 04 - 2024
+ * Collaborators: None
+ * Sources: JavaDocs
+ * 
+ * BoardCell: Stores all information pertaining to the cell and its characteristics
+ * 
+ */
 package clueGame;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Authors: Ben Isenhart & Sam Mantle
- * Date 2 - 29 - 2024
- * Collaborators: None
- * Sources: None
- * 
- * TestBoardCell: This class creates a fictitious board cell (without any concrete implementations) to be tested
- */
 public class BoardCell {
+	//Cells position on the board
 	private int row;
 	private int col;
 	
-	private char initial;
+	//If the cell is a doorway and its direction
 	private boolean doorwayStatus;
 	private DoorDirection doorDirection;
+	
+	//Cells center and label
 	private boolean roomLabel;
 	private boolean roomCenter;
+	
+	//Cells secretPassage connection
 	private char secretPassage;
 	
+	//Cell is a room
 	private boolean isRoom;
+	
+	//Cell is occupied by another player
 	private boolean isOccupied;
+	
+	//Cells letter
 	private char letter;
-	//Should be an individual adjList for each individual cell to show where is can move
+	
+	//Cells adj list of where a player can move
 	private Set<BoardCell> adjList;
 
 	/**
@@ -107,42 +119,81 @@ public class BoardCell {
 		return isOccupied;
 	}
 	
+	/**
+	 * Sets the cells doorway status
+	 * 
+	 * @param status
+	 */
 	public void setDoorway(boolean status) {
 		this.doorwayStatus = status;
 	}
 	
+	/**
+	 * Returns if a cell is a doorway
+	 */
 	public boolean isDoorway() {
 		return this.doorwayStatus;
 	}
 	
+	/**
+	 * Sets the cells door direction
+	 * 
+	 * @param direction
+	 */
 	public void setDoorDirection(DoorDirection direction) {
 		this.doorDirection = direction;
 	}
 	
+	/**
+	 * Returns the cells door direction
+	 */
 	public DoorDirection getDoorDirection() {
 		return this.doorDirection;
 	}
 
+	/**
+	 * Sets if the cell is a roomLabel
+	 * @param status
+	 */
 	public void setRoomLabel(boolean status) {
 		this.roomLabel = status;
 	}
 	
+	/**
+	 * Returns if the cell is a label cell
+	 */
 	public boolean isLabel() {
 		return this.roomLabel;
 	}
 	
+	/**
+	 * Sets if the cell is a room center
+	 * 
+	 * @param status
+	 */
 	public void setRoomCenter(boolean status) {
 		this.roomCenter = status;
 	}
 	
+	/**
+	 * Returns if the cell is a room center
+	 */
 	public boolean isRoomCenter() {
 		return this.roomCenter;
 	}
 	
+	/**
+	 * Sets the cells secret passage connection
+	 * 
+	 * @param letter
+	 */
 	public void setSecretPassage(char letter) {
 		this.secretPassage = letter;
 	}
 	
+	/**
+	 * Returns the cells secret passage connection
+	 */
 	public char getSecretPassage() {
 		return this.secretPassage;
 	}

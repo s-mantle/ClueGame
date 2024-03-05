@@ -1,4 +1,13 @@
-//Copy of TestBoard.java
+/**
+ * @Author Ben Isenhart
+ * @Author Sam Mantle
+ * Date 3 - 04 - 2024
+ * Collaborators: None
+ * Sources: JavaDocs
+ * 
+ * Board: Creates the Board and deals with populating it and checking .txt and .csv files
+ * 
+ */
 package clueGame;
 
 import java.io.File;
@@ -15,22 +24,26 @@ import java.util.Set;
  */
 
 public class Board{
-	/*
-	 * variable and methods used for singleton pattern
-	 */
 	private BoardCell[][] grid;
 	
+	//ROWS and COLS set to -1 to ensure that they are updated within loadLayoutConfig()
 	int COLS = -1;
 	int ROWS = -1;
 
+	//layout.csv and setup.txt files that are imported
 	private String layoutConfigFile;
 	private String setupConfigFile;
+	
+	//Map containing character, room pairs 
 	private Map<Character, Room> roomMap = new HashMap<>();
 	
+	//Sets used for calcTargets
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-		
+	
+	//Private board
 	private static Board theInstance = new Board();
+	
 	// constructor is private to ensure only one can be created
 	private Board() {
 		super();
@@ -41,8 +54,8 @@ public class Board{
 	}
 	
 	/*
-	 * initialize the board (since we are using singleton pattern)
-	 * 
+	 * Initializes and populates the board.  (Using the singleton pattern)
+	 * Loops through layout file to fill the grid[][] with cells, while checking if cells are rooms, doorways ect...
 	 */
 	public void initialize() {
 		
@@ -50,33 +63,41 @@ public class Board{
 		try {
 			File file = new File(layoutConfigFile);
 			Scanner scanner = new Scanner(file);
-						
+			
+			//Loops through the rows
 			for (int i = 0; i < ROWS; i++) {
 				String[] line = scanner.nextLine().split(",");
 				
+				//Loops through the columns
 				for (int j = 0; j < COLS; j++){
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
-					
 					cell.setLetter(line[j].charAt(0));
+					
+					//Checks if the cell is a room
 					if (roomMap.containsKey(cell.getLetter())) {
 						cell.setRoom(true);
 					}
 					
+					//Checks if the cell has any extra character (could be a door, labelCell, ect...)
 					if (line[j].length() == 2){
 						char designator = line[j].charAt(1);
 						
+						//Checks if the cell is a secret passage
 						if (roomMap.containsKey(designator)) {
 							cell.setSecretPassage(designator);
 						}
+						//Checks if the cell is a labelCell
 						else if (designator == '#') {
 							cell.setRoomLabel(true);
 							roomMap.get(line[j].charAt(0)).setLabelCell(cell);
 						}
+						//Checks if the cell is a roomCenter
 						else if (designator == '*' ) {
 							cell.setRoomCenter(true);
 							roomMap.get(line[j].charAt(0)).setCenterCell(cell);
 						}
+						//Checks if the cells are doorways, and the direction they face
 						else {
 							cell.setDoorway(true);
 							if (designator == '^' ) {
@@ -93,6 +114,8 @@ public class Board{
 							}
 						}
 					}
+					//May be incorrect implementation, not all cells will be populated with a DoorDirection
+					//Fix - Move before the if else chains
 					else {
 						cell.setDoorDirection(DoorDirection.NONE);
 					}
@@ -107,6 +130,10 @@ public class Board{
 		}
 	}
 	
+	/**
+	 * Loops through the grid[][] to populate the cells inside with their adj cells
+	 * Currently does not account for X spots or if a room can be moved into with a doorway
+	 */
 	private void calcAdjList() {
 		for (int i = 0; i < ROWS; i++)
 		{
@@ -193,6 +220,14 @@ public class Board{
 		return targets;
 	}
 	
+	/**
+	 * Sets the configFiles to their appropriate variables
+	 * Calls loadSetupConfig to ensure setup.txt is valid
+	 * Calls loadLayoutConfig to ensure ClueLayout.csv is valid
+	 * 
+	 * @param csvFile
+	 * @param txtFile
+	 */
 	public void setConfigFiles(String csvFile, String txtFile) {
 		this.layoutConfigFile = "Data/" + csvFile;
 		this.setupConfigFile = "Data/" + txtFile;
@@ -212,6 +247,15 @@ public class Board{
 		}
 	}
 	
+	/**
+	 * Opens the setupConfigFile, and loops through to ensure the file adheres to the guidelines set for the files
+	 * 
+	 * Throws BadConfigException if there are any null inputs, or if Room/Space is miss spelled
+	 * Throws FileNotFOundException if the given file cannot be found
+	 * 
+	 * @throws BadConfigFormatException
+	 * @throws FileNotFoundException
+	 */
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		File file;
 		file = new File(setupConfigFile);
@@ -222,6 +266,7 @@ public class Board{
 			String[] line = scanner.nextLine().split(", ");
 			if (line.length > 1) {
 				//TODO check if line[2] is a character
+				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
 					char roomChar = line[2].charAt(0);
 					String roomName = line[1];
@@ -236,6 +281,17 @@ public class Board{
 		scanner.close();
 	}
 	
+	/**
+	 * Opens the layoutConfigFile and loops through to ensure that the columns are the same length, and there are no null entires
+	 * Checks that all characters inside of the csv file are listed within the setup file, and that there are no invalid characters
+	 * Sets ROWS and COLS so that grid[][] can be made correctly
+	 * 
+	 * Throws BadConfigException if the file does not adhere to the guidelines set
+	 * Throws FileNotFOundException if the given file cannot be found
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws BadConfigFormatException
+	 */
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
 		File file;
 		int columnLength = -1;
@@ -244,7 +300,8 @@ public class Board{
 		
 		file = new File(layoutConfigFile);
 		Scanner scanner = new Scanner(file);
-
+		
+		//Continues running while there are still lines in the csv file
 		while (scanner.hasNext())
 		{
 			String[] line = scanner.nextLine().split(",");
@@ -252,28 +309,32 @@ public class Board{
 			{
 				columnLength = line.length;
 			}
+			//Checks if the columns are not the same length
 			if (line.length != columnLength)
 			{
 				throw new BadConfigFormatException("layoutConfigFile - Number of columns is not constant");
 			}
 			
+			//Loops through the line array (row i that contains n columns)
 			for (int i = 0; i < line.length; i++)
 			{
+				char roomChar = line[i].charAt(0);
+				//Checks if an index is null
 				if (line[i] == null) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a null character in a row");
 				}
 				
-				// May need to change because an index can be both centerCell and roomCenter
+				//Checks if an index has more than 3 characters (not possible by the guidelines set for ClueGame)
 				if (line[i].length() >= 3) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a string of 3 or more characters in a single index");
 				}
 				
-
-				char roomChar = line[i].charAt(0);
+				//Checks if the character is listed in the setup file
 				if (!roomMap.containsKey(roomChar)) {
 					throw new BadConfigFormatException("layoutConfigFile - Contains a character not in setupConfigFile");
 				}
 
+				//Checks if there is a second character and if it is a valid character (Room char or a doorway/label char)
 				if (line[i].length() > 1) {
 					if ((indicatorChar.indexOf(line[i].charAt(1)) == -1) && !roomMap.containsKey(roomChar)){
 						throw new BadConfigFormatException("layoutConfigFile - Contains an extra character that is not \"*#^v<>\"");
@@ -287,18 +348,35 @@ public class Board{
 		COLS = columnLength;
 	}
 	
+	/**
+	 * Returns the room based on the character given
+	 * 
+	 * @param letter
+	 * @return
+	 */
 	public Room getRoom(char letter) {
 		return roomMap.get(letter);
 	}
 
+	/**
+	 * Returns the character based on the cell given
+	 * 
+	 * @param cell
+	 */
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getLetter());
 	}
 	
+	/**
+	 * Returns the number of rows
+	 */
 	public int getNumRows() {
 		return ROWS;
 	}
 	
+	/**
+	 * Returns the number of columns
+	 */
 	public int getNumColumns() {
 		return COLS;
 	}
