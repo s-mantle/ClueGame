@@ -18,10 +18,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-/**
- * TODO
- * Refactor to git diff
- */
 
 public class Board{
 	private BoardCell[][] grid;
@@ -36,10 +32,12 @@ public class Board{
 	
 	//Map containing character, room pairs 
 	private Map<Character, Room> roomMap = new HashMap<>();
+	private Map<Character,BoardCell> roomCenterMap;
 	
 	//Sets used for calcTargets
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
+
 	
 	//Private board
 	private static Board theInstance = new Board();
@@ -58,7 +56,7 @@ public class Board{
 	 * Loops through layout file to fill the grid[][] with cells, while checking if cells are rooms, doorways ect...
 	 */
 	public void initialize() {
-		
+		roomCenterMap = new HashMap<>();
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File(layoutConfigFile);
@@ -94,9 +92,11 @@ public class Board{
 							roomMap.get(line[j].charAt(0)).setLabelCell(cell);
 						}
 						//Checks if the cell is a roomCenter
+						//Add another set that stores room centers?
 						else if (designator == '*' ) {
 							cell.setRoomCenter(true);
 							roomMap.get(line[j].charAt(0)).setCenterCell(cell);
+							roomCenterMap.put(line[j].charAt(0),cell);
 						}
 						//Checks if the cells are doorways, and the direction they face
 						else {
@@ -249,18 +249,78 @@ public class Board{
 		for (int i = 0; i < ROWS; i++)
 		{
 			for (int j = 0; j < COLS; j++){
+				char gridLetter = grid[i][j].getLetter();
+				if(roomMap.containsKey(gridLetter) && !grid[i][j].isRoom()) {
+					//Means that this is a cell that should not be connected to anyhting else
+					continue;
+				}else {
+					if(gridLetter == 'W') {
+						this.calcAdjWalkways(i,j);
+
+						//Means that this is a door
+						if(grid[i][j].getDoorDirection() != DoorDirection.NONE) {
+							this.calcAdjRooms(i, j);
+						}
+					}
+					
+					//Calculates Secret Passages
+					char secretLetter = grid[i][j].getSecretPassage();
+					if(secretLetter != '-') {
+						roomCenterMap.get(secretLetter).addAdjacency(roomCenterMap.get(gridLetter));
+						roomCenterMap.get(gridLetter).addAdjacency(roomCenterMap.get(secretLetter));
+					}
+				}
 				// Does not calculate for doors yet, purely all available cells
-				if (i - 1 >= 0) {grid[i][j].addAdjacency(grid[i-1][j]);}
-				
-				if (i + 1 < ROWS) {grid[i][j].addAdjacency(grid[i+1][j]);}
-				
-				if (j - 1 >= 0) {grid[i][j].addAdjacency(grid[i][j-1]);}
-				
-				if (j + 1 < COLS) {grid[i][j].addAdjacency(grid[i][j+1]);}
 			}
 		}
 	}
+
+	private void calcAdjWalkways(int i, int j) {
+
+		//Checks for adjacent walkways
+		if (i - 1 >= 0 && grid[i-1][j].getLetter() == 'W') {
+			grid[i][j].addAdjacency(grid[i-1][j]);
+		}
+
+		if (i + 1 < ROWS && grid[i+1][j].getLetter() == 'W') {
+			grid[i][j].addAdjacency(grid[i+1][j]);
+		}
+
+		if (j - 1 >= 0 && grid[i][j-1].getLetter() == 'W') {
+			grid[i][j].addAdjacency(grid[i][j-1]);
+		}
+
+		if (j + 1 < COLS && grid[i][j+1].getLetter() == 'W') {
+			grid[i][j].addAdjacency(grid[i][j+1]);
+		}		
+
+	}
 	
+	//Refactor :)
+	private void calcAdjRooms(int i, int j) {
+		if (grid[i][j].getDoorDirection() == DoorDirection.UP) {
+			char roomLetter = grid[i-1][j].getLetter();
+			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
+			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+		}
+		
+		if (grid[i][j].getDoorDirection() == DoorDirection.DOWN) {
+			char roomLetter = grid[i+1][j].getLetter();
+			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
+			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+		}
+		if (grid[i][j].getDoorDirection() == DoorDirection.LEFT) {
+			char roomLetter = grid[i][j-1].getLetter();
+			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
+			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+		}
+		if (grid[i][j].getDoorDirection() == DoorDirection.RIGHT) {
+			char roomLetter = grid[i][j+1].getLetter();
+			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
+			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+		}
+	}
+
 	/**
 	 * Initializes visited and targets, calls findAllTargets
 	 * 

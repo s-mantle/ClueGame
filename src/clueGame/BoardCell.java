@@ -53,6 +53,7 @@ public class BoardCell {
 		this.col = col;
 		this.isRoom = false;
 		this.isOccupied = false;
+		this.secretPassage = '-';
 		this.adjList = new HashSet<BoardCell>();
 	}
 	
