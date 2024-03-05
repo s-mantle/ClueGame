@@ -1,0 +1,33 @@
+I, Ben Isenhart, certify that I participated equitably in the creation of assignment C15A-2, dated 3-4-24.
+I, Sam Mantle, certify that I participated equitably in the creation of this assignment C15A-2, dated 3-4-24.
+
+commit 48520c665c434b45703bb3db30bf11ff3276f7fb
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 22:29:32 2024 -0700
+
+    walkway1, walkway2, atDoor, occupied done
+
+commit 8d53e4deebdb45f91182ad45c328731bf83ac32a
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 22:28:32 2024 -0700
+
+    walkways, BalletRoom, EngineRoom done
+
+commit 886b50160b759f9d4635a0b57e3565602c7cdc21
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 22:27:17 2024 -0700
+
+    testAdjacencyDoor, testAdjacenciesRoom done
+
+commit 7c832175e4c7e7141b944e2a4d08985a147a01e7
+Merge: 1a71954 3be27b8
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 20:06:18 2024 -0700
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit 1a71954b823c72b4439ee05284acf0247e0dd2e8
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 4 20:06:08 2024 -0700
+
+    Added BoardAdjTargets306
