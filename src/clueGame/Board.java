@@ -73,8 +73,9 @@ public class Board{
 					cell.setLetter(line[j].charAt(0));
 					cell.setDoorDirection(DoorDirection.NONE);
 					
+					char cellLetter = cell.getLetter();
 					//Checks if the cell is a room
-					if (roomMap.containsKey(cell.getLetter())) {
+					if (cellLetter != 'W' && cellLetter != 'X') {
 						cell.setRoom(true);
 					}
 					
@@ -249,55 +250,57 @@ public class Board{
 		for (int i = 0; i < ROWS; i++)
 		{
 			for (int j = 0; j < COLS; j++){
-				char gridLetter = grid[i][j].getLetter();
-				if(roomMap.containsKey(gridLetter) && !grid[i][j].isRoom()) {
-					//Means that this is a cell that should not be connected to anyhting else
-					continue;
-				}else {
-					if(gridLetter == 'W') {
-						this.calcAdjWalkways(i,j);
+				char cellLetter = grid[i][j].getLetter();
+				if(cellLetter == 'W') {
+					this.calcAdjWalkways(i,j);
 
-						//Means that this is a door
-						if(grid[i][j].getDoorDirection() != DoorDirection.NONE) {
-							this.calcAdjRooms(i, j);
-						}
-					}
-					
-					//Calculates Secret Passages
-					char secretLetter = grid[i][j].getSecretPassage();
-					if(secretLetter != '-') {
-						roomCenterMap.get(secretLetter).addAdjacency(roomCenterMap.get(gridLetter));
-						roomCenterMap.get(gridLetter).addAdjacency(roomCenterMap.get(secretLetter));
+					//Means that this is a door
+					if(grid[i][j].getDoorDirection() != DoorDirection.NONE) {
+						this.calcAdjRooms(i, j);
 					}
 				}
-				// Does not calculate for doors yet, purely all available cells
+
+				//Calculates Secret Passages
+				char secretLetter = grid[i][j].getSecretPassage();
+				if(secretLetter != '-') {
+					roomCenterMap.get(secretLetter).addAdjacency(roomCenterMap.get(cellLetter));
+					roomCenterMap.get(cellLetter).addAdjacency(roomCenterMap.get(secretLetter));
+
+					//					System.out.println(i+" "+j+ "Adj List "+ grid[i][j].getAdjList());
+				}
 			}
 		}
 	}
 
 	private void calcAdjWalkways(int i, int j) {
-
+//		if(i == 11 && j == 2) {
 		//Checks for adjacent walkways
 		if (i - 1 >= 0 && grid[i-1][j].getLetter() == 'W') {
+//			System.out.println("Up ("+(i-1)+", "+j+")");
 			grid[i][j].addAdjacency(grid[i-1][j]);
 		}
 
 		if (i + 1 < ROWS && grid[i+1][j].getLetter() == 'W') {
+//			System.out.println("Down ("+i+", "+j+")");
 			grid[i][j].addAdjacency(grid[i+1][j]);
 		}
 
 		if (j - 1 >= 0 && grid[i][j-1].getLetter() == 'W') {
+//			System.out.println("Left ("+i+", "+(j-1)+")");
+//			System.out.println(grid[i][j-1]);
 			grid[i][j].addAdjacency(grid[i][j-1]);
 		}
 
 		if (j + 1 < COLS && grid[i][j+1].getLetter() == 'W') {
+//			System.out.println("Right ("+i+", "+(j+1)+")");
 			grid[i][j].addAdjacency(grid[i][j+1]);
-		}		
+		}		}
 
-	}
+//	}
 	
 	//Refactor :)
 	private void calcAdjRooms(int i, int j) {
+		
 		if (grid[i][j].getDoorDirection() == DoorDirection.UP) {
 			char roomLetter = grid[i-1][j].getLetter();
 			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
@@ -308,6 +311,7 @@ public class Board{
 			char roomLetter = grid[i+1][j].getLetter();
 			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
 			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+
 		}
 		if (grid[i][j].getDoorDirection() == DoorDirection.LEFT) {
 			char roomLetter = grid[i][j-1].getLetter();
@@ -344,10 +348,12 @@ public class Board{
 	 */
 	private void findAllTargets(BoardCell startCell, int numSteps) {
 		for (BoardCell adjCell: startCell.getAdjList()) {
+			System.out.println(adjCell);
 			if (visited.contains(adjCell)) {continue;}
 			
 			if (adjCell.isRoom()) {
-				targets.add(adjCell);
+				System.out.println("Cell is a room, adding to targets "+roomCenterMap.get(adjCell.getLetter()));
+				targets.add(roomCenterMap.get(adjCell.getLetter()));
 				continue;
 			}
 			else if (adjCell.getOccupied()) {continue;}

@@ -57,6 +57,14 @@ public class BoardCell {
 		this.adjList = new HashSet<BoardCell>();
 	}
 	
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
 	/**
 	 * Adds a cell to the adjacency list
 	 * 
@@ -73,6 +81,11 @@ public class BoardCell {
 		return adjList;
 	}
 	
+	@Override
+	public String toString() {
+		return row + ", " + col;
+	}
+
 	/**
 	 * Sets the cells door direction
 	 * 
