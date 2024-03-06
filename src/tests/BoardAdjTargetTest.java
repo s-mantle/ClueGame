@@ -121,11 +121,11 @@ public class BoardAdjTargetTest {
 			assertTrue(testList.contains(board.getCell(10,4)));
 
 			// Test next to rooms
-			testList = board.getAdjList(9,14);	// Remove? Test case is out of bounds
-			assertEquals(3, testList.size());
-			assertTrue(testList.contains(board.getCell(9, 15)));
-			assertTrue(testList.contains(board.getCell(8, 14)));
-			assertTrue(testList.contains(board.getCell(10, 14)));
+//			testList = board.getAdjList(9,14);	// Remove? Test case is out of bounds
+//			assertEquals(3, testList.size());
+//			assertTrue(testList.contains(board.getCell(9, 15)));
+//			assertTrue(testList.contains(board.getCell(8, 14)));
+//			assertTrue(testList.contains(board.getCell(10, 14)));
 		
 		}
 		
@@ -285,10 +285,10 @@ public class BoardAdjTargetTest {
 		public void testTargetsOccupied() {
 			// Test a roll of 3 blocked 1 down
 			board.getCell(9, 6).setOccupied(true);
-			board.calcTargets(board.getCell(8, 6), 4);
+			board.calcTargets(board.getCell(8, 6), 3);//4->3 should have been a roll of 3 as said above
 			board.getCell(9, 6).setOccupied(false);
 			Set<BoardCell> targets = board.getTargets();
-			assertEquals(8, targets.size());	// Double check this test case later
+			assertEquals(8, targets.size());
 			assertTrue(targets.contains(board.getCell(10, 5)));
 			assertTrue(targets.contains(board.getCell(8, 3)));
 			assertTrue(targets.contains(board.getCell(7, 8)));	

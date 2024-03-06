@@ -72,7 +72,6 @@ public class Board{
 					grid[i][j] = cell;
 					cell.setLetter(line[j].charAt(0));
 					cell.setDoorDirection(DoorDirection.NONE);
-					
 					char cellLetter = cell.getLetter();
 					//Checks if the cell is a room
 					if (cellLetter != 'W' && cellLetter != 'X') {
