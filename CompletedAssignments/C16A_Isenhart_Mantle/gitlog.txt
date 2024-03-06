@@ -1,0 +1,50 @@
+Majority was pair-programmed followed by individual debugging/ refactoring
+
+commit 4064abf3368bdb58b1659f4a3a23382d6930d7e4
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Mar 6 13:09:27 2024 -0700
+
+    Updated another testcase - 52 runs no failures/errors
+
+commit 3bccf23583e07f159e97772d962511401ad2d807
+Merge: 9a6b0a7 410f658
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Mar 6 12:46:15 2024 -0700
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit 9a6b0a7d779aab74df96d70d930ce8d9a906d4ad
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Mar 6 12:46:05 2024 -0700
+
+    ClueLayout changed
+
+commit 410f65836cb8aa3c59e70eaa7a134b5af5dcb857
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Mar 6 12:42:01 2024 -0700
+
+    Debugging nasty FNF error
+
+commit 5cc1d26924e4bc1d171bf63e99974b179caf9adb
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 5 19:57:25 2024 -0700
+
+    Updated FileInitTests-walkways, closets are not rooms
+
+commit 9873c7091573dba2046cb18d5a6310639863dd23
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 5 19:51:39 2024 -0700
+
+    File init tests fails 1 tests, cleaning print statements
+
+commit f84db675d8eeec93750aae8db8a342fc47abd4c2
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 5 19:20:25 2024 -0700
+
+    Removed Arbitrary Logic - 306 Completed
+
+commit 8be64cf360755a33d1d6e8a8d6a1e3a550a1dd90
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 5 16:18:46 2024 -0700
+
+    Update CalcAdj to work for doors, room centers, secret passages
