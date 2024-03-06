@@ -97,7 +97,7 @@ public class Board{
 						else if (designator == '*' ) {
 							cell.setRoomCenter(true);
 							roomMap.get(line[j].charAt(0)).setCenterCell(cell);
-							roomCenterMap.put(line[j].charAt(0),cell);
+							roomCenterMap.put(line[j].charAt(0), cell);
 						}
 						//Checks if the cells are doorways, and the direction they face
 						else {
