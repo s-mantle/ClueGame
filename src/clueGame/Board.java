@@ -265,8 +265,6 @@ public class Board{
 				if(secretLetter != '-') {
 					roomCenterMap.get(secretLetter).addAdjacency(roomCenterMap.get(cellLetter));
 					roomCenterMap.get(cellLetter).addAdjacency(roomCenterMap.get(secretLetter));
-
-					//					System.out.println(i+" "+j+ "Adj List "+ grid[i][j].getAdjList());
 				}
 			}
 		}
@@ -348,11 +346,9 @@ public class Board{
 	 */
 	private void findAllTargets(BoardCell startCell, int numSteps) {
 		for (BoardCell adjCell: startCell.getAdjList()) {
-			System.out.println(adjCell);
 			if (visited.contains(adjCell)) {continue;}
 			
 			if (adjCell.isRoom()) {
-				System.out.println("Cell is a room, adding to targets "+roomCenterMap.get(adjCell.getLetter()));
 				targets.add(roomCenterMap.get(adjCell.getLetter()));
 				continue;
 			}

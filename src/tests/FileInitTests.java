@@ -98,7 +98,7 @@ public class FileInitTests {
 		cell = board.getCell(5, 4);	// Updated col from 5 -> 4. Fifth times the charm for counting!
 		assertFalse(cell.isLabel());
 		assertFalse(cell.isDoorway());
-		assertTrue(cell.isRoom());
+		assertTrue(cell.isRoom()); 
 		assertFalse(cell.isRoomCenter());
 		assertEquals('W', cell.getLetter());
 		
