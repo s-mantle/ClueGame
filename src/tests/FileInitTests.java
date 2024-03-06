@@ -92,13 +92,13 @@ public class FileInitTests {
 	
 	@Test
 	public void testRandomCellValues() {
-		// Updated all cells to be rooms - I misunderstand walkways and unused spaces initially
+		// Updated walkways (W) and x to not be rooms, they were rooms before, which cause problems when finding targets
 		BoardCell cell;
 		
 		cell = board.getCell(5, 4);	// Updated col from 5 -> 4. Fifth times the charm for counting!
 		assertFalse(cell.isLabel());
 		assertFalse(cell.isDoorway());
-		assertTrue(cell.isRoom()); 
+		assertFalse(cell.isRoom()); 
 		assertFalse(cell.isRoomCenter());
 		assertEquals('W', cell.getLetter());
 		
@@ -112,14 +112,14 @@ public class FileInitTests {
 		cell = board.getCell(0, 10);
 		assertFalse(cell.isLabel());
 		assertFalse(cell.isDoorway());
-		assertTrue(cell.isRoom());
+		assertFalse(cell.isRoom());
 		assertFalse(cell.isRoomCenter());
 		assertEquals('X', cell.getLetter());
 		
 		cell = board.getCell(7, 12);
 		assertFalse(cell.isLabel());
 		assertTrue(cell.isDoorway());
-		assertTrue(cell.isRoom());
+		assertFalse(cell.isRoom());
 		assertFalse(cell.isRoomCenter());
 		assertEquals('W', cell.getLetter());
 		
