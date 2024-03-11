@@ -165,10 +165,9 @@ public class Board{
 		while (scanner.hasNext())
 		{
 			String[] line = scanner.nextLine().split(", ");
-			if (line.length > 1) {
-				//TODO check if line[2] is a character
+			if (line.length == 3) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
-				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2] != null)){
+				if ((line[0].equals("Room") || (line[0].equals("Space")) && line[1] != null && line[2].length() == 1)){
 					Room tempRoom = new Room(line[1]);
 					roomMap.put(line[2].charAt(0), tempRoom);
 				} else {
