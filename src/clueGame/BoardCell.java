@@ -51,9 +51,13 @@ public class BoardCell {
 		super();
 		this.row = row;
 		this.col = col;
+		this.isDoorway = false;
+		this.isRoomLabel = false;
+		this.isRoomCenter = false;
+		this.secretPassage = '-';
 		this.isRoom = false;
 		this.isOccupied = false;
-		this.secretPassage = '-';
+		this.letter = ' ';
 		this.adjList = new HashSet<BoardCell>();
 	}
 	
