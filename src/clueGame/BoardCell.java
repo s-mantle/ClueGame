@@ -87,7 +87,7 @@ public class BoardCell {
 	
 	@Override
 	public String toString() {
-		return row + ", " + col;
+		return "("+row + ", " + col+")";
 	}
 
 	/**

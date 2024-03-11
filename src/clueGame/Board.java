@@ -32,7 +32,6 @@ public class Board{
 	
 	//Map containing character, room pairs 
 	private Map<Character, Room> roomMap = new HashMap<>();
-	private Map<Character,BoardCell> roomCenterMap;
 	
 	//Sets used for calcTargets
 	private Set<BoardCell> targets;
@@ -56,7 +55,6 @@ public class Board{
 	 * Loops through layout file to fill the grid[][] with cells, while checking if cells are rooms, doorways ect...
 	 */
 	public void initialize() {
-		roomCenterMap = new HashMap<>();
 		grid = new BoardCell[ROWS][COLS];
 		try {
 			File file = new File(layoutConfigFile);
@@ -68,6 +66,7 @@ public class Board{
 				
 				//Loops through the columns
 				for (int j = 0; j < COLS; j++){
+					
 					BoardCell cell = new BoardCell(i,j);
 					grid[i][j] = cell;
 					cell.setLetter(line[j].charAt(0));
@@ -96,7 +95,6 @@ public class Board{
 						else if (designator == '*' ) {
 							cell.setRoomCenter(true);
 							roomMap.get(line[j].charAt(0)).setCenterCell(cell);
-							roomCenterMap.put(line[j].charAt(0), cell);
 						}
 						//Checks if the cells are doorways, and the direction they face
 						else {
@@ -261,13 +259,19 @@ public class Board{
 				//Calculates Secret Passages
 				char secretLetter = grid[i][j].getSecretPassage();
 				if(secretLetter != '-') {
-					roomCenterMap.get(secretLetter).addAdjacency(roomCenterMap.get(cellLetter));
-					roomCenterMap.get(cellLetter).addAdjacency(roomCenterMap.get(secretLetter));
+					roomMap.get(secretLetter).getCenterCell().addAdjacency(roomMap.get(cellLetter).getCenterCell());
+					roomMap.get(cellLetter).getCenterCell().addAdjacency(roomMap.get(secretLetter).getCenterCell());
 				}
 			}
 		}
 	}
 
+	/**
+	 * Calculates for adjacent walkways in the cardinal directions
+	 * 
+	 * @param i - row number
+	 * @param j - col number
+	 */
 	private void calcAdjWalkways(int i, int j) {
 		if (i - 1 >= 0 && grid[i-1][j].getLetter() == 'W') {
 			grid[i][j].addAdjacency(grid[i-1][j]);
@@ -284,7 +288,12 @@ public class Board{
 	}
 
 	
-	//Refactor :)
+	/**
+	 * Calculates adjacent rooms by finding the room that a door points to, then links the 
+	 * 
+	 * @param i - row number
+	 * @param j - col number
+	 */
 	private void calcAdjRooms(int i, int j) {
 		char roomLetter = ' ';
 		
@@ -298,8 +307,8 @@ public class Board{
 			roomLetter = grid[i][j+1].getLetter();
 		}
 		
-		grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
-		roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+		grid[i][j].addAdjacency(roomMap.get(roomLetter).getCenterCell());
+		roomMap.get(roomLetter).getCenterCell().addAdjacency(grid[i][j]);
 	}
 
 	/**
@@ -328,7 +337,7 @@ public class Board{
 			if (visited.contains(adjCell)) {continue;}
 			
 			if (adjCell.isRoom()) {
-				targets.add(roomCenterMap.get(adjCell.getLetter()));
+				targets.add(roomMap.get(adjCell.getLetter()).getCenterCell());
 				continue;
 			}
 			else if (adjCell.getOccupied()) {continue;}
