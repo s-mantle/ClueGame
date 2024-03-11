@@ -19,12 +19,12 @@ public class BoardCell {
 	private int col;
 	
 	//If the cell is a doorway and its direction
-	private boolean doorwayStatus;
+	private boolean isDoorway;
 	private DoorDirection doorDirection;
 	
 	//Cells center and label
-	private boolean roomLabel;
-	private boolean roomCenter;
+	private boolean isRoomLabel;
+	private boolean isRoomCenter;
 	
 	//Cells secretPassage connection
 	private char secretPassage;
@@ -155,14 +155,14 @@ public class BoardCell {
 	 * @param status
 	 */
 	public void setDoorway(boolean status) {
-		this.doorwayStatus = status;
+		this.isDoorway = status;
 	}
 	
 	/**
 	 * Returns if a cell is a doorway
 	 */
 	public boolean isDoorway() {
-		return this.doorwayStatus;
+		return this.isDoorway;
 	}
 	
 
@@ -171,14 +171,14 @@ public class BoardCell {
 	 * @param status
 	 */
 	public void setRoomLabel(boolean status) {
-		this.roomLabel = status;
+		this.isRoomLabel = status;
 	}
 	
 	/**
 	 * Returns if the cell is a label cell
 	 */
 	public boolean isLabel() {
-		return this.roomLabel;
+		return this.isRoomLabel;
 	}
 	
 	/**
@@ -187,14 +187,14 @@ public class BoardCell {
 	 * @param status
 	 */
 	public void setRoomCenter(boolean status) {
-		this.roomCenter = status;
+		this.isRoomCenter = status;
 	}
 	
 	/**
 	 * Returns if the cell is a room center
 	 */
 	public boolean isRoomCenter() {
-		return this.roomCenter;
+		return this.isRoomCenter;
 	}
 	
 	/**
