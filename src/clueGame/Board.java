@@ -286,29 +286,20 @@ public class Board{
 	
 	//Refactor :)
 	private void calcAdjRooms(int i, int j) {
+		char roomLetter = ' ';
 		
 		if (grid[i][j].getDoorDirection() == DoorDirection.UP) {
-			char roomLetter = grid[i-1][j].getLetter();
-			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
-			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
+			roomLetter = grid[i-1][j].getLetter();
+		}else if (grid[i][j].getDoorDirection() == DoorDirection.DOWN) {
+			roomLetter = grid[i+1][j].getLetter();
+		}else if (grid[i][j].getDoorDirection() == DoorDirection.LEFT) {
+			roomLetter = grid[i][j-1].getLetter();
+		}else if (grid[i][j].getDoorDirection() == DoorDirection.RIGHT) {
+			roomLetter = grid[i][j+1].getLetter();
 		}
 		
-		if (grid[i][j].getDoorDirection() == DoorDirection.DOWN) {
-			char roomLetter = grid[i+1][j].getLetter();
-			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
-			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
-
-		}
-		if (grid[i][j].getDoorDirection() == DoorDirection.LEFT) {
-			char roomLetter = grid[i][j-1].getLetter();
-			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
-			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
-		}
-		if (grid[i][j].getDoorDirection() == DoorDirection.RIGHT) {
-			char roomLetter = grid[i][j+1].getLetter();
-			grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
-			roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
-		}
+		grid[i][j].addAdjacency(roomCenterMap.get(roomLetter));
+		roomCenterMap.get(roomLetter).addAdjacency(grid[i][j]);
 	}
 
 	/**
