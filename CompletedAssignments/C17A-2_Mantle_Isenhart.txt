@@ -1,7 +1,71 @@
+Authors: Ben Isenhart & Sam Mantle
+Section: OL (online)
+Outside Sources: None
+Other Information: NA
+
 Git log:
+
+commit 1b818f95515a98cc07d349d9c7e95370138a3b7c
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 11 14:24:50 2024 -0600
+
+    Refactored to use roomMap.getCenterCell and remove roomCenterMap to reduce complexity
+
+commit 911096e8057d33682e396e442006c0667820b42e
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Mar 11 12:59:59 2024 -0600
+
+    Refactored calAdjRooms to use if else chain, removed repeating logic from if statements for faster run time
+
+commit 6127ed68d1db7c5a2e98d382d22a2e453e3afa34
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 12:19:15 2024 -0600
+
+    Current work on assignment submission file
+
+commit 604249d7d1e637f118631fd0beb9282f03d355d6
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 12:14:13 2024 -0600
+
+    Added additional testing for a normal room cell's adjacency list
+
+commit cb13f564d90608849ae9298d271cdb2ee1287c57
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 12:04:30 2024 -0600
+
+    Updated loadSetupConfig() validation to be more restrictive
+
+commit 0c4dd7c3df17980bbc2dec1426c76ec37c1f05ef
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 12:00:02 2024 -0600
+
+    Removed latent construction/ debugging comments
+
+commit 426ddeed88f5fb385467c2c1e9b3f9ea4db015ec
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 11:58:51 2024 -0600
+
+    Updated class member variables to better utilize this. and theInstance.
+
+commit 0c6e5f570f90ceda3346d1cc7fcfbb520eae141e
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 11:55:38 2024 -0600
+
+    Refactored constructor to initialize additional values
+
+commit ec8e71183b9e3bedd927ff6d031b4048273565bc
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Mar 11 11:53:16 2024 -0600
+
+    Refactored boolean member variables in BoardCell
 
 
 Code Snippet:
+
+	Before:
+	None
+
+	After:
 	@Test
 	public void testRoomCellNoAdjacencies() {
 		// Blacksmithing Room
