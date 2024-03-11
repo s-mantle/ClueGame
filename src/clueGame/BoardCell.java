@@ -62,11 +62,11 @@ public class BoardCell {
 	}
 	
 	public int getRow() {
-		return row;
+		return this.row;
 	}
 
 	public int getCol() {
-		return col;
+		return this.col;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class BoardCell {
 	 * Returns adjacency list
 	 */
 	public Set<BoardCell> getAdjList() {
-		return adjList;
+		return this.adjList;
 	}
 	
 	@Override
@@ -110,7 +110,7 @@ public class BoardCell {
 	 * Helper method to return the letter that the cell is
 	 */
 	public char getLetter() {
-		return letter;
+		return this.letter;
 	}
 	
 	/**
@@ -134,7 +134,7 @@ public class BoardCell {
 	 * Checks is a cell is a room
 	 */
 	public boolean isRoom() {
-		return isRoom;
+		return this.isRoom;
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class BoardCell {
 	 * Returns if a cell is occupied
 	 */
 	public boolean getOccupied() {
-		return isOccupied;
+		return this.isOccupied;
 	}
 	
 	/**

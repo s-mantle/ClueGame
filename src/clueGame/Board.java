@@ -118,7 +118,7 @@ public class Board{
 				}
 			}
 			scanner.close();
-			this.calcAdjList();
+			theInstance.calcAdjList();
 		}
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
@@ -134,8 +134,8 @@ public class Board{
 	 * @param txtFile
 	 */
 	public void setConfigFiles(String csvFile, String txtFile) {
-		this.layoutConfigFile = "Data/" + csvFile;
-		this.setupConfigFile = "Data/" + txtFile;
+		theInstance.layoutConfigFile = "Data/" + csvFile;
+		theInstance.setupConfigFile = "Data/" + txtFile;
 		
 		try {theInstance.loadSetupConfig();}
 		catch (FileNotFoundException | BadConfigFormatException e) {
@@ -237,8 +237,8 @@ public class Board{
 			rows++;
 		}
 		scanner.close();
-		ROWS = rows;
-		COLS = columnLength;
+		theInstance.ROWS = rows;
+		theInstance.COLS = columnLength;
 	}
 	
 	/**
@@ -251,11 +251,11 @@ public class Board{
 			for (int j = 0; j < COLS; j++){
 				char cellLetter = grid[i][j].getLetter();
 				if(cellLetter == 'W') {
-					this.calcAdjWalkways(i,j);
+					theInstance.calcAdjWalkways(i,j);
 
 					//Means that this is a door
 					if(grid[i][j].getDoorDirection() != DoorDirection.NONE) {
-						this.calcAdjRooms(i, j);
+						theInstance.calcAdjRooms(i, j);
 					}
 				}
 
@@ -291,9 +291,9 @@ public class Board{
 		if (j + 1 < COLS && grid[i][j+1].getLetter() == 'W') {
 //			System.out.println("Right ("+i+", "+(j+1)+")");
 			grid[i][j].addAdjacency(grid[i][j+1]);
-		}		}
+		}
+	}
 
-//	}
 	
 	//Refactor :)
 	private void calcAdjRooms(int i, int j) {
@@ -373,14 +373,14 @@ public class Board{
 	 * @param col
 	 */
 	public BoardCell getCell(int row, int col) {
-		return grid[row][col];
+		return theInstance.grid[row][col];
 	}
 	
 	/**
 	 * Gets the targets that can be moved to by the player
 	 */
 	public Set<BoardCell> getTargets() {
-		return targets;
+		return theInstance.targets;
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public class Board{
 	 * @return
 	 */
 	public Room getRoom(char letter) {
-		return roomMap.get(letter);
+		return theInstance.roomMap.get(letter);
 	}
 
 	/**
@@ -399,21 +399,21 @@ public class Board{
 	 * @param cell
 	 */
 	public Room getRoom(BoardCell cell) {
-		return roomMap.get(cell.getLetter());
+		return theInstance.roomMap.get(cell.getLetter());
 	}
 	
 	/**
 	 * Returns the number of rows
 	 */
 	public int getNumRows() {
-		return ROWS;
+		return theInstance.ROWS;
 	}
 	
 	/**
 	 * Returns the number of columns
 	 */
 	public int getNumColumns() {
-		return COLS;
+		return theInstance.COLS;
 	}
 	
 	/**
@@ -422,6 +422,6 @@ public class Board{
 	 * @param col
 	 */
 	public Set<BoardCell> getAdjList(int row, int col) {
-		return grid[row][col].getAdjList();
+		return theInstance.grid[row][col].getAdjList();
 	}
 }
