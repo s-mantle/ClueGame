@@ -1,0 +1,36 @@
+Git log:
+
+
+Code Snippet:
+	@Test
+	public void testRoomCellNoAdjacencies() {
+		// Blacksmithing Room
+		board.calcTargets(board.getCell(1, 5), 1);
+		Set<BoardCell> targets = board.getTargets();
+		assertEquals(0, targets.size());
+		// Testing adjacent cells
+		assertTrue(!targets.contains(board.getCell(1,  4)));
+		assertTrue(!targets.contains(board.getCell(1,  6)));
+		assertTrue(!targets.contains(board.getCell(0,  5)));
+		assertTrue(!targets.contains(board.getCell(2,  5)));
+		// Testing center, label, and doorway cells associated with this room
+		assertTrue(!targets.contains(board.getCell(2,  6)));
+		assertTrue(!targets.contains(board.getCell(1,  6)));
+		assertTrue(!targets.contains(board.getCell(3,  5)));
+		assertTrue(!targets.contains(board.getCell(3,  8)));
+
+		// Engine Room
+		board.calcTargets(board.getCell(14, 12), 1);
+		targets = board.getTargets();
+		assertEquals(0, targets.size());
+		// Testing adjacent cells
+		assertTrue(!targets.contains(board.getCell(14,  11)));
+		assertTrue(!targets.contains(board.getCell(13,  12)));
+		// Testing center, label, secret passage, and doorway cells associated with this room
+		assertTrue(!targets.contains(board.getCell(13,  11)));
+		assertTrue(!targets.contains(board.getCell(14,  10)));
+		assertTrue(!targets.contains(board.getCell(11,  10)));
+		assertTrue(!targets.contains(board.getCell(12,  12)));
+	}
+
+Our largest update to the program (aside from fleshing out existing comments) was the addition of a test case to ensure that normal room cells (not center, not label, not secret passage) had no adjacency list. One of our Code Review partners this past Friday pointed out this potential to use and we agreed it needed testing to validate that we were not creating unnessecary adjacency lists to bloat our code. As a result, we added the above pair of cells to test which ensures that room cells - aside from the center cell - do not have any ability to be moved to nor from.
