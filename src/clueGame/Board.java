@@ -270,26 +270,16 @@ public class Board{
 	}
 
 	private void calcAdjWalkways(int i, int j) {
-//		if(i == 11 && j == 2) {
-		//Checks for adjacent walkways
 		if (i - 1 >= 0 && grid[i-1][j].getLetter() == 'W') {
-//			System.out.println("Up ("+(i-1)+", "+j+")");
 			grid[i][j].addAdjacency(grid[i-1][j]);
 		}
-
 		if (i + 1 < ROWS && grid[i+1][j].getLetter() == 'W') {
-//			System.out.println("Down ("+i+", "+j+")");
 			grid[i][j].addAdjacency(grid[i+1][j]);
 		}
-
 		if (j - 1 >= 0 && grid[i][j-1].getLetter() == 'W') {
-//			System.out.println("Left ("+i+", "+(j-1)+")");
-//			System.out.println(grid[i][j-1]);
 			grid[i][j].addAdjacency(grid[i][j-1]);
 		}
-
 		if (j + 1 < COLS && grid[i][j+1].getLetter() == 'W') {
-//			System.out.println("Right ("+i+", "+(j+1)+")");
 			grid[i][j].addAdjacency(grid[i][j+1]);
 		}
 	}
