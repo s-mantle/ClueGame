@@ -14,9 +14,12 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -42,12 +45,16 @@ public class Board{
 	//Set used to store the players may not be neccessary not sure yet
 	private Map<String, Player> playerList = new HashMap<>();
 	private Map<String, Card> weaponList = new HashMap<>();
+	private Map<String, Card> roomList = new HashMap<>();
+	
+	private Set<Card> answerCards = new HashSet<>();
 	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
 
 	//Private board
 	private static Board theInstance = new Board();
+	private static Solution theSolution;
 	
 	// constructor is private to ensure only one can be created
 	private Board() {
@@ -185,23 +192,29 @@ public class Board{
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				//|| (line[0].equals("Space")) was in the if statement
 				if ((line[0] != null && line[1] != null)){
-					if(line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
+					if (line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
 //						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-//						Card newCard = new Card(line[1]);
-//						roomList.put()	// TODO: Left off here, will implement this afternoon
+						if (line[0].equals("Room")) {
+							Card newCard = new Card(line[1]);
+							newCard.setCardType(CardType.ROOM);
+							roomList.put(line[1], newCard);
+							cards.add(newCard);
+						}
 					}
 					else if (line[0].equals("Player")) {
 //						System.out.println("Player: " + line[2]);
 						Player tempPlayer = new Player(COLORMAP.get(line[1]), line[2]);
 						playerList.put(line[1], tempPlayer);
 						Card newCard = new Card(line[2]);
+						newCard.setCardType(CardType.PERSON);
 						cards.add(newCard);
 					}
 					else if (line[0].equals("Weapon")) {
 //						System.out.println("Weapon: "+ line[1]);
 						Card newCard = new Card(line[1]);
+						newCard.setCardType(CardType.WEAPON);
 						weaponList.put(line[1], newCard);
 						cards.add(newCard);
 					}
@@ -405,23 +418,60 @@ public class Board{
 	}
 	
 	public void dealCards() {
-		Set<Card> answerCards = new HashSet<>();
-		Set<Card> playerCards = new HashSet<>();
-		ArrayList<Set<Card>> allComputerCards = new ArrayList<>();
+		// This is going to need to be refactored, it's really messy/ redundant
+		Set<Card> answersCards = new HashSet<>();
 
+		ArrayList<Card> playerCards = new ArrayList<Card>();
+		ArrayList<Card> roomCards = new ArrayList<Card>();
+		ArrayList<Card> weaponCards = new ArrayList<Card>();
+		
+		ArrayList<Set<Card>> allComputerCards = new ArrayList<Set<Card>>();
+
+		Random random = new Random();
+		int index = 0;
+		
+		for (Card card: this.cards) {
+			if (card.getCardType() == CardType.PERSON) { playerCards.add(card); }
+			else if (card.getCardType() == CardType.ROOM) { roomCards.add(card); }
+			else if (card.getCardType() == CardType.WEAPON) { weaponCards.add(card); }
+		}
+		
+//		playerList.get(random.)
+		index = random.nextInt(playerCards.size());
+		answersCards.add(playerCards.get(index));
+		playerCards.remove(index);
+		
+		index = random.nextInt(roomCards.size());
+		answersCards.add(roomCards.get(index));
+		roomCards.remove(index);
+		
+		index = random.nextInt(weaponCards.size());
+		answersCards.add(weaponCards.get(index));
+		weaponCards.remove(index);
+		
+
+		ArrayList<Card> remainingCards = new ArrayList<>();
+		remainingCards.addAll(playerCards);
+		remainingCards.addAll(roomCards);
+		remainingCards.addAll(weaponCards);
+		
 		int numPlayers = playerList.size();
 		int counter = 0;
-		for (Card card: cards) {
-			if (counter % numPlayers == 0) {
-				playerCards.add(card);
-			}
-			else if (couner % 2 == )
+		for (Card card: remainingCards) {
+			if (counter % numPlayers == 0) { playerList.get("Red").addCard(card); }
+			else if (counter % numPlayers == 1) { playerList.get("Blue").addCard(card); }
+			else if (counter % numPlayers == 2) { playerList.get("Green").addCard(card); }
+			else if (counter % numPlayers == 3) { playerList.get("Yellow").addCard(card); }
+			else if (counter % numPlayers == 4) { playerList.get("Cyan").addCard(card); }
+			else if (counter % numPlayers == 5) { playerList.get("Pink").addCard(card); }
+			else if (counter % numPlayers == 6) { playerList.get("Black").addCard(card); }
+			else if (counter % numPlayers == 7) { playerList.get("White").addCard(card); }
+
 			cards.remove(card);
-			
 			counter++;
 		}
 		
-		
+		this.answerCards = answersCards;
 	}
 	
 	/**
@@ -489,5 +539,17 @@ public class Board{
 	
 	public Map<String, Card> getWeaponList() {
 		return theInstance.weaponList;
+	}
+	
+	public Map<String, Card> getRoomList() {
+		return theInstance.roomList;
+	}
+	
+	public Set<Card> getCards() {
+		return theInstance.cards;
+	}
+	
+	public Set<Card> getAnswerCards() {
+		return theInstance.answerCards;
 	}
 }
