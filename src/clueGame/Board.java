@@ -10,6 +10,7 @@
  */
 package clueGame;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -38,10 +39,10 @@ public class Board{
 	private Set<BoardCell> visited;
 	
 	//Set used to store the players may not be neccessary not sure yet
-	private Set<Player> playerList;
+	private Set<Player> playerList = new HashSet<>();
 	
 	//Set used to store all of the cards - could be changed to store each card type?
-	private Set<Card> cards;
+	private Set<Card> cards = new HashSet<>();
 	
 	//Private board
 	private static Board theInstance = new Board();
@@ -164,6 +165,15 @@ public class Board{
 		File file;
 		file = new File(setupConfigFile);
 		Scanner scanner = new Scanner(file);
+		final Map<String,Color> COLORMAP = new HashMap<String,Color>();
+		COLORMAP.put("Red", Color.RED);
+		COLORMAP.put("Blue", Color.BLUE);
+		COLORMAP.put("Green", Color.GREEN);
+		COLORMAP.put("Yellow", Color.YELLOW);
+		COLORMAP.put("Pink", Color.PINK);
+		COLORMAP.put("Cyan", Color.CYAN);
+		COLORMAP.put("Black", Color.BLACK);
+		COLORMAP.put("White", Color.WHITE);
 
 		while (scanner.hasNext())
 		{
@@ -171,18 +181,33 @@ public class Board{
 			if (line.length == 3) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				//|| (line[0].equals("Space")) was in the if statement
-				if ((line[0].equals("Room") && line[1] != null && line[2].length() == 1)){
-					Room tempRoom = new Room(line[1]);
-					roomMap.put(line[2].charAt(0), tempRoom);
-				} else {
-					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
+				if ((line[0] != null && line[1] != null)){
+					if(line[0] == "Room" || (line[0].equals("Space")) && line[2].length() == 1) {
+						Room tempRoom = new Room(line[1]);
+						roomMap.put(line[2].charAt(0), tempRoom);
+					}else if(line[0] == "Player"){
+						Player tempPlayer = new Player(COLORMAP.get(line[1]),line[2]);
+						playerList.add(tempPlayer);
+						Card newCard = new Card(line[2]);
+						cards.add(newCard);
+					}else if(line[0] == "Weapon"){
+						Card newCard = new Card(line[1]);
+						cards.add(newCard);
+					}else{
+						throwSetupException();
+					}
+				}else {
+					throwSetupException();
 				}
-				
 			}
 		}
 		scanner.close();
+		System.out.println("SetUp completed");
 	}
 	
+	public void throwSetupException() throws BadConfigFormatException, FileNotFoundException{
+		throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
+	}
 	/**
 	 * Opens the layoutConfigFile and loops through to ensure that the columns are the same length, and there are no null entires
 	 * Checks that all characters inside of the csv file are listed within the setup file, and that there are no invalid characters
@@ -243,6 +268,9 @@ public class Board{
 		scanner.close();
 		theInstance.ROWS = rows;
 		theInstance.COLS = columnLength;
+		System.out.println("Layout completed");
+		System.out.println("Rows: "+ rows);
+		System.out.println("Cols: "+ columnLength);
 	}
 	
 	/**

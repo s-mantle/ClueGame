@@ -10,7 +10,7 @@ public class Player {
 	private Color playerColor;
 	private Set<Card> playerDeck;
 	
-	public Player(String name, Color playerColor) {
+	public Player(Color playerColor, String name) {
 		this.name = name;
 		this.playerColor = playerColor;
 	}
