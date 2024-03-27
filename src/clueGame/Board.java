@@ -416,6 +416,19 @@ public class Board{
 		}
 	}
 	
+	/**
+	 * Big comments about what i did to explain
+	 * Added 3 sets of card that contain the people, weapons, and rooms.  These are populated inside of loadSetupConfig.
+	 * Not sure if this is the best way to do it by making 3 sets that are only used once, however I didn't quite understand 
+	 * what your goal with the maps is.  I convert the sets into arrayLists and then shuffle them using Collections to make them random.
+	 * I also fully choose the cards that are going to be used for the solution and removing them from the dealing deck.
+	 * 
+	 * Haven't implemented the deal function yet cause im hungry.
+	 * Feel free to change the sets back to maps, I just didn't see much of a need for the card sets to be maps since we wouldn't be dealing
+	 * with their names, and would just be figuring out if a player (human or computer) has them in their specific hand.
+	 * 
+	 * Solution also doesn't return the cards within it, and I was thinking of returning an Array of the 3 cards but I didn't get that far
+	 */
 	public void dealCards() {
 		ArrayList<Card> allComputerCards = new ArrayList<>();
 		Card personAnswer,weaponAnswer,roomAnswer;
