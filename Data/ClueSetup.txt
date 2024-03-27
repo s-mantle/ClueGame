@@ -1,4 +1,4 @@
-// Rooms and room cards
+// Rooms and room cards - should be 10
 Room, Armory, A
 Room, Ballet Room, B
 Room, Choir Hall, C
@@ -10,6 +10,24 @@ Room, Hospital, H
 Room, Inglenook, I
 Room, Jailroom, J
 
-// Other spaces on board
+// Other spaces on board - should be 2
 Space, Unused, X
 Space, Walkway, W
+
+//Player Cards - should be 8
+Player, Red, One
+Player, Blue, Two
+Player, Green, Three
+Player, Yellow, Four
+Player, Cyan, Five
+Player, Pink, Six
+Player, Black, Seven
+Player, White, Eight
+
+//Weapons Cards - should be 6
+Weapon, Wrench, W
+Weapon, Knife, K
+Weapon, Candlestick, C
+Weapon, Pistol, P
+Weapon, Lead Pipe, L
+Weapon, Rope, R
