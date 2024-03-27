@@ -22,4 +22,9 @@ public class Player {
 	public void setCol(int col) {
 		this.col = col;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
 }

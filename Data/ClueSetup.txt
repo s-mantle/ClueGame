@@ -14,7 +14,7 @@ Room, Jailroom, J
 Space, Unused, X
 Space, Walkway, W
 
-//Player Cards - should be 8
+// Player Cards - should be 8
 Player, Red, One
 Player, Blue, Two
 Player, Green, Three
@@ -24,7 +24,7 @@ Player, Pink, Six
 Player, Black, Seven
 Player, White, Eight
 
-//Weapons Cards - should be 6
+// Weapons Cards - should be 6
 Weapon, Wrench, W
 Weapon, Knife, K
 Weapon, Candlestick, C

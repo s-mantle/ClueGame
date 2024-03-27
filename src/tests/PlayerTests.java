@@ -20,18 +20,27 @@ public class PlayerTests {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		
 	}
 	
 	@Test
-	public static void testPlayerSetup() {
-		assertEquals("One",playerList.get("Red").getName());
-		assertEquals("Two",playerList.get("Blue").getName());
-		assertEquals("Three",playerList.get("Green").getName());
-		assertEquals("Four",playerList.get("Yellow").getName());
-		assertEquals("Five",playerList.get("Cyan").getName());
-		assertEquals("Six",playerList.get("Pink").getName());
-		assertEquals("Seven",playerList.get("Black").getName());
-		assertEquals("Eight",playerList.get("White").getName());
+	public void testPlayerSetup() {
+		assertEquals("One", board.getPlayerList().get("Red").getName());
+		assertEquals("Two", board.getPlayerList().get("Blue").getName());
+		assertEquals("Three", board.getPlayerList().get("Green").getName());
+		assertEquals("Four", board.getPlayerList().get("Yellow").getName());
+		assertEquals("Five", board.getPlayerList().get("Cyan").getName());
+		assertEquals("Six", board.getPlayerList().get("Pink").getName());
+		assertEquals("Seven", board.getPlayerList().get("Black").getName());
+		assertEquals("Eight", board.getPlayerList().get("White").getName());
+	}
+	
+	@Test
+	public void testWeaponSetup() {
+		assertEquals("Wrench", board.getWeaponList().get("Wrench").getName());
+		assertEquals("Knife", board.getWeaponList().get("Knife").getName());
+		assertEquals("Candlestick", board.getWeaponList().get("Candlestick").getName());
+		assertEquals("Pistol", board.getWeaponList().get("Pistol").getName());
+		assertEquals("Lead Pipe", board.getWeaponList().get("Lead Pipe").getName());
+		assertEquals("Rope", board.getWeaponList().get("Rope").getName());
 	}
 }

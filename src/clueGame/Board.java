@@ -39,11 +39,12 @@ public class Board{
 	private Set<BoardCell> visited;
 	
 	//Set used to store the players may not be neccessary not sure yet
-	private Set<Player> playerList = new HashSet<>();
+	private Map<String, Player> playerList = new HashMap<>();
+	private Map<String, Card> weaponList = new HashMap<>();
 	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
-	
+
 	//Private board
 	private static Board theInstance = new Board();
 	
@@ -187,17 +188,21 @@ public class Board{
 						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-					}else if(line[0].equals("Player")){
+					}
+					else if (line[0].equals("Player")) {
 						System.out.println("Player: " + line[2]);
 						Player tempPlayer = new Player(COLORMAP.get(line[1]),line[2]);
-						playerList.add(tempPlayer);
+						playerList.put(line[1], tempPlayer);
 						Card newCard = new Card(line[2]);
 						cards.add(newCard);
-					}else if(line[0].equals("Weapon")){
-						System.out.println("Weapon: "+line[1]);
+					}
+					else if (line[0].equals("Weapon")) {
+						System.out.println("Weapon: "+ line[1]);
 						Card newCard = new Card(line[1]);
+						weaponList.put(line[1], newCard);
 						cards.add(newCard);
-					}else{
+					}
+					else {
 						System.out.println("Throwing here");
 						throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 					}
@@ -453,5 +458,13 @@ public class Board{
 	 */
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return theInstance.grid[row][col].getAdjList();
+	}
+	
+	public Map<String, Player> getPlayerList() {
+		return theInstance.playerList;
+	}
+	
+	public Map<String, Card> getWeaponList() {
+		return theInstance.weaponList;
 	}
 }
