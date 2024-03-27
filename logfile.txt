@@ -1,1 +1,1 @@
-Error: Invalid Configuration of layoutConfigFile - Contains a character not in setupConfigFile
+Error: Invalid Configuration of setupConfigFile - is not configured correctly

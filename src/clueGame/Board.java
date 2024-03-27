@@ -177,27 +177,33 @@ public class Board{
 
 		while (scanner.hasNext())
 		{
+			System.out.println("Running?");
 			String[] line = scanner.nextLine().split(", ");
 			if (line.length == 3) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				//|| (line[0].equals("Space")) was in the if statement
 				if ((line[0] != null && line[1] != null)){
-					if(line[0] == "Room" || (line[0].equals("Space")) && line[2].length() == 1) {
+					if(line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
+						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-					}else if(line[0] == "Player"){
+					}else if(line[0].equals("Player")){
+						System.out.println("Player: " + line[2]);
 						Player tempPlayer = new Player(COLORMAP.get(line[1]),line[2]);
 						playerList.add(tempPlayer);
 						Card newCard = new Card(line[2]);
 						cards.add(newCard);
-					}else if(line[0] == "Weapon"){
+					}else if(line[0].equals("Weapon")){
+						System.out.println("Weapon: "+line[1]);
 						Card newCard = new Card(line[1]);
 						cards.add(newCard);
 					}else{
-						throwSetupException();
+						System.out.println("Throwing here");
+						throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 					}
 				}else {
-					throwSetupException();
+					System.out.println("Throwing?");
+					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 				}
 			}
 		}
