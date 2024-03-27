@@ -43,4 +43,24 @@ public class PlayerTests {
 		assertEquals("Lead Pipe", board.getWeaponList().get("Lead Pipe").getName());
 		assertEquals("Rope", board.getWeaponList().get("Rope").getName());
 	}
+	
+	@Test
+	public void testHumanPlayer() {
+		// TODO
+	}
+	
+	@Test
+	public void testComputerPlayer() {
+		// TODO
+	}
+	
+	@Test
+	public void testDeck() {
+		// TODO
+	}
+	
+	@Test
+	public void testDealCards() {
+		// TODO
+	}
 }

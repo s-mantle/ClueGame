@@ -13,6 +13,7 @@ package clueGame;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -185,19 +186,21 @@ public class Board{
 				//|| (line[0].equals("Space")) was in the if statement
 				if ((line[0] != null && line[1] != null)){
 					if(line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
-						System.out.println("Room: "+ line[1]);
+//						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
+//						Card newCard = new Card(line[1]);
+//						roomList.put()	// TODO: Left off here, will implement this afternoon
 					}
 					else if (line[0].equals("Player")) {
-						System.out.println("Player: " + line[2]);
-						Player tempPlayer = new Player(COLORMAP.get(line[1]),line[2]);
+//						System.out.println("Player: " + line[2]);
+						Player tempPlayer = new Player(COLORMAP.get(line[1]), line[2]);
 						playerList.put(line[1], tempPlayer);
 						Card newCard = new Card(line[2]);
 						cards.add(newCard);
 					}
 					else if (line[0].equals("Weapon")) {
-						System.out.println("Weapon: "+ line[1]);
+//						System.out.println("Weapon: "+ line[1]);
 						Card newCard = new Card(line[1]);
 						weaponList.put(line[1], newCard);
 						cards.add(newCard);
@@ -399,6 +402,26 @@ public class Board{
 			
 			visited.remove(adjCell);
 		}
+	}
+	
+	public void dealCards() {
+		Set<Card> answerCards = new HashSet<>();
+		Set<Card> playerCards = new HashSet<>();
+		ArrayList<Set<Card>> allComputerCards = new ArrayList<>();
+
+		int numPlayers = playerList.size();
+		int counter = 0;
+		for (Card card: cards) {
+			if (counter % numPlayers == 0) {
+				playerCards.add(card);
+			}
+			else if (couner % 2 == )
+			cards.remove(card);
+			
+			counter++;
+		}
+		
+		
 	}
 	
 	/**
