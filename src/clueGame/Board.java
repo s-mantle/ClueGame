@@ -14,8 +14,10 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -40,14 +42,19 @@ public class Board{
 	private Set<BoardCell> visited;
 	
 	//Set used to store the players may not be neccessary not sure yet
-	private Map<String, Player> playerList = new HashMap<>();
-	private Map<String, Card> weaponList = new HashMap<>();
+	private Map<String, Player> players = new HashMap<>();
+//	private Map<String, Card> weaponSet = new HashMap<>();
+	
+	private Set<Card> playerSet = new HashSet<>();
+	private Set<Card> weaponSet = new HashSet<>();
+	private Set<Card> roomSet = new HashSet<>();
 	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
 
 	//Private board
 	private static Board theInstance = new Board();
+	private static Solution theSolution;
 	
 	// constructor is private to ensure only one can be created
 	private Board() {
@@ -189,20 +196,25 @@ public class Board{
 //						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-//						Card newCard = new Card(line[1]);
-//						roomList.put()	// TODO: Left off here, will implement this afternoon
+						Card newCard = new Card(line[1]);
+						cards.add(newCard);
+						roomSet.add(newCard);
+						
+//						roomSet()	// TODO: Left off here, will implement this afternoon
 					}
 					else if (line[0].equals("Player")) {
 //						System.out.println("Player: " + line[2]);
 						Player tempPlayer = new Player(COLORMAP.get(line[1]), line[2]);
-						playerList.put(line[1], tempPlayer);
+						players.put(line[1], tempPlayer);
 						Card newCard = new Card(line[2]);
 						cards.add(newCard);
+						playerSet.add(newCard);
 					}
 					else if (line[0].equals("Weapon")) {
 //						System.out.println("Weapon: "+ line[1]);
 						Card newCard = new Card(line[1]);
-						weaponList.put(line[1], newCard);
+//						weaponSet.put(line[1], newCard);
+						weaponSet.add(newCard);
 						cards.add(newCard);
 					}
 					else {
@@ -405,17 +417,49 @@ public class Board{
 	}
 	
 	public void dealCards() {
-		Set<Card> answerCards = new HashSet<>();
-		Set<Card> playerCards = new HashSet<>();
-		ArrayList<Set<Card>> allComputerCards = new ArrayList<>();
-
-		int numPlayers = playerList.size();
+		ArrayList<Card> allComputerCards = new ArrayList<>();
+		Card personAnswer,weaponAnswer,roomAnswer;
+		List<Card> playerList = new ArrayList<>(playerSet);
+		List<Card> weaponList = new ArrayList<>(weaponSet);
+		List<Card> roomList = new ArrayList<>(roomSet);
+		Collections.shuffle(playerList);
+		Collections.shuffle(weaponList);
+		Collections.shuffle(roomList);
+		
+		//First deal solutions
+		//TODO: Need to grab 3 cards that are of each type but is it really necessary to create 3 new sets just to do that?
+		int playerAmount = playerSet.size();
+		int weaponAmount = weaponSet.size();
+		int roomAmount = roomSet.size();
+		
+		int rand = (int)(Math.random() * playerAmount);
+		personAnswer = playerList.get(rand);
+		playerList.remove(rand);
+		
+		rand = (int)(Math.random() * weaponAmount);
+		weaponAnswer = weaponList.get(rand);
+		weaponList.remove(rand);
+		
+		rand = (int)(Math.random() * roomAmount);
+		roomAnswer = roomList.get(rand);
+		roomList.remove(rand);
+		
+		theSolution = new Solution(roomAnswer, personAnswer, weaponAnswer);
+		allComputerCards.addAll(playerList);
+		allComputerCards.addAll(weaponList);
+		allComputerCards.addAll(roomList);
+		
+	
+		Collections.shuffle(allComputerCards);
+		
+		//Deal each players hand
+		int numPlayers = playerSet.size();
 		int counter = 0;
 		for (Card card: cards) {
 			if (counter % numPlayers == 0) {
 				playerCards.add(card);
 			}
-			else if (couner % 2 == )
+			else if (counter % 2)
 			cards.remove(card);
 			
 			counter++;
