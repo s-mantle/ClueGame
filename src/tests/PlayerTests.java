@@ -2,8 +2,11 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +15,9 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.ComputerPlayer;
 import clueGame.DoorDirection;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 
 public class PlayerTests {
@@ -52,7 +57,14 @@ public class PlayerTests {
 	
 	@Test
 	public void testPlayers() {
-		// TODO
+		int humanCount = 0, computerCount = 0;
+		
+		for (Player player: board.getPlayerList().values()) {
+			if (player instanceof HumanPlayer) { humanCount++; }
+			else if (player instanceof ComputerPlayer) { computerCount++; }
+		}
+		assertEquals(1, humanCount);
+		assertEquals(7, computerCount);
 	}
 	
 	@Test
@@ -107,6 +119,12 @@ public class PlayerTests {
 		}
 		assertTrue((maxCards - minCards) <= 1);
 		
-		// TODO: Test that cards aren't dealt twice (uniqueness constraint)
+		Set<Card> allCards = new HashSet<>();
+		for (int i = 1; i <= numPlayers; i++) { allCards.addAll(board.getPlayerList().get(playerColors.get(i)).getCards()); }
+		allCards.addAll(board.getAnswerCards());
+		
+		// Sets ensure uniqueness. Checking the number of created cards versus dealt cards ensures all cards were not only dealt,
+		// but also ensures that each card is distinct from every other card
+		assertEquals(24, allCards.size());
 	}
 }

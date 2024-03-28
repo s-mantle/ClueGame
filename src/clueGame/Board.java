@@ -204,8 +204,14 @@ public class Board{
 					}
 					else if (line[0].equals("Player")) {
 //						System.out.println("Player: " + line[2]);
-						Player tempPlayer = new Player(COLORMAP.get(line[1]), line[2]);
-						playerList.put(line[1], tempPlayer);
+						if (line[2].equals("One")) {
+							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2]);
+							playerList.put(line[1], tempPlayer);
+						}
+						else {
+							Player tempPlayer = new ComputerPlayer(COLORMAP.get(line[1]), line[2]);
+							playerList.put(line[1], tempPlayer);
+						}
 						Card newCard = new Card(line[2]);
 						newCard.setCardType(CardType.PERSON);
 						cards.add(newCard);
