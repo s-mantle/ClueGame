@@ -50,13 +50,8 @@ public class PlayerTests {
 		assertEquals("Rope", board.getWeaponList().get("Rope").getName());
 	}
 	
-//	@Test
-	public void testHumanPlayer() {
-		// TODO
-	}
-	
-//	@Test
-	public void testComputerPlayer() {
+	@Test
+	public void testPlayers() {
 		// TODO
 	}
 	
@@ -112,17 +107,6 @@ public class PlayerTests {
 		}
 		assertTrue((maxCards - minCards) <= 1);
 		
-		for (int i = 1; i <= numPlayers; i++) {
-			int iNumCards = board.getPlayerList().get(playerColors.get(i)).getCards().size();
-			for (int j = i + 1; j <= numPlayers; j++) {
-				int jNumCards = board.getPlayerList().get(playerColors.get(j)).getCards().size();
-
-				for (int k = 0; k < iNumCards; k++) {
-					for (int l = 0; l < jNumCards; l++) {
-//						assertTrue();	// TODO 
-					}
-				}
-			}
-		}
+		// TODO: Test that cards aren't dealt twice (uniqueness constraint)
 	}
 }

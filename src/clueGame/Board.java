@@ -54,7 +54,6 @@ public class Board{
 
 	//Private board
 	private static Board theInstance = new Board();
-	private static Solution theSolution;
 	
 	// constructor is private to ensure only one can be created
 	private Board() {
