@@ -9,7 +9,7 @@ public class Player {
 	private int col;
 	private String name;
 	private Color playerColor;
-	private Set<Card> playerDeck;
+	private Set<Card> playerDeck = new HashSet<>();
 	
 	public Player(Color playerColor, String name) {
 		playerDeck = new HashSet<>();
@@ -29,8 +29,15 @@ public class Player {
 		return this.name;
 	}
 	
-	public void updateHand(Card card) {
+	public void addCard(Card card) {
 		playerDeck.add(card);
 	}
 	
+	public Set<Card> getCards() {
+		return this.playerDeck;
+	}
+	
+	public void updateHand(Card card) {
+		playerDeck.add(card);
+	}
 }

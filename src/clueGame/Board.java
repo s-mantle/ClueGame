@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -45,9 +46,9 @@ public class Board{
 	private Map<String, Player> players = new HashMap<>();
 //	private Map<String, Card> weaponSet = new HashMap<>();
 	
-	private Set<Card> playerSet = new HashSet<>();
-	private Set<Card> weaponSet = new HashSet<>();
-	private Set<Card> roomSet = new HashSet<>();
+	ArrayList<Card> playerList = new ArrayList<>();
+	ArrayList<Card> weaponList = new ArrayList<>();
+	ArrayList<Card> roomList = new ArrayList<>();
 	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
@@ -183,6 +184,10 @@ public class Board{
 		COLORMAP.put("Cyan", Color.CYAN);
 		COLORMAP.put("Black", Color.BLACK);
 		COLORMAP.put("White", Color.WHITE);
+		
+		Set<Card> playerSet = new HashSet<>();
+		Set<Card> weaponSet = new HashSet<>();
+		Set<Card> roomSet = new HashSet<>();
 
 		while (scanner.hasNext())
 		{
@@ -192,30 +197,40 @@ public class Board{
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				//|| (line[0].equals("Space")) was in the if statement
 				if ((line[0] != null && line[1] != null)){
-					if(line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
+					if (line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
 //						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-						Card newCard = new Card(line[1]);
-						cards.add(newCard);
-						roomSet.add(newCard);
-						
-//						roomSet()	// TODO: Left off here, will implement this afternoon
+						if (line[0].equals("Room")) {
+							Card newCard = new Card(line[1]);
+							newCard.setCardType(CardType.ROOM);
+							cards.add(newCard);
+							roomSet.add(newCard);
+							theInstance.roomList.add(newCard);
+						}
 					}
 					else if (line[0].equals("Player")) {
 //						System.out.println("Player: " + line[2]);
-						Player tempPlayer = new Player(COLORMAP.get(line[1]), line[2]);
-						players.put(line[1], tempPlayer);
+						if (line[2].equals("One")) {
+							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2]);
+							players.put(line[1], tempPlayer);
+						}
+						else {
+							Player tempPlayer = new ComputerPlayer(COLORMAP.get(line[1]), line[2]);
+							players.put(line[1], tempPlayer);
+						}
 						Card newCard = new Card(line[2]);
+						newCard.setCardType(CardType.PERSON);
 						cards.add(newCard);
 						playerSet.add(newCard);
 					}
 					else if (line[0].equals("Weapon")) {
 //						System.out.println("Weapon: "+ line[1]);
 						Card newCard = new Card(line[1]);
-//						weaponSet.put(line[1], newCard);
+						newCard.setCardType(CardType.WEAPON);
 						weaponSet.add(newCard);
 						cards.add(newCard);
+						theInstance.weaponList.add(newCard);
 					}
 					else {
 						System.out.println("Throwing here");
@@ -227,6 +242,7 @@ public class Board{
 				}
 			}
 		}
+
 		scanner.close();
 		System.out.println("SetUp completed");
 	}
@@ -432,53 +448,46 @@ public class Board{
 	public void dealCards() {
 		ArrayList<Card> allComputerCards = new ArrayList<>();
 		Card personAnswer,weaponAnswer,roomAnswer;
-		List<Card> playerList = new ArrayList<>(playerSet);
-		List<Card> weaponList = new ArrayList<>(weaponSet);
-		List<Card> roomList = new ArrayList<>(roomSet);
-		Collections.shuffle(playerList);
-		Collections.shuffle(weaponList);
-		Collections.shuffle(roomList);
+		List<Card> playerList2 = new ArrayList<>(playerList);
+		List<Card> weaponList2 = new ArrayList<>(weaponList);
+		List<Card> roomList2 = new ArrayList<>(roomList);
+		Collections.shuffle(playerList2);
+		Collections.shuffle(weaponList2);
+		Collections.shuffle(roomList2);
 		
 		//First deal solutions
 		//TODO: Need to grab 3 cards that are of each type but is it really necessary to create 3 new sets just to do that?
-		int playerAmount = playerSet.size();
-		int weaponAmount = weaponSet.size();
-		int roomAmount = roomSet.size();
+		int playerAmount = playerList.size();
+		int weaponAmount = weaponList.size();
+		int roomAmount = roomList.size();
 		
 		int rand = (int)(Math.random() * playerAmount);
-		personAnswer = playerList.get(rand);
-		playerList.remove(rand);
+		personAnswer = playerList2.get(rand);
+		playerList2.remove(rand);
 		
 		rand = (int)(Math.random() * weaponAmount);
-		weaponAnswer = weaponList.get(rand);
-		weaponList.remove(rand);
+		weaponAnswer = weaponList2.get(rand);
+		weaponList2.remove(rand);
 		
 		rand = (int)(Math.random() * roomAmount);
-		roomAnswer = roomList.get(rand);
-		roomList.remove(rand);
+		roomAnswer = roomList2.get(rand);
+		roomList2.remove(rand);
 		
 		theSolution = new Solution(roomAnswer, personAnswer, weaponAnswer);
-		allComputerCards.addAll(playerList);
-		allComputerCards.addAll(weaponList);
-		allComputerCards.addAll(roomList);
+		allComputerCards.addAll(playerList2);
+		allComputerCards.addAll(weaponList2);
+		allComputerCards.addAll(roomList2);
 		
 	
 		Collections.shuffle(allComputerCards);
 		
-		//Deal each players hand
-		int numPlayers = playerSet.size();
-		int counter = 0;
-		for (Card card: cards) {
-			if (counter % numPlayers == 0) {
-				playerCards.add(card);
+		while (!allComputerCards.isEmpty()) {
+			for (Player player: players.values()) {
+				if (!allComputerCards.isEmpty()) {
+					player.updateHand(allComputerCards.remove(0));
+				}
 			}
-			else if (counter % 2)
-			cards.remove(card);
-			
-			counter++;
 		}
-		
-		
 	}
 	
 	/**
@@ -540,11 +549,27 @@ public class Board{
 		return theInstance.grid[row][col].getAdjList();
 	}
 	
-	public Map<String, Player> getPlayerList() {
+	public ArrayList<Card> getPlayerList() {
 		return theInstance.playerList;
 	}
 	
-	public Map<String, Card> getWeaponList() {
+	public Map<String, Player> getPlayers() {
+		return theInstance.players;
+	}
+	
+	public ArrayList<Card> getWeaponList() {
 		return theInstance.weaponList;
+	}
+	
+	public ArrayList<Card> getRoomList() {
+		return theInstance.roomList;
+	}
+	
+	public Set<Card> getCards() {
+		return theInstance.cards;
+	}
+	
+	public ArrayList<Card> getTheSolution() {
+		return theSolution.getSolutionSet();
 	}
 }
