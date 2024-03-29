@@ -19,7 +19,7 @@ import clueGame.DoorDirection;
 import clueGame.HumanPlayer;
 import clueGame.Player;
 
-public class PlayerTests {
+public class GameSetupTests {
 	public static final int ROWS = 15;
 	public static final int COLS = 13;
 
@@ -48,6 +48,7 @@ public class PlayerTests {
 	
 	@Test
 	public void testPlayerSetup() {
+//		System.out.println(board.getPlayers());
 		assertEquals("One", board.getPlayers().get("Red").getName());
 		assertEquals("Two", board.getPlayers().get("Blue").getName());
 		assertEquals("Three", board.getPlayers().get("Green").getName());

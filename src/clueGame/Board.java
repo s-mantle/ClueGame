@@ -193,10 +193,10 @@ public class Board{
 		{
 			System.out.println("Running?");
 			String[] line = scanner.nextLine().split(", ");
-			if (line.length == 3) {
+			if (line.length == 3 || line.length == 6) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
 				//|| (line[0].equals("Space")) was in the if statement
-				if ((line[0] != null && line[1] != null)){
+				if ((line[0] != null && line[1] != null)) {
 					if (line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
 //						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
@@ -211,18 +211,19 @@ public class Board{
 					}
 					else if (line[0].equals("Player")) {
 //						System.out.println("Player: " + line[2]);
-						if (line[2].equals("One")) {
-							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2]);
+						if (line[3].equals("Human")) {
+							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
 							players.put(line[1], tempPlayer);
 						}
-						else {
-							Player tempPlayer = new ComputerPlayer(COLORMAP.get(line[1]), line[2]);
+						else if (line[3].equals("Computer")){
+							Player tempPlayer = new ComputerPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
 							players.put(line[1], tempPlayer);
 						}
 						Card newCard = new Card(line[2]);
 						newCard.setCardType(CardType.PERSON);
 						cards.add(newCard);
 						playerSet.add(newCard);
+						theInstance.playerList.add(newCard);
 					}
 					else if (line[0].equals("Weapon")) {
 //						System.out.println("Weapon: "+ line[1]);
@@ -447,29 +448,28 @@ public class Board{
 	 */
 	public void dealCards() {
 		ArrayList<Card> allComputerCards = new ArrayList<>();
-		Card personAnswer,weaponAnswer,roomAnswer;
+		Card personAnswer, weaponAnswer, roomAnswer;
 		List<Card> playerList2 = new ArrayList<>(playerList);
 		List<Card> weaponList2 = new ArrayList<>(weaponList);
 		List<Card> roomList2 = new ArrayList<>(roomList);
 		Collections.shuffle(playerList2);
 		Collections.shuffle(weaponList2);
 		Collections.shuffle(roomList2);
-		
 		//First deal solutions
 		//TODO: Need to grab 3 cards that are of each type but is it really necessary to create 3 new sets just to do that?
 		int playerAmount = playerList.size();
 		int weaponAmount = weaponList.size();
 		int roomAmount = roomList.size();
-		
-		int rand = (int)(Math.random() * playerAmount);
+
+		int rand = (int)(Math.random() * (playerAmount - 1));
 		personAnswer = playerList2.get(rand);
 		playerList2.remove(rand);
-		
-		rand = (int)(Math.random() * weaponAmount);
+
+		rand = (int)(Math.random() * (weaponAmount - 1));
 		weaponAnswer = weaponList2.get(rand);
 		weaponList2.remove(rand);
 		
-		rand = (int)(Math.random() * roomAmount);
+		rand = (int)(Math.random() * (roomAmount - 1));
 		roomAnswer = roomList2.get(rand);
 		roomList2.remove(rand);
 		
@@ -480,7 +480,7 @@ public class Board{
 		
 	
 		Collections.shuffle(allComputerCards);
-		
+
 		while (!allComputerCards.isEmpty()) {
 			for (Player player: players.values()) {
 				if (!allComputerCards.isEmpty()) {

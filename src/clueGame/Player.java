@@ -11,10 +11,12 @@ public class Player {
 	private Color playerColor;
 	private Set<Card> playerDeck = new HashSet<>();
 	
-	public Player(Color playerColor, String name) {
+	public Player(Color playerColor, String name, int row, int col) {
 		playerDeck = new HashSet<>();
 		this.name = name;
 		this.playerColor = playerColor;
+		this.row = row;
+		this.col = col;
 	}
 	
 	public void setRow(int row) {
