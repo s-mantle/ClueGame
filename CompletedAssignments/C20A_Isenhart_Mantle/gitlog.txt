@@ -1,0 +1,118 @@
+commit 0c1df4a04b2d4c3d0f415cf24faa85b6fc02ffbd
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Fri Mar 29 17:15:06 2024 -0600
+
+    Very extensive changes (tm)
+
+commit e520067a78e0eb6bd9ddb55b43d55db7d9720ea9
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 15:24:55 2024 -0600
+
+    Final Refactor pt 2.
+
+commit ad37cad310bb69af8855101b6109d0575683f192
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 15:20:27 2024 -0600
+
+    Final Refactoring
+    
+    Need to look into making player abstract and the bugs it is causing
+
+commit 40061e5c755dfba234e5baaae8e2d386fd3ae88a
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 14:57:38 2024 -0600
+
+    Refactored tests
+
+commit 95f4a2c7da02cd7ef1b04da26f6f803b9ef4bf26
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 13:42:40 2024 -0600
+
+    Added a test for the solution
+
+commit 1dab59ffcc0396ae2998acee41d83818b8f41c50
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 13:34:12 2024 -0600
+
+    Refactored LoadSetup, added a Test for player locations
+
+commit cac687f0bbac4ab650d6fda4942a2f1189510d64
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Mar 29 13:07:38 2024 -0600
+
+    Refactored dealCards() to be cleaner
+
+commit 275540d231cdbc0832a889353c013850ebddc3de
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Fri Mar 29 10:37:21 2024 -0600
+
+    Debugging!
+
+commit ee7b16aeb1d12bcb2d3db5d27b86cbd73176354e
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Fri Mar 29 09:38:09 2024 -0600
+
+    Renamed Tests File, Added Starting Positions
+
+commit 2d2acc76d7fcb117e8593dddc625f07fa89283c0
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Thu Mar 28 16:55:30 2024 -0600
+
+    Changes
+
+commit cf39a66e9ca1c567b71a6830a1be6a8fe97e9eaa
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Mar 27 16:58:52 2024 -0600
+
+    Big Comment detailing changes
+
+commit 894b2f651d74d48920275c7d60671fb31101de70
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Mar 27 16:53:18 2024 -0600
+
+    Implementation of theSolution, added correct cards to the solution
+    
+    59/59 runs, errors on WeaponSetup and PlayerSetup, haven't fully made the deal function
+
+commit 7795313bb870ec15d91e86d66c96460a5b87b2f3
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Mar 27 13:07:35 2024 -0600
+
+    Starting dealCards() - Note, very incomplete
+
+commit 18283a90bf15b3ba828b408514a425ad8d8358ae
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Mar 27 12:47:50 2024 -0600
+
+    testPlayerSetup() & testWeaponSetup() Implementation
+
+commit aa0901c5e315757be2cc63d3206198fae80fc827
+Merge: aee6974 1a2d644
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Mar 27 12:04:22 2024 -0600
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit aee6974ed0acd78c11a6fc9867c245e5d11fd51e
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Mar 27 12:04:19 2024 -0600
+
+    Updated C14A-1 Submission
+
+commit 1a2d644b6c8e8fff472170191e0bdee62d90969a
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 26 22:28:22 2024 -0600
+
+    dumb memory address .equals stupid
+
+commit e33bf27d434871292f95ef63dacfed0a646816b2
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 26 20:43:42 2024 -0600
+
+    Checks for Weapons and Players in loadSetup
+
+commit bc99f6b4723b6ab604f70b99c5f6985878dd8333
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Mar 26 20:03:03 2024 -0600
+
+    Updated ClueSetup.txt, added card, player
