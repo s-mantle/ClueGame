@@ -28,5 +28,12 @@ public class Card{
 		return Objects.equals(cardName, other.cardName) && cardType == other.cardType;
 	}
 
+	//Used for testing
+	@Override
+	public String toString() {
+		return "Card [cardName=" + cardName + "]";
+	}
+
+	
 
 }

@@ -439,53 +439,33 @@ public class Board{
 	}
 	
 	/**
-	 * Big comments about what i did to explain
-	 * Added 3 sets of card that contain the people, weapons, and rooms.  These are populated inside of loadSetupConfig.
-	 * Not sure if this is the best way to do it by making 3 sets that are only used once, however I didn't quite understand 
-	 * what your goal with the maps is.  I convert the sets into arrayLists and then shuffle them using Collections to make them random.
-	 * I also fully choose the cards that are going to be used for the solution and removing them from the dealing deck.
-	 * 
-	 * Haven't implemented the deal function yet cause im hungry.
-	 * Feel free to change the sets back to maps, I just didn't see much of a need for the card sets to be maps since we wouldn't be dealing
-	 * with their names, and would just be figuring out if a player (human or computer) has them in their specific hand.
-	 * 
-	 * Solution also doesn't return the cards within it, and I was thinking of returning an Array of the 3 cards but I didn't get that far
+	 * Deals all of the cards to the players, First creates the solution my shuffling the room, weapon, person cards
+	 * and then add them to solution.  Then adds all cards to a larger list, shuffles the list and iterates through 
+	 * the list to add the cards to a players hand and remove them
 	 */
 	public void dealCards() {
+		//Separate lists of cards that will be incrementally removed from, done so that the big list of cards will remain un-mutated
 		ArrayList<Card> allComputerCards = new ArrayList<>();
-		Card personAnswer, weaponAnswer, roomAnswer;
-		
 		List<Card> playerList2 = new ArrayList<>(playerList);
 		List<Card> weaponList2 = new ArrayList<>(weaponList);
 		List<Card> roomList2 = new ArrayList<>(roomList);
 				
+		//Shuffle all of the cards for randomness when choosing the solution
 		Collections.shuffle(playerList2);
 		Collections.shuffle(weaponList2);
 		Collections.shuffle(roomList2);
+		
 		//First deal solutions
-		//TODO: Need to grab 3 cards that are of each type but is it really necessary to create 3 new sets just to do that?
-		int playerAmount = playerList.size();
-		int weaponAmount = weaponList.size();
-		int roomAmount = roomList.size();
-
-		int rand = (int)(Math.random() * (playerAmount - 1));
-		personAnswer = playerList2.get(rand);
-		playerList2.remove(rand);
-
-		rand = (int)(Math.random() * (weaponAmount - 1));
-		weaponAnswer = weaponList2.get(rand);
-		weaponList2.remove(rand);
+		theSolution = new Solution(roomList2.remove(0), playerList2.remove(0), weaponList2.remove(0));
 		
-		rand = (int)(Math.random() * (roomAmount - 1));
-		roomAnswer = roomList2.get(rand);
-		roomList2.remove(rand);
-		
-		theSolution = new Solution(roomAnswer, personAnswer, weaponAnswer);
+		//Add all cards into a big list and then shuffle the list
 		allComputerCards.addAll(playerList2);
 		allComputerCards.addAll(weaponList2);
 		allComputerCards.addAll(roomList2);
+		Collections.shuffle(allComputerCards);
 		
-		System.out.println("All Computer Cards Size: " + allComputerCards.size());
+		//Iterate through the entire list of cards and players, remove a card and add it to a players hand
+		//Also deals with uneven amounts are cards given to each player
 		while (!allComputerCards.isEmpty()) {
 			for (Player player: players.values()) {
 				if (!allComputerCards.isEmpty()) {
@@ -516,7 +496,6 @@ public class Board{
 	 * Returns the room based on the character given
 	 * 
 	 * @param letter
-	 * @return
 	 */
 	public Room getRoom(char letter) {
 		return theInstance.roomMap.get(letter);
@@ -525,7 +504,6 @@ public class Board{
 	/**
 	 * Returns the character based on the cell given
 	 * 
-	 * @param cell
 	 */
 	public Room getRoom(BoardCell cell) {
 		return theInstance.roomMap.get(cell.getLetter());
@@ -554,26 +532,44 @@ public class Board{
 		return theInstance.grid[row][col].getAdjList();
 	}
 	
+	/**
+	 * Returns the card playerList - Testing
+	 */
 	public ArrayList<Card> getPlayerList() {
 		return theInstance.playerList;
 	}
 	
+	/**
+	 * Returns the map of players - testing
+	 */
 	public Map<String, Player> getPlayers() {
 		return theInstance.players;
 	}
 	
+	/**
+	 * Returns the Card weaponList - testing
+	 */
 	public ArrayList<Card> getWeaponList() {
 		return theInstance.weaponList;
 	}
 	
+	/**
+	 * Returns the Card roomList - testing
+	 */
 	public ArrayList<Card> getRoomList() {
 		return theInstance.roomList;
 	}
 	
+	/**
+	 * Returns the all the cards made
+	 */
 	public Set<Card> getCards() {
 		return theInstance.cards;
 	}
 	
+	/**
+	 * Returns the solution cards
+	 */
 	public ArrayList<Card> getTheSolution() {
 		return theSolution.getSolutionSet();
 	}

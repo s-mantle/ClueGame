@@ -20,4 +20,12 @@ public class Solution{
 	public ArrayList<Card> getSolutionSet() {
 		return solutionSet;
 	}
+
+	//Used for testing Solution
+	@Override
+	public String toString() {
+		return "Solution [room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
+	}
+	
+	
 }
