@@ -16,6 +16,7 @@ import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 
 public class GameSetupTests {
 	public static final int ROWS = 15;
@@ -29,6 +30,9 @@ public class GameSetupTests {
 	static Card pistol = new Card("Pistol", CardType.WEAPON);
 	static Card leadPipe = new Card("Lead Pipe", CardType.WEAPON);
 	static Card rope = new Card("Rope", CardType.WEAPON);
+	
+	static Card white = new Card("White", CardType.PERSON);
+	static Card hall = new Card("Hall", CardType.ROOM);
 	
 	@BeforeAll
 	public static void setUp() {
@@ -101,6 +105,19 @@ public class GameSetupTests {
 		assertEquals(10, roomCount);
 		assertEquals(8, playerCount);
 		assertEquals(6, weaponCount);
+	}
+	
+	@Test
+	public void testSolution() {
+		Solution testSolution = new Solution(hall, white, rope);
+		assertEquals(hall, testSolution.getRoom());
+		assertEquals(white, testSolution.getPerson());
+		assertEquals(rope, testSolution.getWeapon());
+		
+		assertNotEquals(white, testSolution.getRoom());
+		assertNotEquals(hall, testSolution.getPerson());
+		assertNotEquals(knife, testSolution.getWeapon());
+		assertNotEquals(candlestick, testSolution.getWeapon());
 	}
 	
 	@Test

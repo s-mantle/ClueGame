@@ -17,6 +17,7 @@ public class Solution{
 		solutionSet.add(weapon);
 	}
 	
+
 	public ArrayList<Card> getSolutionSet() {
 		return solutionSet;
 	}
@@ -27,5 +28,17 @@ public class Solution{
 		return "Solution [room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
 	}
 	
+	public Card getRoom() {
+		return room;
+	}
+
+	public Card getPerson() {
+		return person;
+	}
+
+	public Card getWeapon() {
+		return weapon;
+	}
+
 	
 }
