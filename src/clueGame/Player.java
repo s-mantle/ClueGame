@@ -1,3 +1,12 @@
+/**
+ * @Author Ben Isenhart
+ * @Author Sam Mantle
+ * Date 3 - 29 - 2024
+ * Collaborators: None
+ * Sources: JavaDocs
+ * 
+ * Player: Stores information pertaining to the player
+ */
 package clueGame;
 
 import java.awt.Color;
@@ -11,6 +20,13 @@ public class Player {
 	private Color playerColor;
 	private Set<Card> playerDeck = new HashSet<>();
 	
+	/**
+	 * Constructor for player, inputs all of the data into the player
+	 * @param playerColor
+	 * @param name
+	 * @param row
+	 * @param col
+	 */
 	public Player(Color playerColor, String name, int row, int col) {
 		playerDeck = new HashSet<>();
 		this.name = name;
@@ -19,30 +35,30 @@ public class Player {
 		this.col = col;
 	}
 	
+	/**
+	 * Updates the players cards that they are dealt
+	 * @param card
+	 */
 	public void updateHand(Card card) {
 		playerDeck.add(card);
 	}
 	
-	public void setRow(int row) {
-		this.row = row;
-	}
-	
-	public void setCol(int col) {
-		this.col = col;
-	}
-	
+	//Used for testing
 	public String getName() {
 		return this.name;
 	}
 	
+	//Used for testing
 	public Set<Card> getCards() {
 		return this.playerDeck;
 	}
 
+	//Used for testing
 	public int getRow() {
 		return row;
 	}
 
+	//Used for testing
 	public int getCol() {
 		return col;
 	}

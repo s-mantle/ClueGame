@@ -1,11 +1,11 @@
 /**
  * @Author Ben Isenhart
  * @Author Sam Mantle
- * Date 3 - 04 - 2024
+ * Date 3 - 29 - 2024
  * Collaborators: None
  * Sources: JavaDocs
  * 
- * Board: Creates the Board and deals with populating it and checking .txt and .csv files
+ * Board: Creates the Board and deals with populating it and checking .txt and .csv files, deals cards and creates cards
  * 
  */
 package clueGame;
@@ -44,8 +44,8 @@ public class Board{
 	
 	//Set used to store the players may not be neccessary not sure yet
 	private Map<String, Player> playerMap = new HashMap<>();
-//	private Map<String, Card> weaponSet = new HashMap<>();
 	
+	//Lists used to store the people, weapons, and rooms
 	ArrayList<Card> personList = new ArrayList<>();
 	ArrayList<Card> weaponList = new ArrayList<>();
 	ArrayList<Card> roomList = new ArrayList<>();
@@ -53,7 +53,7 @@ public class Board{
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
 
-	//Private board
+	//Private board, solution
 	private static Board theInstance = new Board();
 	private static Solution theSolution;
 	
@@ -190,16 +190,20 @@ public class Board{
 		weaponList = new ArrayList<>();
 		theInstance.cards = new HashSet<>();
 
+		//Loops through the entire file
 		while (scanner.hasNext())
 		{
 			String[] line = scanner.nextLine().split(", ");
+			
+			//Checks that there is the proper number of line in ClueSetup.text
 			if (line.length == 3 || line.length == 6) {
-				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
+				//Checks that the Room/Weapon/Person is not null, and the name is not null
 				if ((line[0] != null && line[1] != null)) {
+					//Creates new rooms for Rooms and Spaces
 					if (line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
-						
+						//Creates cards for the rooms and checks their uniqueness
 						if (line[0].equals("Room")) {
 							Card newCard = new Card(line[1], CardType.ROOM);
 							if(!cards.contains(newCard)) {
@@ -207,8 +211,8 @@ public class Board{
 								roomList.add(newCard);
 							}
 						}
-					}
-					else if (line[0].equals("Player")) {
+					//Checks for players and create new human/computer players while recording their appropriate data
+					}else if (line[0].equals("Player")) {
 						if (line[3].equals("Human")) {
 							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
 							playerMap.put(line[1], tempPlayer);
@@ -218,14 +222,14 @@ public class Board{
 							playerMap.put(line[1], tempPlayer);
 						}
 						
+						//Creates new card for the people and checks uniqueness
 						Card newCard = new Card(line[2], CardType.PERSON);
 						if(!cards.contains(newCard)) {
 							cards.add(newCard);
 							personList.add(newCard);
 						}
-						
-					}
-					else if (line[0].equals("Weapon")) {
+					//Checks for weapons and create a new card while checking for uniqueness	
+					}else if (line[0].equals("Weapon")) {
 						Card newCard = new Card(line[1], CardType.WEAPON);
 						if(!cards.contains(newCard)) {
 							cards.add(newCard);
@@ -234,11 +238,9 @@ public class Board{
 						
 					}
 					else {
-						System.out.println("Throwing here");
 						throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 					}
 				}else {
-					System.out.println("Throwing?");
 					throw new BadConfigFormatException("setupConfigFile - is not configured correctly");
 				}
 			}

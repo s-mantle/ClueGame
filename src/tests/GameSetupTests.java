@@ -115,6 +115,9 @@ public class GameSetupTests {
 		assertTrue(ropeCard.equals(board.getWeaponList().get(5)));
 	}
 	
+	/**
+	 * Tests that the Person cards are set up correctly and that their card name and type match
+	 */
 	@Test
 	public void testPersonSetup() {
 		assertTrue(redCard.equals(board.getPersonList().get(0)));
