@@ -148,6 +148,9 @@ public class GameSetupTests {
 		assertEquals(7, computerCount);
 	}
 	
+	/**
+	 * Tests that the deck has the proper amount of each type of card
+	 */
 	@Test
 	public void testDeck() {
 		assertEquals(24, board.getCards().size());
@@ -163,6 +166,9 @@ public class GameSetupTests {
 		assertEquals(6, weaponCount);
 	}
 	
+	/**
+	 * Tests that the solution is set up correctly, and the only cards inside are the right ones
+	 */
 	@Test
 	public void testSolution() {
 		Solution testSolution = new Solution(armoryCard, whiteCard, ropeCard);
@@ -176,6 +182,10 @@ public class GameSetupTests {
 		assertNotEquals(candlestickCard, testSolution.getWeapon());
 	}
 	
+	/**
+	 * Tests the deal of the cards, and that each player has a similar amount of cards
+	 * Uses a set to test for uniqueness
+	 */
 	@Test
 	public void testDealCards() {
 		board.dealCards();
