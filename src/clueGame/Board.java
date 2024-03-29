@@ -188,6 +188,11 @@ public class Board{
 		Set<Card> playerSet = new HashSet<>();
 		Set<Card> weaponSet = new HashSet<>();
 		Set<Card> roomSet = new HashSet<>();
+		
+		playerList = new ArrayList<>();
+		roomList = new ArrayList<>();
+		weaponList = new ArrayList<>();
+		theInstance.cards = new HashSet<>();
 
 		while (scanner.hasNext())
 		{
@@ -449,9 +454,11 @@ public class Board{
 	public void dealCards() {
 		ArrayList<Card> allComputerCards = new ArrayList<>();
 		Card personAnswer, weaponAnswer, roomAnswer;
+		
 		List<Card> playerList2 = new ArrayList<>(playerList);
 		List<Card> weaponList2 = new ArrayList<>(weaponList);
 		List<Card> roomList2 = new ArrayList<>(roomList);
+				
 		Collections.shuffle(playerList2);
 		Collections.shuffle(weaponList2);
 		Collections.shuffle(roomList2);
@@ -478,9 +485,7 @@ public class Board{
 		allComputerCards.addAll(weaponList2);
 		allComputerCards.addAll(roomList2);
 		
-	
-		Collections.shuffle(allComputerCards);
-
+		System.out.println("All Computer Cards Size: " + allComputerCards.size());
 		while (!allComputerCards.isEmpty()) {
 			for (Player player: players.values()) {
 				if (!allComputerCards.isEmpty()) {

@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 
 import clueGame.Board;
-import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
-import clueGame.DoorDirection;
 import clueGame.HumanPlayer;
 import clueGame.Player;
 
@@ -85,7 +83,6 @@ public class GameSetupTests {
 	@Test
 	public void testDeck() {
 		assertEquals(24, board.getCards().size());
-		
 		int roomCount = 0, playerCount = 0, weaponCount = 0;
 		for (Card card: board.getCards()) {
 			if (card.getCardType() == CardType.ROOM) { roomCount++; }
@@ -135,9 +132,14 @@ public class GameSetupTests {
 		assertTrue((maxCards - minCards) <= 1);
 		
 		Set<Card> allCards = new HashSet<>();
-		for (int i = 1; i <= numPlayers; i++) { allCards.addAll(board.getPlayers().get(playerColors.get(i)).getCards()); }
+		for (int i = 1; i <= numPlayers; i++) {
+			allCards.addAll(board.getPlayers().get(playerColors.get(i)).getCards()); 
+			System.out.println(board.getPlayers().get(playerColors.get(i)).getCards().size());
+		}
 		allCards.addAll(board.getTheSolution());
 		
+		System.out.println("Num Cards End: " + allCards.size());
+
 		// Sets ensure uniqueness. Checking the number of created cards versus dealt cards ensures all cards were not only dealt,
 		// but also ensures that each card is distinct from every other card
 		assertEquals(24, allCards.size());
