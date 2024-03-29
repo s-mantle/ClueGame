@@ -43,10 +43,10 @@ public class Board{
 	private Set<BoardCell> visited;
 	
 	//Set used to store the players may not be neccessary not sure yet
-	private Map<String, Player> players = new HashMap<>();
+	private Map<String, Player> playerMap = new HashMap<>();
 //	private Map<String, Card> weaponSet = new HashMap<>();
 	
-	ArrayList<Card> playerList = new ArrayList<>();
+	ArrayList<Card> personList = new ArrayList<>();
 	ArrayList<Card> weaponList = new ArrayList<>();
 	ArrayList<Card> roomList = new ArrayList<>();
 	
@@ -164,6 +164,7 @@ public class Board{
 	
 	/**
 	 * Opens the setupConfigFile, and loops through to ensure the file adheres to the guidelines set for the files
+	 * If the inputs do adhere to the guidelines, create new cards and/or players and add them to the appropriate Lists
 	 * 
 	 * Throws BadConfigException if there are any null inputs, or if Room/Space is miss spelled
 	 * Throws FileNotFOundException if the given file cannot be found
@@ -175,21 +176,16 @@ public class Board{
 		File file;
 		file = new File(setupConfigFile);
 		Scanner scanner = new Scanner(file);
+		
+		//Color map of the colors used in ClueSetup.txt, used to set the colors of each player
 		final Map<String,Color> COLORMAP = new HashMap<String,Color>();
-		COLORMAP.put("Red", Color.RED);
-		COLORMAP.put("Blue", Color.BLUE);
-		COLORMAP.put("Green", Color.GREEN);
-		COLORMAP.put("Yellow", Color.YELLOW);
-		COLORMAP.put("Pink", Color.PINK);
-		COLORMAP.put("Cyan", Color.CYAN);
-		COLORMAP.put("Black", Color.BLACK);
-		COLORMAP.put("White", Color.WHITE);
+		COLORMAP.put("Red", Color.RED);COLORMAP.put("Blue", Color.BLUE);
+		COLORMAP.put("Green", Color.GREEN);COLORMAP.put("Yellow", Color.YELLOW);
+		COLORMAP.put("Pink", Color.PINK);COLORMAP.put("Cyan", Color.CYAN);
+		COLORMAP.put("Black", Color.BLACK);COLORMAP.put("White", Color.WHITE);
 		
-		Set<Card> playerSet = new HashSet<>();
-		Set<Card> weaponSet = new HashSet<>();
-		Set<Card> roomSet = new HashSet<>();
-		
-		playerList = new ArrayList<>();
+		//Creates the lists for 
+		personList = new ArrayList<>();
 		roomList = new ArrayList<>();
 		weaponList = new ArrayList<>();
 		theInstance.cards = new HashSet<>();
@@ -200,43 +196,43 @@ public class Board{
 			String[] line = scanner.nextLine().split(", ");
 			if (line.length == 3 || line.length == 6) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
-				//|| (line[0].equals("Space")) was in the if statement
 				if ((line[0] != null && line[1] != null)) {
 					if (line[0].equals("Room") || (line[0].equals("Space")) && line[2].length() == 1) {
-//						System.out.println("Room: "+ line[1]);
 						Room tempRoom = new Room(line[1]);
 						roomMap.put(line[2].charAt(0), tempRoom);
+						
 						if (line[0].equals("Room")) {
-							Card newCard = new Card(line[1]);
-							newCard.setCardType(CardType.ROOM);
-							cards.add(newCard);
-							roomSet.add(newCard);
-							theInstance.roomList.add(newCard);
+							Card newCard = new Card(line[1], CardType.ROOM);
+							if(!cards.contains(newCard)) {
+								cards.add(newCard);
+								roomList.add(newCard);
+							}
 						}
 					}
 					else if (line[0].equals("Player")) {
-//						System.out.println("Player: " + line[2]);
 						if (line[3].equals("Human")) {
 							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
-							players.put(line[1], tempPlayer);
+							playerMap.put(line[1], tempPlayer);
 						}
 						else if (line[3].equals("Computer")){
 							Player tempPlayer = new ComputerPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
-							players.put(line[1], tempPlayer);
+							playerMap.put(line[1], tempPlayer);
 						}
-						Card newCard = new Card(line[2]);
-						newCard.setCardType(CardType.PERSON);
-						cards.add(newCard);
-						playerSet.add(newCard);
-						theInstance.playerList.add(newCard);
+						
+						Card newCard = new Card(line[2], CardType.PERSON);
+						if(!cards.contains(newCard)) {
+							cards.add(newCard);
+							personList.add(newCard);
+						}
+						
 					}
 					else if (line[0].equals("Weapon")) {
-//						System.out.println("Weapon: "+ line[1]);
-						Card newCard = new Card(line[1]);
-						newCard.setCardType(CardType.WEAPON);
-						weaponSet.add(newCard);
-						cards.add(newCard);
-						theInstance.weaponList.add(newCard);
+						Card newCard = new Card(line[1], CardType.WEAPON);
+						if(!cards.contains(newCard)) {
+							cards.add(newCard);
+							weaponList.add(newCard);
+						}
+						
 					}
 					else {
 						System.out.println("Throwing here");
@@ -446,7 +442,7 @@ public class Board{
 	public void dealCards() {
 		//Separate lists of cards that will be incrementally removed from, done so that the big list of cards will remain un-mutated
 		ArrayList<Card> allComputerCards = new ArrayList<>();
-		List<Card> playerList2 = new ArrayList<>(playerList);
+		List<Card> playerList2 = new ArrayList<>(personList);
 		List<Card> weaponList2 = new ArrayList<>(weaponList);
 		List<Card> roomList2 = new ArrayList<>(roomList);
 				
@@ -467,7 +463,7 @@ public class Board{
 		//Iterate through the entire list of cards and players, remove a card and add it to a players hand
 		//Also deals with uneven amounts are cards given to each player
 		while (!allComputerCards.isEmpty()) {
-			for (Player player: players.values()) {
+			for (Player player: playerMap.values()) {
 				if (!allComputerCards.isEmpty()) {
 					player.updateHand(allComputerCards.remove(0));
 				}
@@ -535,15 +531,15 @@ public class Board{
 	/**
 	 * Returns the card playerList - Testing
 	 */
-	public ArrayList<Card> getPlayerList() {
-		return theInstance.playerList;
+	public ArrayList<Card> getPersonList() {
+		return theInstance.personList;
 	}
 	
 	/**
 	 * Returns the map of players - testing
 	 */
 	public Map<String, Player> getPlayers() {
-		return theInstance.players;
+		return theInstance.playerMap;
 	}
 	
 	/**

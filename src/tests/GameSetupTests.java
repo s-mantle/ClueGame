@@ -23,25 +23,18 @@ public class GameSetupTests {
 
 	private static Board board;
 	
-	static Card wrench = new Card("Wrench");
-	static Card knife = new Card("Knife");
-	static Card candlestick = new Card("Candlestick");
-	static Card pistol = new Card("Pistol");
-	static Card leadPipe = new Card("Lead Pipe");
-	static Card rope = new Card("Rope");
+	static Card wrench = new Card("Wrench", CardType.WEAPON);
+	static Card knife = new Card("Knife", CardType.WEAPON);
+	static Card candlestick = new Card("Candlestick", CardType.WEAPON);
+	static Card pistol = new Card("Pistol", CardType.WEAPON);
+	static Card leadPipe = new Card("Lead Pipe", CardType.WEAPON);
+	static Card rope = new Card("Rope", CardType.WEAPON);
 	
 	@BeforeAll
 	public static void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		
-		wrench.setCardType(CardType.WEAPON);
-		knife.setCardType(CardType.WEAPON);
-		candlestick.setCardType(CardType.WEAPON);
-		pistol.setCardType(CardType.WEAPON);
-		leadPipe.setCardType(CardType.WEAPON);
-		rope.setCardType(CardType.WEAPON);
 	}
 	
 	@Test
@@ -55,6 +48,21 @@ public class GameSetupTests {
 		assertEquals("Six", board.getPlayers().get("Pink").getName());
 		assertEquals("Seven", board.getPlayers().get("Black").getName());
 		assertEquals("Eight", board.getPlayers().get("White").getName());
+	}
+	
+	@Test
+	public void testPlayerStartLocation() {
+		assertEquals(4,board.getPlayers().get("Red").getRow());
+		assertEquals(0,board.getPlayers().get("Red").getCol());
+		
+		assertEquals(0,board.getPlayers().get("Green").getRow());
+		assertEquals(8,board.getPlayers().get("Green").getCol());
+		
+		assertEquals(10,board.getPlayers().get("Cyan").getRow());
+		assertEquals(12,board.getPlayers().get("Cyan").getCol());
+		
+		assertEquals(14,board.getPlayers().get("Black").getRow());
+		assertEquals(4,board.getPlayers().get("Black").getCol());
 	}
 	
 	@Test

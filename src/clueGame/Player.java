@@ -19,6 +19,10 @@ public class Player {
 		this.col = col;
 	}
 	
+	public void updateHand(Card card) {
+		playerDeck.add(card);
+	}
+	
 	public void setRow(int row) {
 		this.row = row;
 	}
@@ -31,15 +35,15 @@ public class Player {
 		return this.name;
 	}
 	
-	public void addCard(Card card) {
-		playerDeck.add(card);
-	}
-	
 	public Set<Card> getCards() {
 		return this.playerDeck;
 	}
-	
-	public void updateHand(Card card) {
-		playerDeck.add(card);
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
 	}
 }
