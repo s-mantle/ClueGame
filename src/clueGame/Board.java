@@ -192,7 +192,6 @@ public class Board{
 
 		while (scanner.hasNext())
 		{
-			System.out.println("Running?");
 			String[] line = scanner.nextLine().split(", ");
 			if (line.length == 3 || line.length == 6) {
 				//Checks that Room/Space is correctly spelled, Room name and Room character are not null
@@ -246,7 +245,6 @@ public class Board{
 		}
 
 		scanner.close();
-		System.out.println("SetUp completed");
 	}
 	
 	public void throwSetupException() throws BadConfigFormatException, FileNotFoundException{
@@ -312,9 +310,6 @@ public class Board{
 		scanner.close();
 		theInstance.ROWS = rows;
 		theInstance.COLS = columnLength;
-		System.out.println("Layout completed");
-		System.out.println("Rows: "+ rows);
-		System.out.println("Cols: "+ columnLength);
 	}
 	
 	/**
@@ -568,5 +563,11 @@ public class Board{
 	 */
 	public ArrayList<Card> getTheSolution() {
 		return theSolution.getSolutionSet();
+	}
+	/**
+	 * Returns theSolution
+	 */
+	public Solution getSolution() {
+		return theSolution;
 	}
 }

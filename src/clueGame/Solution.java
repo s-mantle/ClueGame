@@ -28,6 +28,12 @@ public class Solution{
 		return "Solution [room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
 	}
 	
+	public boolean testSol() {
+		if(room.getCardType() == CardType.ROOM && person.getCardType() == CardType.PERSON && weapon.getCardType() == CardType.WEAPON)
+			return true;
+		return false;
+	}
+	
 	public Card getRoom() {
 		return room;
 	}

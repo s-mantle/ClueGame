@@ -24,23 +24,51 @@ public class GameSetupTests {
 
 	private static Board board;
 	
-	static Card wrench = new Card("Wrench", CardType.WEAPON);
-	static Card knife = new Card("Knife", CardType.WEAPON);
-	static Card candlestick = new Card("Candlestick", CardType.WEAPON);
-	static Card pistol = new Card("Pistol", CardType.WEAPON);
-	static Card leadPipe = new Card("Lead Pipe", CardType.WEAPON);
-	static Card rope = new Card("Rope", CardType.WEAPON);
-	
-	static Card white = new Card("White", CardType.PERSON);
-	static Card hall = new Card("Hall", CardType.ROOM);
+	private static Card armoryCard, balletRoomCard, choirHallCard, dungeonCard, engineRoomCard, fireplace,
+	greatHallCard, hospitalCard, inglenookCard, jailroomCard, redCard, blueCard, greenCard, yellowCard, cyanCard,
+	pinkCard, blackCard, whiteCard, wrenchCard, knifeCard, candlestickCard, pistolCard, leadpipeCard, ropeCard;
 	
 	@BeforeAll
 	public static void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
+		
+		//10 rooms
+		armoryCard = new Card("Armory", CardType.ROOM);
+		balletRoomCard  = new Card("Ballet Room", CardType.ROOM);
+		choirHallCard = new Card("Choir Hall", CardType.ROOM);
+		dungeonCard = new Card("Dungeon", CardType.ROOM);
+		engineRoomCard = new Card("Engine Room", CardType.ROOM);
+		fireplace = new Card("Fireplace", CardType.ROOM);
+		greatHallCard = new Card("Great Hall", CardType.ROOM);
+		hospitalCard = new Card("Hospital", CardType.ROOM);
+		inglenookCard = new Card("Inglenook", CardType.ROOM);
+		jailroomCard = new Card("Jailroom", CardType.ROOM);
+		
+		//8 players
+		redCard = new Card("One", CardType.PERSON);
+		blueCard = new Card("Two", CardType.PERSON);
+		greenCard = new Card("Three", CardType.PERSON);
+		yellowCard = new Card("Four", CardType.PERSON);
+		cyanCard = new Card("Five", CardType.PERSON);
+		pinkCard = new Card("Six", CardType.PERSON);
+		blackCard = new Card("Seven", CardType.PERSON);
+		whiteCard = new Card("Eight", CardType.PERSON);
+		
+		//6 weapons
+		wrenchCard = new Card("Wrench", CardType.WEAPON);
+		knifeCard = new Card("Knife", CardType.WEAPON);
+		candlestickCard = new Card("Candlestick", CardType.WEAPON);
+		pistolCard = new Card("Pistol", CardType.WEAPON);
+		leadpipeCard = new Card("Lead Pipe", CardType.WEAPON);
+		ropeCard = new Card("Rope", CardType.WEAPON);
 	}
 	
+	/**
+	 * Tests that the players are correctly set up and have the correct names
+	 * Arbitrarily testing for 8 because we have 8 "Start locations"
+	 */
 	@Test
 	public void testPlayerSetup() {
 //		System.out.println(board.getPlayers());
@@ -54,6 +82,10 @@ public class GameSetupTests {
 		assertEquals("Eight", board.getPlayers().get("White").getName());
 	}
 	
+	/**
+	 * Tests that the players are properly recording the correct start location
+	 * given to them by ClueSetup.txt
+	 */
 	@Test
 	public void testPlayerStartLocation() {
 		assertEquals(4,board.getPlayers().get("Red").getRow());
@@ -69,18 +101,39 @@ public class GameSetupTests {
 		assertEquals(4,board.getPlayers().get("Black").getCol());
 	}
 	
+	/**
+	 * Tests that the weapons are correctly made and that their card type and name 
+	 * are correct
+	 */
 	@Test
 	public void testWeaponSetup() {
-		assertTrue(wrench.equals(board.getWeaponList().get(0)));
-		assertTrue(knife.equals(board.getWeaponList().get(1)));
-		assertTrue(candlestick.equals(board.getWeaponList().get(2)));
-		assertTrue(pistol.equals(board.getWeaponList().get(3)));
-		assertTrue(leadPipe.equals(board.getWeaponList().get(4)));
-		assertTrue(rope.equals(board.getWeaponList().get(5)));
+		assertTrue(wrenchCard.equals(board.getWeaponList().get(0)));
+		assertTrue(knifeCard.equals(board.getWeaponList().get(1)));
+		assertTrue(candlestickCard.equals(board.getWeaponList().get(2)));
+		assertTrue(pistolCard.equals(board.getWeaponList().get(3)));
+		assertTrue(leadpipeCard.equals(board.getWeaponList().get(4)));
+		assertTrue(ropeCard.equals(board.getWeaponList().get(5)));
 	}
 	
 	@Test
-	public void testPlayers() {
+	public void testPersonSetup() {
+		assertTrue(redCard.equals(board.getPersonList().get(0)));
+		assertTrue(blueCard.equals(board.getPersonList().get(1)));
+		assertTrue(greenCard.equals(board.getPersonList().get(2)));
+		assertTrue(yellowCard.equals(board.getPersonList().get(3)));
+		assertTrue(cyanCard.equals(board.getPersonList().get(4)));
+		assertTrue(pinkCard.equals(board.getPersonList().get(5)));
+		assertTrue(blackCard.equals(board.getPersonList().get(6)));
+		assertTrue(whiteCard.equals(board.getPersonList().get(7)));
+	}
+	
+	/**
+	 * Tests that there are the correct number of human players and computer players
+	 * currently 1 Human, 7 computer - could be subject to change as the project
+	 * evolves
+	 */
+	@Test
+	public void testPlayerType() {
 		// Note, the way in which a player chooses their color/ name will likely change
 		int humanCount = 0, computerCount = 0;
 		
@@ -109,29 +162,22 @@ public class GameSetupTests {
 	
 	@Test
 	public void testSolution() {
-		Solution testSolution = new Solution(hall, white, rope);
-		assertEquals(hall, testSolution.getRoom());
-		assertEquals(white, testSolution.getPerson());
-		assertEquals(rope, testSolution.getWeapon());
+		Solution testSolution = new Solution(armoryCard, whiteCard, ropeCard);
+		assertEquals(armoryCard, testSolution.getRoom());
+		assertEquals(whiteCard, testSolution.getPerson());
+		assertEquals(ropeCard, testSolution.getWeapon());
 		
-		assertNotEquals(white, testSolution.getRoom());
-		assertNotEquals(hall, testSolution.getPerson());
-		assertNotEquals(knife, testSolution.getWeapon());
-		assertNotEquals(candlestick, testSolution.getWeapon());
+		assertNotEquals(engineRoomCard, testSolution.getRoom());
+		assertNotEquals(blueCard, testSolution.getPerson());
+		assertNotEquals(knifeCard, testSolution.getWeapon());
+		assertNotEquals(candlestickCard, testSolution.getWeapon());
 	}
 	
 	@Test
 	public void testDealCards() {
-		boolean hasRoomCard = false, hasPlayerCard = false, hasWeaponCard = false;
 		board.dealCards();
-		for (Card card: board.getTheSolution()) {
-			if (card.getCardType() == CardType.ROOM) { hasRoomCard = true; }
-			else if (card.getCardType() == CardType.PERSON) { hasPlayerCard = true; }
-			else if (card.getCardType() == CardType.WEAPON) { hasWeaponCard = true; }
-		}
-		assertTrue(hasRoomCard);
-		assertTrue(hasPlayerCard);
-		assertTrue(hasWeaponCard);
+		
+		assertTrue(board.getSolution().testSol());
 		
 		Map<Integer, String> playerColors = new HashMap<Integer, String>();
 		playerColors.put(1, "Red");
@@ -159,11 +205,8 @@ public class GameSetupTests {
 		Set<Card> allCards = new HashSet<>();
 		for (int i = 1; i <= numPlayers; i++) {
 			allCards.addAll(board.getPlayers().get(playerColors.get(i)).getCards()); 
-			System.out.println(board.getPlayers().get(playerColors.get(i)).getCards().size());
 		}
 		allCards.addAll(board.getTheSolution());
-		
-		System.out.println("Num Cards End: " + allCards.size());
 
 		// Sets ensure uniqueness. Checking the number of created cards versus dealt cards ensures all cards were not only dealt,
 		// but also ensures that each card is distinct from every other card
