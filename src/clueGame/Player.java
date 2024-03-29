@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Player {
+public abstract class Player {
 	private int row;
 	private int col;
 	private String name;
