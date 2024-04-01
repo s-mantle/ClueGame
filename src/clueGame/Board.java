@@ -590,5 +590,4 @@ public class Board{
 	public static void setSolution(Solution testSol) {
 		theSolution = testSol;
 	}
-	
 }

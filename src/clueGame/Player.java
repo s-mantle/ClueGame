@@ -17,13 +17,13 @@ import java.util.Set;
 import java.util.Collections;
 
 public abstract class Player {
-	private int row;
-	private int col;
-	private String name;
-	private Color playerColor;
-	private List<Card> playerDeck = new ArrayList<>();
-	private Set<Card> seenCards = new HashSet<>();
-	private boolean canPlay = true;
+	protected int row;
+	protected int col;
+	protected String name;
+	protected Color playerColor;
+	protected List<Card> playerDeck = new ArrayList<>();
+	protected Set<Card> seenCards = new HashSet<>();
+	protected boolean canPlay = true;
 	
 	/**
 	 * Constructor for player, inputs all of the data into the player
