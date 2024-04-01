@@ -19,12 +19,15 @@ public class ComputerPlayer extends Player {
 	public ComputerPlayer(Color playerColor, String name, int row, int col) {
 		super(playerColor, name, row, col);
 	}
-	
+
 	@Override
 	public void createAccusation(Card room, Card person, Card weapon) {
-		if(checkAccusation(room, person, weapon) == true) {
-			
+		// TODO Auto-generated method stub
+		if(Board.getInstance().checkAccusation(room, person, weapon)){
+			setCanPlay(false);
 		}
 	}
+	
+	
 	//TODO: Implement computer interactions, such as suggestions, movement, accusations
 }

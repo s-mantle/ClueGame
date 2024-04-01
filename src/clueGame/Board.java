@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -472,6 +471,8 @@ public class Board{
 		Solution accusation = new Solution(room, person, weapon);
 		return accusation.equals(theSolution);
 	}
+	
+	public 
 	
 	/**
 	 * Returns the cell at the grids row,col

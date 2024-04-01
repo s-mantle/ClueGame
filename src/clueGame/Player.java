@@ -10,15 +10,20 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 public abstract class Player {
 	private int row;
 	private int col;
 	private String name;
 	private Color playerColor;
-	private Set<Card> playerDeck = new HashSet<>();
+	private List<Card> playerDeck = new ArrayList<>();
+	private Set<Card> seenCards = new HashSet<>();
+	private boolean canPlay = true;
 	
 	/**
 	 * Constructor for player, inputs all of the data into the player
@@ -28,7 +33,7 @@ public abstract class Player {
 	 * @param col
 	 */
 	public Player(Color playerColor, String name, int row, int col) {
-		playerDeck = new HashSet<>();
+		playerDeck = new ArrayList<>();
 		this.name = name;
 		this.playerColor = playerColor;
 		this.row = row;
@@ -36,6 +41,10 @@ public abstract class Player {
 	}
 	
 	public abstract void createAccusation(Card room, Card person, Card weapon);
+	
+	public void updateSeen(Card card) {
+		seenCards.add(card);
+	}
 	
 	/**
 	 * Updates the players cards that they are dealt
@@ -45,13 +54,29 @@ public abstract class Player {
 		playerDeck.add(card);
 	}
 	
+	public Card disproveSuggestion(Set<Card> suggestionSet) {
+		Set<Card> suggestion = new HashSet<>(suggestionSet);
+		boolean foundCard = false;
+		List<Card> returnList = new ArrayList<>();
+		for(Card card : playerDeck) {
+			if(suggestion.contains(card)) {
+				returnList.add(card);
+				foundCard = true;
+			}
+		}
+		Collections.shuffle(returnList);
+		if(foundCard)
+			return returnList.remove(0);
+		return null;
+	}
+	
 	//Used for testing
 	public String getName() {
 		return this.name;
 	}
 	
 	//Used for testing
-	public Set<Card> getCards() {
+	public List<Card> getCards() {
 		return this.playerDeck;
 	}
 
@@ -63,5 +88,13 @@ public abstract class Player {
 	//Used for testing
 	public int getCol() {
 		return col;
+	}
+
+	public boolean getCanPlay() {
+		return canPlay;
+	}
+
+	public void setCanPlay(boolean canPlay) {
+		this.canPlay = canPlay;
 	}
 }

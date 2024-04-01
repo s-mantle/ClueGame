@@ -18,5 +18,11 @@ public class HumanPlayer extends Player {
 		super(playerColor, name, row, col);
 	}
 
+	@Override
+	public void createAccusation(Card room, Card person, Card weapon) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//TODO: Implement human interactions, such as suggestions, movement, accusations
 }

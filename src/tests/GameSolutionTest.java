@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import clueGame.Board;
 import clueGame.Card;
@@ -24,6 +25,7 @@ public class GameSolutionTest {
 	public static final int COLS = 13;
 
 	private static Board board;
+	private static Player testPlayer = new HumanPlayer(Color.RED, "Test Player", 1, 1);
 	
 	private static Card armoryCard, balletRoomCard, choirHallCard, dungeonCard, engineRoomCard, fireplaceCard,
 	greatHallCard, hospitalCard, inglenookCard, jailroomCard, redCard, blueCard, greenCard, yellowCard, cyanCard,
@@ -34,7 +36,7 @@ public class GameSolutionTest {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		Player testPlayer = new HumanPlayer(Color.RED, "Test Player", 1, 1);
+	
 		
 		//10 rooms
 		armoryCard = new Card("Armory", CardType.ROOM);
@@ -65,7 +67,13 @@ public class GameSolutionTest {
 		pistolCard = new Card("Pistol", CardType.WEAPON);
 		leadpipeCard = new Card("Lead Pipe", CardType.WEAPON);
 		ropeCard = new Card("Rope", CardType.WEAPON);
+		
+		testPlayer.updateHand(armoryCard);
+		testPlayer.updateHand(balletRoomCard);
+		testPlayer.updateHand(redCard);
+		testPlayer.updateHand(wrenchCard);
 	}
+	
 	
 	@Test
 	public void testSolution() {
@@ -76,6 +84,66 @@ public class GameSolutionTest {
 		assertFalse(Board.getInstance().checkAccusation(balletRoomCard, redCard, wrenchCard));
 		assertFalse(Board.getInstance().checkAccusation(armoryCard, greenCard, wrenchCard));
 		assertFalse(Board.getInstance().checkAccusation(armoryCard, redCard, knifeCard));
+	}
+	
+	@Test
+	public void testDisproveSuggestion() {
+		Set<Card> suggestionOne = new HashSet<>();
+		Set<Card> suggestionTwo = new HashSet<>();
+		Set<Card> suggestionThree = new HashSet<>();
+		Set<Card> suggestionNone = new HashSet<>();
+		
+		suggestionOne.add(balletRoomCard);
+		suggestionOne.add(blueCard);
+		suggestionOne.add(knifeCard);
+		
+		suggestionTwo.add(jailroomCard);
+		suggestionTwo.add(redCard);
+		suggestionTwo.add(wrenchCard);
+		
+		suggestionThree.add(balletRoomCard);
+		suggestionThree.add(redCard);
+		suggestionThree.add(wrenchCard);
+		
+		suggestionNone.add(candlestickCard);
+		suggestionNone.add(greenCard);
+		suggestionNone.add(fireplaceCard);
+		
+		//Test for one outcome
+		assertEquals(testPlayer.disproveSuggestion(suggestionOne),balletRoomCard);
+		
+		//Test for 2 outcomes
+		boolean ballet = false, red = false, wrench = false;
+		for(int i = 0; i < 100; i++){
+			if(testPlayer.disproveSuggestion(suggestionTwo).equals(redCard)) {
+				red = true;
+			}else if(testPlayer.disproveSuggestion(suggestionTwo).equals(wrenchCard)) {
+				wrench = true;
+			}
+		}
+		assertTrue(red);
+		assertTrue(wrench);
+		
+		red = false; wrench = false;
+		//Test for 3 outcomes
+		for(int i = 0; i < 200; i++){
+			if(testPlayer.disproveSuggestion(suggestionThree).equals(redCard)) {
+				red = true;
+			}else if(testPlayer.disproveSuggestion(suggestionThree).equals(wrenchCard)) {
+				wrench = true;
+			}else if(testPlayer.disproveSuggestion(suggestionThree).equals(balletRoomCard)) {
+				ballet = true;
+			}
+		}
+		
+		assertTrue(red);
+		assertTrue(wrench);
+		assertTrue(ballet);
+		
+		//Test for null outcome
+		assertEquals(testPlayer.disproveSuggestion(suggestionNone),null);
+		
+		
 	}
 	
 	
