@@ -112,4 +112,41 @@ public class ComputerPlayer extends Player {
 		}
 		return null;
 	}
+	
+	public void moveTo() {
+		Board board = Board.getInstance();
+		// This feels wrong, idk though
+		ArrayList<BoardCell> targets = (ArrayList<BoardCell>) board.getTargets();
+		Collections.shuffle(targets);
+		
+		for (BoardCell cell: targets) {
+			if (cell.isDoorway()) {
+				BoardCell roomCell = null;
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					roomCell = board.getCell(row - 1, col);
+				}
+				else if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					roomCell = board.getCell(row + 1, col);
+				}
+				else if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					roomCell = board.getCell(row, col - 1);
+				}
+				else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					roomCell = board.getCell(row, col + 1);
+				}
+				
+				String roomName = board.getRoom(roomCell).getName();
+				for (Card card: this.seenCards) {
+					if (!roomName.equals(card.getName())) {
+						this.row = board.getRoom(roomCell).getCenterCell().getRow();
+						this.col = board.getRoom(roomCell).getCenterCell().getCol();
+						return;
+					}
+				}
+			}
+		}
+		
+		this.row = targets.get(0).getRow();
+		this.row = targets.get(0).getCol();
+	}
 }
