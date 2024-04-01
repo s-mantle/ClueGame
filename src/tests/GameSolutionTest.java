@@ -3,8 +3,11 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +28,8 @@ public class GameSolutionTest {
 	public static final int COLS = 13;
 
 	private static Board board;
-	private static Player testPlayer = new HumanPlayer(Color.RED, "Test Player", 1, 1);
+	
+	private List<Player> playerList;
 	
 	private static Card armoryCard, balletRoomCard, choirHallCard, dungeonCard, engineRoomCard, fireplaceCard,
 	greatHallCard, hospitalCard, inglenookCard, jailroomCard, redCard, blueCard, greenCard, yellowCard, cyanCard,
@@ -37,7 +41,6 @@ public class GameSolutionTest {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 	
-		
 		//10 rooms
 		armoryCard = new Card("Armory", CardType.ROOM);
 		balletRoomCard  = new Card("Ballet Room", CardType.ROOM);
@@ -67,11 +70,6 @@ public class GameSolutionTest {
 		pistolCard = new Card("Pistol", CardType.WEAPON);
 		leadpipeCard = new Card("Lead Pipe", CardType.WEAPON);
 		ropeCard = new Card("Rope", CardType.WEAPON);
-		
-		testPlayer.updateHand(armoryCard);
-		testPlayer.updateHand(balletRoomCard);
-		testPlayer.updateHand(redCard);
-		testPlayer.updateHand(wrenchCard);
 	}
 	
 	
@@ -88,6 +86,12 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testDisproveSuggestion() {
+		Player testPlayer = new HumanPlayer(Color.RED, "Test Player", 1, 1);
+		testPlayer.updateHand(armoryCard);
+		testPlayer.updateHand(balletRoomCard);
+		testPlayer.updateHand(redCard);
+		testPlayer.updateHand(wrenchCard);
+		
 		Set<Card> suggestionOne = new HashSet<>();
 		Set<Card> suggestionTwo = new HashSet<>();
 		Set<Card> suggestionThree = new HashSet<>();
@@ -142,12 +146,90 @@ public class GameSolutionTest {
 		
 		//Test for null outcome
 		assertEquals(testPlayer.disproveSuggestion(suggestionNone),null);
-		
-		
 	}
 	
+	@BeforeEach
+	public void testHandleSuggestion() {
+		Solution sol = new Solution(armoryCard, redCard, wrenchCard);
+		//TODO
+		playerList = new ArrayList<>(Board.getInstance().getPlayers().values());
+		playerList.get(0).updateHand(inglenookCard); //Human, One
+		playerList.get(0).updateHand(ropeCard);
+		playerList.get(0).updateHand(engineRoomCard);
+		
+		playerList.get(1).updateHand(balletRoomCard);//Five
+		playerList.get(1).updateHand(blueCard);
+		playerList.get(1).updateHand(knifeCard);
+		
+		playerList.get(2).updateHand(choirHallCard);//Six
+		playerList.get(2).updateHand(greenCard);
+		playerList.get(2).updateHand(candlestickCard);
+		
+		playerList.get(3).updateHand(dungeonCard);//Eight
+		playerList.get(3).updateHand(yellowCard);
+		playerList.get(3).updateHand(pistolCard);
+		
+		playerList.get(4).updateHand(fireplaceCard);//Two
+		playerList.get(4).updateHand(cyanCard);
+		playerList.get(4).updateHand(leadpipeCard);
+		
+		playerList.get(5).updateHand(greatHallCard);//Four
+		playerList.get(5).updateHand(pinkCard);
+		
+		playerList.get(6).updateHand(hospitalCard);//Seven
+		playerList.get(6).updateHand(blackCard);
+		
+		playerList.get(7).updateHand(jailroomCard);//Three
+		playerList.get(7).updateHand(whiteCard);
+		System.out.println();
+	}
 	
+	@Test
+	public void testNoDisprove() {
+		Set<Card> suggestion = new HashSet<>();
+		suggestion.add(armoryCard);
+		suggestion.add(redCard);
+		suggestion.add(wrenchCard);
+		assertNull(Board.getInstance().handleSuggestion(suggestion, playerList.get(0)));
+	}
 	
+	@Test
+	public void testOnlySuggestingPlayer() {
+		Set<Card> suggestion = new HashSet<>();
+		suggestion.add(inglenookCard);
+		suggestion.add(ropeCard);
+		suggestion.add(redCard);
+		assertNull(Board.getInstance().handleSuggestion(suggestion, playerList.get(0)));
+	}
 	
+	@Test
+	public void testOnlyHumanDisproves() {
+		Set<Card> suggestion = new HashSet<>();
+		suggestion.add(inglenookCard);
+		suggestion.add(wrenchCard);
+		suggestion.add(redCard);
+		assertEquals(Board.getInstance().handleSuggestion(suggestion, playerList.get(2)),inglenookCard);
+	}
 	
+	@Test 
+	public void testTwoPlayersDisprove() {
+		//Player Six makes suggestion
+		Set<Card> suggestion = new HashSet<>();
+		suggestion.add(fireplaceCard);
+		suggestion.add(blackCard);
+		suggestion.add(wrenchCard);
+		assertEquals(Board.getInstance().handleSuggestion(suggestion, playerList.get(2)),fireplaceCard);
+		assertNotEquals(Board.getInstance().handleSuggestion(suggestion, playerList.get(2)),blackCard);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

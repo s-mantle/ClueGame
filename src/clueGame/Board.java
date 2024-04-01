@@ -43,6 +43,7 @@ public class Board{
 	
 	//Set used to store the players may not be neccessary not sure yet
 	private Map<String, Player> playerMap = new HashMap<>();
+	private ArrayList<Player> allPlayers;
 	
 	//Lists used to store the people, weapons, and rooms
 	ArrayList<Card> personList = new ArrayList<>();
@@ -244,7 +245,10 @@ public class Board{
 				}
 			}
 		}
-
+		allPlayers = new ArrayList<>(playerMap.values());
+		for(Player player : allPlayers) {
+			System.out.println(player);
+		}
 		scanner.close();
 	}
 	
@@ -472,15 +476,21 @@ public class Board{
 		return accusation.equals(theSolution);
 	}
 	
-	public Card handleSuggestion(Set<Card> suggestion) {
-		for (Player player: theInstance.playerMap.values()) {
-			Card disprovesSuggestion = player.disproveSuggestion(suggestion);
-			if (disprovesSuggestion != null) {
-				return disprovesSuggestion;
+	public Card handleSuggestion(Set<Card> suggestion, Player playerTurn) {
+		int start = allPlayers.indexOf(playerTurn)+1;
+		int playerSize = allPlayers.size();
+		for(int i = 0; i < playerSize; i++) {
+			int index = (start+i) % playerSize;
+			if(!allPlayers.get(index).equals(playerTurn)) {
+				Card card = allPlayers.get(index).disproveSuggestion(suggestion);
+				if(card != null)
+					return card;
 			}
 		}
 		return null;
+
 	}
+	
 	
 	/**
 	 * Returns the cell at the grids row,col

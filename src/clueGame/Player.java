@@ -97,4 +97,10 @@ public abstract class Player {
 	public void setCanPlay(boolean canPlay) {
 		this.canPlay = canPlay;
 	}
+
+	@Override
+	public String toString() {
+		return "Player [name=" + name + ", playerColor=" + playerColor + ", playerDeck=" + playerDeck + "]";
+	}
+
 }
