@@ -43,15 +43,8 @@ public class Solution{
 	//Equals method to test if 2 solutions equal each other
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
 		Solution other = (Solution) obj;
-		return Objects.equals(person, other.person) && Objects.equals(room, other.room)
-				&& Objects.equals(weapon, other.weapon);
+		return Objects.equals(person, other.person) && Objects.equals(room, other.room) && Objects.equals(weapon, other.weapon);
 	}
 
 	//Used for testing Solution

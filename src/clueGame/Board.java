@@ -472,7 +472,15 @@ public class Board{
 		return accusation.equals(theSolution);
 	}
 	
-	public 
+	public Card handleSuggestion(Set<Card> suggestion) {
+		for (Player player: theInstance.playerMap.values()) {
+			Card disprovesSuggestion = player.disproveSuggestion(suggestion);
+			if (disprovesSuggestion != null) {
+				return disprovesSuggestion;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Returns the cell at the grids row,col
