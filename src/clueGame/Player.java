@@ -35,6 +35,8 @@ public abstract class Player {
 		this.col = col;
 	}
 	
+	public abstract void createAccusation(Card room, Card person, Card weapon);
+	
 	/**
 	 * Updates the players cards that they are dealt
 	 * @param card

@@ -10,6 +10,8 @@
 package clueGame;
 
 import java.awt.Color;
+import clueGame.Board;
+import clueGame.Card;
 
 public class ComputerPlayer extends Player {
 
@@ -18,5 +20,11 @@ public class ComputerPlayer extends Player {
 		super(playerColor, name, row, col);
 	}
 	
+	@Override
+	public void createAccusation(Card room, Card person, Card weapon) {
+		if(checkAccusation(room, person, weapon) == true) {
+			
+		}
+	}
 	//TODO: Implement computer interactions, such as suggestions, movement, accusations
 }

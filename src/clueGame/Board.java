@@ -55,7 +55,7 @@ public class Board{
 
 	//Private board, solution
 	private static Board theInstance = new Board();
-	private static Solution theSolution;
+	public static Solution theSolution;
 	
 	// constructor is private to ensure only one can be created
 	private Board() {
@@ -468,6 +468,11 @@ public class Board{
 		}
 	}
 	
+	public boolean checkAccusation(Card room, Card person, Card weapon) {
+		Solution accusation = new Solution(room, person, weapon);
+		return accusation.equals(theSolution);
+	}
+	
 	/**
 	 * Returns the cell at the grids row,col
 	 * 
@@ -569,7 +574,12 @@ public class Board{
 	/**
 	 * Returns theSolution
 	 */
-	public Solution getSolution() {
+	public static Solution getSolution() {
 		return theSolution;
 	}
+	
+	public static void setSolution(Solution testSol) {
+		theSolution = testSol;
+	}
+	
 }

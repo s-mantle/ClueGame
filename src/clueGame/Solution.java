@@ -10,6 +10,7 @@
 package clueGame;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Solution{
 	private Card room;
@@ -38,13 +39,27 @@ public class Solution{
 	public ArrayList<Card> getSolutionSet() {
 		return solutionSet;
 	}
+	
+	//Equals method to test if 2 solutions equal each other
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Solution other = (Solution) obj;
+		return Objects.equals(person, other.person) && Objects.equals(room, other.room)
+				&& Objects.equals(weapon, other.weapon);
+	}
 
 	//Used for testing Solution
 	@Override
 	public String toString() {
 		return "Solution [room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
 	}
-	
+
 	//Used for testing, can be expanded to deal with accusations
 	public boolean testSol() {
 		if(room.getCardType() == CardType.ROOM && person.getCardType() == CardType.PERSON && weapon.getCardType() == CardType.WEAPON)
@@ -66,6 +81,4 @@ public class Solution{
 	public Card getWeapon() {
 		return weapon;
 	}
-
-	
 }
