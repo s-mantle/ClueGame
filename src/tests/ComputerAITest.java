@@ -2,6 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -9,6 +12,8 @@ import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
+import clueGame.Room;
+import clueGame.Solution;
 
 public class ComputerAITest {
 	public static final int ROWS = 15;
@@ -108,12 +113,34 @@ public class ComputerAITest {
 		}
 	}
 	
-//	@Test
-//	public void testCreateSuggestion() {
-//		// Room matches current location
-//		// If only one weapon not seen, it's selected
-//		// If only one person not seen, it's selected (can be same test as weapon)
-//		// If multiple weapons not seen, one of them is randomly selected
-//		// If multiple persons not seen, one of them is randomly selected
-//	}
+	// Room matches current location
+	// If only one weapon not seen, it's selected
+	// If only one person not seen, it's selected (can be same test as weapon)
+	// If multiple weapons not seen, one of them is randomly selected
+	// If multiple persons not seen, one of them is randomly selected
+	
+	@Test
+	public void testSuggestionSameRoom() {
+		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
+		Solution suggestion = player.createSuggestion();
+		assertTrue(suggestion.getRoom().equals(armoryCard));
+		assertFalse(suggestion.getRoom().equals(balletRoomCard));
+		assertFalse(suggestion.getRoom().equals(fireplaceCard));
+	}
+	
+	@Test
+	public void testSuggestionOnePersonNotSeen() {
+		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
+		player.updateSeen(redCard);
+		player.updateSeen(blueCard);
+		player.updateSeen(greenCard);
+		player.updateSeen(yellowCard);
+		player.updateSeen(pinkCard);
+		player.updateSeen(cyanCard);
+		player.updateSeen(blackCard);
+		Solution suggestion = player.createSuggestion();
+		assertTrue(suggestion.getRoom().equals(armoryCard));
+		assertTrue(suggestion.getPerson().equals(whiteCard));
+		assertTrue(suggestion.getWeapon().getCardType().equals(CardType.WEAPON));
+	}
 }
