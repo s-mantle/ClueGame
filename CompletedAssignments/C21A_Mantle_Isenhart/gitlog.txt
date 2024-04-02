@@ -1,0 +1,85 @@
+commit eafd2891e23d22e803a42e4784e0fad80c0b3f3a
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 20:38:00 2024 -0600
+
+    Minor code tweaks & comments
+
+commit 80ad2c038ef704f07ca0842db405d6678b74f787
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 20:17:57 2024 -0600
+
+    multiple people/weapons not seen
+
+commit e996747c2a67c1350dcda52aa86003bf12a97527
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 19:44:15 2024 -0600
+
+    Tests randomly passing error
+
+commit d23b369273020cea7768809dbd6cb36f1aa1afdc
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 19:33:29 2024 -0600
+
+    Test sameRoom, onePersonNotSeen
+
+commit 17d869544cab4cd70367e4dbd33e4ff01ecc672c
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 18:56:19 2024 -0600
+
+    crude testSelectTargets() implementation
+
+commit 289be4db668cdbce6764733c7d3c791badd9497a
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 17:35:04 2024 -0600
+
+    ComputerAITest framework
+
+commit f93c6a9f670c6a5b5d5b0e478a5a553a89b34a25
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 17:20:06 2024 -0600
+
+    moveTo basic implementation
+
+commit 0ddcfa77ace879c81d5acfeab1ecf80e98c5b574
+Merge: 008dce4 439bbab
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 16:44:59 2024 -0600
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit 008dce4cc8e9011090fab09a7c445dc3d6840f56
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 16:44:53 2024 -0600
+
+    createSuggestion basic implementation
+
+commit 439bbab0a4d7dd2df67e3a4f84a9c5f7700ca372
+Merge: fd42b87 5133fe9
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 16:22:58 2024 -0600
+
+    merge resolution
+
+commit fd42b870ba1b4b40584f0b53908af8ccc562c8c7
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 16:21:20 2024 -0600
+
+    handleSuggestion tests, and implementation
+
+commit 5133fe9e4c776c417f5d6222d6d09bd22014d221
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 16:03:47 2024 -0600
+
+    Basic suggestion handler implemented
+
+commit 4444aae1217e8831cd33f9cd531a4ac3d716dd2a
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 14:48:19 2024 -0600
+
+    Test for Disprove suggestion, disproveSuggestion implementation
+
+commit 8daa9065a19bd6d3ecae1ab3833d669a32091499
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Mon Apr 1 13:26:27 2024 -0600
+
+    Tests for checkAccusation, and implementation
