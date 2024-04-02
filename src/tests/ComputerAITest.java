@@ -114,15 +114,10 @@ public class ComputerAITest {
 			assertEquals(board.getCell(11, 11), board.getCell(computer.getRow(), computer.getCol()));
 		}
 	}
-	
-	// Room matches current location
-	// If only one weapon not seen, it's selected
-	// If only one person not seen, it's selected (can be same test as weapon)
-	// If multiple weapons not seen, one of them is randomly selected
-	// If multiple persons not seen, one of them is randomly selected
-	
+		
 	@Test
 	public void testSuggestionSameRoom() {
+		// Room matches current location
 		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
 		Solution suggestion = player.createSuggestion();
 		assertTrue(suggestion.getRoom().equals(armoryCard));
@@ -132,6 +127,7 @@ public class ComputerAITest {
 	
 	@Test
 	public void testSuggestionOnePersonNotSeen() {
+		// If only one person not seen, it's selected (can be same test as weapon)
 		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
 		player.updateSeen(redCard);
 		player.updateSeen(blueCard);
@@ -148,6 +144,7 @@ public class ComputerAITest {
 	
 	@Test
 	public void testSuggestionOneWeaponNotSeen() {
+		// If only one weapon not seen, it's selected
 		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
 		player.updateSeen(pistolCard);
 		player.updateSeen(wrenchCard);
@@ -162,6 +159,7 @@ public class ComputerAITest {
 	
 	@Test
 	public void testSuggestionMultipleWeaponNotSeen() {
+		// If multiple weapons not seen, one of them is randomly selected
 		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
 
 		player.updateSeen(pistolCard);
@@ -176,6 +174,7 @@ public class ComputerAITest {
 	
 	@Test
 	public void testSuggestionMultiplePeopleNotSeen() {
+		// If multiple persons not seen, one of them is randomly selected
 		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
 
 		player.updateSeen(redCard);

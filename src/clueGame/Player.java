@@ -58,17 +58,25 @@ public abstract class Player {
 		return seenCards;
 	}
 
+	/**
+	 * Shows a player a card which invalidates their suggestion
+	 * @param suggestionSet
+	 * @return
+	 */
 	public Card disproveSuggestion(Set<Card> suggestionSet) {
 		Set<Card> suggestion = new HashSet<>(suggestionSet);
 		boolean foundCard = false;
 		List<Card> returnList = new ArrayList<>();
-		for(Card card : playerDeck) {
+		
+		for(Card card: playerDeck) {
 			if(suggestion.contains(card)) {
 				returnList.add(card);
 				foundCard = true;
 			}
 		}
+		
 		Collections.shuffle(returnList);
+		
 		if(foundCard)
 			return returnList.remove(0);
 		return null;

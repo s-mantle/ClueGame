@@ -471,24 +471,40 @@ public class Board{
 		}
 	}
 	
+	/**
+	 * Compares a player's accusation to the actual solution
+	 * @param room
+	 * @param person
+	 * @param weapon
+	 * @return True if the accusation is correct. False if the accusation is incorrect
+	 */
 	public boolean checkAccusation(Card room, Card person, Card weapon) {
 		Solution accusation = new Solution(room, person, weapon);
 		return accusation.equals(theSolution);
 	}
 	
+	/**
+	 * Processes a player's suggestion by comparing it to all other player's cards
+	 * @param suggestion
+	 * @param playerTurn
+	 * @return
+	 */
 	public Card handleSuggestion(Set<Card> suggestion, Player playerTurn) {
-		int start = allPlayers.indexOf(playerTurn)+1;
+		int start = allPlayers.indexOf(playerTurn) + 1;
 		int playerSize = allPlayers.size();
-		for(int i = 0; i < playerSize; i++) {
-			int index = (start+i) % playerSize;
-			if(!allPlayers.get(index).equals(playerTurn)) {
+		
+		for (int i = 0; i < playerSize; i++) {
+			int index = (start + i) % playerSize;
+			
+			if (!allPlayers.get(index).equals(playerTurn)) {
 				Card card = allPlayers.get(index).disproveSuggestion(suggestion);
-				if(card != null)
+				
+				if (card != null) {
 					return card;
+				}
 			}
 		}
 		return null;
-
 	}
 	
 	
