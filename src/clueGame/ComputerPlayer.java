@@ -73,7 +73,7 @@ public class ComputerPlayer extends Player {
 					 solutionCards[2] = card;
 					 weaponFound = true;
 				 }
-				 else if (personFound && weaponFound) {
+				 if (personFound && weaponFound) {
 //					 Solution suggestion = new Solution(solutionCards.get(0), solutionCards.get(1), solutionCards.get(2));
 					 Solution suggestion = new Solution(solutionCards[0], solutionCards[1], solutionCards[2]);
 					 return suggestion;
@@ -118,7 +118,6 @@ public class ComputerPlayer extends Player {
 				 }
 			 }
 		}
-		System.out.println("Fucker");
 		return null;
 	}
 	

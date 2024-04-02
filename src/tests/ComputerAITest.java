@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -151,10 +153,41 @@ public class ComputerAITest {
 		player.updateSeen(wrenchCard);
 		player.updateSeen(candlestickCard);
 		player.updateSeen(leadpipeCard);
+		player.updateSeen(knifeCard);
 		Solution suggestion = player.createSuggestion();
 		assertTrue(suggestion.getRoom().equals(armoryCard));
 		assertTrue(suggestion.getPerson().getCardType().equals(CardType.PERSON));
 		assertTrue(suggestion.getWeapon().equals(ropeCard));
+	}
+	
+	@Test
+	public void testSuggestionMultipleWeaponNotSeen() {
+		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
+
+		player.updateSeen(pistolCard);
+		player.updateSeen(wrenchCard);
+		player.updateSeen(candlestickCard);
+		
+		Solution suggestion = player.createSuggestion();
+		assertTrue(suggestion.getRoom().equals(armoryCard));
+		assertTrue(suggestion.getPerson().getCardType().equals(CardType.PERSON));
+		assertTrue(suggestion.getWeapon().equals(knifeCard) || suggestion.getWeapon().equals(leadpipeCard) || suggestion.getWeapon().equals(ropeCard));
+	}
+	
+	@Test
+	public void testSuggestionMultiplePeopleNotSeen() {
+		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
+
+		player.updateSeen(redCard);
+		player.updateSeen(blueCard);
+		player.updateSeen(greenCard);
+		player.updateSeen(yellowCard);
+		player.updateSeen(pinkCard);
+		
+		Solution suggestion = player.createSuggestion();
+		assertTrue(suggestion.getRoom().equals(armoryCard));
+		assertTrue(suggestion.getWeapon().getCardType().equals(CardType.WEAPON));
+		assertTrue(suggestion.getPerson().equals(cyanCard) || suggestion.getPerson().equals(blackCard) || suggestion.getPerson().equals(whiteCard));
 	}
 	
 }

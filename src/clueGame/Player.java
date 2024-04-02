@@ -54,6 +54,10 @@ public abstract class Player {
 		playerDeck.add(card);
 	}
 	
+	public Set<Card> getSeenCards() {
+		return seenCards;
+	}
+
 	public Card disproveSuggestion(Set<Card> suggestionSet) {
 		Set<Card> suggestion = new HashSet<>(suggestionSet);
 		boolean foundCard = false;
