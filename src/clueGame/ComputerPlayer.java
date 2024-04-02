@@ -115,38 +115,51 @@ public class ComputerPlayer extends Player {
 	
 	public void moveTo() {
 		Board board = Board.getInstance();
-		// This feels wrong, idk though
-		ArrayList<BoardCell> targets = (ArrayList<BoardCell>) board.getTargets();
+		ArrayList<BoardCell> targets = new ArrayList<>(board.getTargets());
 		Collections.shuffle(targets);
+		
+		Set<BoardCell> cellsToRemove = new HashSet<>();
+		Set<BoardCell> cellsToAdd = new HashSet<>();
 		
 		for (BoardCell cell: targets) {
 			if (cell.isDoorway()) {
 				BoardCell roomCell = null;
 				if (cell.getDoorDirection() == DoorDirection.UP) {
-					roomCell = board.getCell(row - 1, col);
+					roomCell = board.getCell(cell.getRow() - 1, cell.getCol());
 				}
 				else if (cell.getDoorDirection() == DoorDirection.DOWN) {
-					roomCell = board.getCell(row + 1, col);
+					roomCell = board.getCell(cell.getRow() + 1, cell.getCol());
 				}
 				else if (cell.getDoorDirection() == DoorDirection.LEFT) {
-					roomCell = board.getCell(row, col - 1);
+					roomCell = board.getCell(cell.getRow(), cell.getCol() - 1);
 				}
 				else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
-					roomCell = board.getCell(row, col + 1);
+					roomCell = board.getCell(cell.getRow(), cell.getCol() + 1);
 				}
 				
 				String roomName = board.getRoom(roomCell).getName();
+				boolean uniqRoom = true;
 				for (Card card: this.seenCards) {
-					if (!roomName.equals(card.getName())) {
-						this.row = board.getRoom(roomCell).getCenterCell().getRow();
-						this.col = board.getRoom(roomCell).getCenterCell().getCol();
-						return;
+					if (roomName.equals(card.getName())) {
+						uniqRoom = false;
+						cellsToRemove.add(cell);
+						cellsToAdd.add(roomCell);
+						break;
 					}
+				}
+				
+				if (uniqRoom) {
+					this.row = board.getRoom(roomCell).getCenterCell().getRow();
+					this.col = board.getRoom(roomCell).getCenterCell().getCol();
+					return;
 				}
 			}
 		}
 		
+		targets.removeAll(cellsToRemove);
+		targets.addAll(cellsToAdd);
+		
 		this.row = targets.get(0).getRow();
-		this.row = targets.get(0).getCol();
+		this.col = targets.get(0).getCol();
 	}
 }

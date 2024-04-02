@@ -176,7 +176,7 @@ public class Board{
 		File file;
 		file = new File(setupConfigFile);
 		Scanner scanner = new Scanner(file);
-		
+
 		//Color map of the colors used in ClueSetup.txt, used to set the colors of each player
 		final Map<String,Color> COLORMAP = new HashMap<String,Color>();
 		COLORMAP.put("Red", Color.RED);COLORMAP.put("Blue", Color.BLUE);
@@ -246,9 +246,9 @@ public class Board{
 			}
 		}
 		allPlayers = new ArrayList<>(playerMap.values());
-		for(Player player : allPlayers) {
-			System.out.println(player);
-		}
+//		for(Player player: allPlayers) {
+//			System.out.println(player);
+//		}
 		scanner.close();
 	}
 	
@@ -561,6 +561,10 @@ public class Board{
 	 */
 	public Map<String, Player> getPlayers() {
 		return theInstance.playerMap;
+	}
+	
+	public ArrayList<Player> getPlayerList() {
+		return theInstance.allPlayers;
 	}
 	
 	/**

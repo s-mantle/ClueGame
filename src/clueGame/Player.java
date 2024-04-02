@@ -75,6 +75,16 @@ public abstract class Player {
 		return this.name;
 	}
 	
+	public void TEST_ONLY_emptyCards() {
+		this.playerDeck = new ArrayList<>();
+		this.seenCards = new HashSet<>();
+	}
+	
+	public void TEST_ONLY_setCards(Card card) {
+		TEST_ONLY_emptyCards();
+		this.seenCards.add(card);
+	}
+	
 	//Used for testing
 	public List<Card> getCards() {
 		return this.playerDeck;
