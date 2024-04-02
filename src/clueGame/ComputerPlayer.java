@@ -118,6 +118,7 @@ public class ComputerPlayer extends Player {
 				 }
 			 }
 		}
+		System.out.println("Fucker");
 		return null;
 	}
 	

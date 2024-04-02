@@ -143,4 +143,18 @@ public class ComputerAITest {
 		assertTrue(suggestion.getPerson().equals(whiteCard));
 		assertTrue(suggestion.getWeapon().getCardType().equals(CardType.WEAPON));
 	}
+	
+	@Test
+	public void testSuggestionOneWeaponNotSeen() {
+		ComputerPlayer player = new ComputerPlayer(Color.RED,"Test Player",1,1 );
+		player.updateSeen(pistolCard);
+		player.updateSeen(wrenchCard);
+		player.updateSeen(candlestickCard);
+		player.updateSeen(leadpipeCard);
+		Solution suggestion = player.createSuggestion();
+		assertTrue(suggestion.getRoom().equals(armoryCard));
+		assertTrue(suggestion.getPerson().getCardType().equals(CardType.PERSON));
+		assertTrue(suggestion.getWeapon().equals(ropeCard));
+	}
+	
 }
