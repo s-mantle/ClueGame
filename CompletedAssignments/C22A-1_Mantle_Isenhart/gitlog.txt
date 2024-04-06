@@ -1,0 +1,51 @@
+I, Sam Mantle, certify that I participated equitably in the creation of assignment C22A-1, dated 4/5/24.
+I, Ben Isenhart, certify that I participated equitably in the creation of this assignment C22A-1, dated 4/5/24.
+
+commit 9b10224dd173ed325d4982df9ff7c6222f708bd5
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Apr 5 21:34:52 2024 -0600
+
+    updateDisplay()
+
+commit 370cb2eaa2fab41b9d21025720a2806b57cf612c
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Apr 5 20:52:47 2024 -0600
+
+    Stupitd thing isnt updating, moved everything into constructor
+
+commit a661e28d16f81fc336232d6c7a15c9a3c58952f5
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Apr 5 19:51:32 2024 -0600
+
+    All neccessary components for GameControlPanel added
+
+commit 759541deb231baa3accb25b43b02e926f75cf415
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Fri Apr 5 18:52:25 2024 -0600
+
+    Create GUI_Example.java
+
+commit 783c616ebba31afa0350cdd8cda3f0451e248b99
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Fri Apr 5 12:15:28 2024 -0600
+
+    Starting
+
+commit bdc50c6fac205670aef2963842a14285294c3fb5
+Merge: c212c11 a126dff
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Apr 2 16:33:36 2024 -0600
+
+    Merge branch 'master' of https://github.com/s-mantle/ClueGame
+
+commit c212c115dd4b63777efed223616851a4573a2d0b
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Apr 2 16:33:33 2024 -0600
+
+    Big Progress Today!
+
+commit a126dffa4ab21c6238bf6cfaf8692a3c00d18072
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 1 20:44:49 2024 -0600
+
+    C21A file submission
