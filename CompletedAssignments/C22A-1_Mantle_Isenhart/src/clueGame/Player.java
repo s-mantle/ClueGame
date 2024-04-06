@@ -23,8 +23,7 @@ public abstract class Player {
 	protected Color playerColor;
 	protected List<Card> playerDeck = new ArrayList<>();
 	protected Set<Card> seenCards = new HashSet<>();
-	protected boolean canPlay = true, seenWeapon = false, seenRoom = false, seenPerson=false;
-	
+	protected boolean canPlay = true;
 	
 	/**
 	 * Constructor for player, inputs all of the data into the player
@@ -45,9 +44,6 @@ public abstract class Player {
 	
 	public void updateSeen(Card card) {
 		seenCards.add(card);
-		if(card.getCardType()==CardType.WEAPON) {
-			seenWeapon = true;
-		}
 	}
 	
 	/**
@@ -127,7 +123,6 @@ public abstract class Player {
 	public void setCanPlay(boolean canPlay) {
 		this.canPlay = canPlay;
 	}
-	
 
 	@Override
 	public String toString() {

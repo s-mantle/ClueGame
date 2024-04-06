@@ -32,7 +32,9 @@ public class GameControlPanel extends JPanel {
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new GridLayout(2,0));
 		
-		setVisible(true);		
+		setVisible(true);
+		add(mainPanel);
+		
 		
 		gameInfoPanel = new JPanel();
 		gameInfoPanel.setLayout(new GridLayout(1,4));
@@ -101,7 +103,6 @@ public class GameControlPanel extends JPanel {
 		
 		mainPanel.add(gameInfoPanel);
 		mainPanel.add(guessFieldPanel);
-		add(mainPanel);
 		
 	}
 	

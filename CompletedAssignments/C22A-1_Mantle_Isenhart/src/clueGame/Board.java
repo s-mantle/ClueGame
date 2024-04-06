@@ -44,7 +44,6 @@ public class Board{
 	//Set used to store the players may not be neccessary not sure yet
 	private Map<String, Player> playerMap = new HashMap<>();
 	private ArrayList<Player> allPlayers;
-	private Map<Player, List<Card>> playerCards = new HashMap<>();
 	
 	//Lists used to store the people, weapons, and rooms
 	ArrayList<Card> personList = new ArrayList<>();
@@ -470,10 +469,6 @@ public class Board{
 				}
 			}
 		}
-		
-		for(Player player : playerMap.values()) {
-			playerCards.put(player, player.getCards());
-		}
 	}
 	
 	/**
@@ -607,10 +602,6 @@ public class Board{
 	 */
 	public Set<Card> getCards() {
 		return theInstance.cards;
-	}
-	
-	public Map<Player, List<Card>> getPlayerCardMap(){
-		return theInstance.playerCards;
 	}
 	
 	/**
