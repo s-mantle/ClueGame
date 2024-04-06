@@ -144,7 +144,7 @@ public class GameControlPanel extends JPanel {
 		
 		// test filling in the data
 		panel.setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
-		panel.setGuess( "I have public void setGuess");
+		panel.setGuess( "I have no guess");
 		panel.setGuessResult( "So you have nothing?");
 		
 		panel.updateDisplay();
