@@ -14,13 +14,13 @@ Room, Jailroom, J
 Space, Unused, X
 Space, Walkway, W
 
-// Player Cards - should be 8
+// Player Cards - should be 6
 Player, Red, Mr. Red, Human, 4, 0
 Player, Blue, Mrs. Blue, Computer, 0, 4
-Player, Green, Three, Computer, 0, 8
-Player, Yellow, Four, Computer, 4, 12
-Player, Cyan, Five, Computer, 10, 12
-Player, Pink, Six, Computer, 14, 8
+Player, Green, Sarge Green, Computer, 0, 8
+Player, Yellow, Mrs. Sunflower, Computer, 4, 12
+Player, Cyan, AQUAMAN!, Computer, 10, 12
+Player, Pink, Mrs. Rose, Computer, 14, 8
 
 // Weapons Cards - should be 6
 Weapon, Wrench, W

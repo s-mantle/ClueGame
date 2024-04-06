@@ -19,14 +19,13 @@ import java.util.Map;
 
 public class CardPanel extends JPanel {
 	// Reference the layout template from C22A-1 to understand what each instance variable represents
-	private JPanel mainPanel, peoplePanel;
+	private JPanel mainPanel, peoplePanel, roomPanel, weaponPanel;
 	private static HumanPlayer player;
 	private static Board board;
 	private ArrayList<Card> people = new ArrayList<>();
 	private ArrayList<Card> weapons = new ArrayList<>();
 	private ArrayList<Card> rooms = new ArrayList<>();
 	private static Map<Player, List<Card>> playerCards;
-	JLabel handLabel, seenLabel;
 	JTextField noneLabel;
 	
 	private static final Color LIGHT_RED = new Color(255,51,51); private static final Color LIGHT_BLUE = new Color(51,153,255);
@@ -44,9 +43,6 @@ public class CardPanel extends JPanel {
 		
 		setVisible(true);
 		add(mainPanel, BorderLayout.CENTER);
-		handLabel = new JLabel("In Hand:");
-		seenLabel = new JLabel("Seen:");
-		noneLabel = new JTextField("None");
 		
 		//Set Person List
 		//Should this be refactored to loop through playerHand in peoplePanel to reduce the need for 3 different lists?
@@ -59,15 +55,22 @@ public class CardPanel extends JPanel {
 				rooms.add(card);
 			}
 		}
+
+		peoplePanel = new JPanel();
+		roomPanel = new JPanel();
+		weaponPanel= new JPanel();
+
+		createCardPanel(peoplePanel,"People", CardType.PERSON);
+		createCardPanel(roomPanel,"Rooms", CardType.ROOM);
+		createCardPanel(weaponPanel,"Weapons", CardType.WEAPON);
 		
-		mainPanel.add(createCardPanel("People", CardType.PERSON));
-		mainPanel.add(createCardPanel("Rooms", CardType.ROOM));
-		mainPanel.add(createCardPanel("Weapons", CardType.WEAPON));
+		mainPanel.add(peoplePanel);
+		mainPanel.add(roomPanel);
+		mainPanel.add(weaponPanel);
 		
 	}
 	
-	private JPanel createCardPanel(String title, CardType cardType) {
-		JPanel panel = new JPanel();
+	private void createCardPanel(JPanel panel, String title, CardType cardType) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("In Hand:"));
 		panel.setBorder(new TitledBorder (new EtchedBorder(), title));
@@ -85,7 +88,7 @@ public class CardPanel extends JPanel {
 			}
 		}
 		//Seen List
-		panel.add(new JLabel("Seen"));
+		panel.add(new JLabel("Seen:"));
 		boolean seenCard = false;
 		for(Card card : player.getSeenCards()) {
 			if(card.getCardType() == cardType) {
@@ -98,7 +101,6 @@ public class CardPanel extends JPanel {
 		if(!seenCard) {
 			panel.add(new JTextField("None"));
 		}
-		return panel;
 	}
 	
 	private Color getPlayerCardColor(Card card) {
@@ -119,6 +121,24 @@ public class CardPanel extends JPanel {
 		
 	}
 	
+	private void updateRoom() {
+		roomPanel.removeAll();
+		createCardPanel(roomPanel,"Rooms", CardType.ROOM);
+		System.out.println(rooms);
+	}
+
+	private void updatePeople() {
+		peoplePanel.removeAll();
+		createCardPanel(peoplePanel,"People", CardType.PERSON);
+		System.out.println(people);
+	}
+
+	private void updateWeapon() {
+		weaponPanel.removeAll();
+		createCardPanel(weaponPanel,"Weapons", CardType.WEAPON);
+		System.out.println(weapons);
+	}
+
 	public void setGuess(String guess) {
 		
 	}
@@ -135,7 +155,7 @@ public class CardPanel extends JPanel {
 	 */
 	public static void main(String[] args) {
 		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
 		board.initialize();
 		board.dealCards();
 		
@@ -150,7 +170,6 @@ public class CardPanel extends JPanel {
 		System.out.println(player);
 		playerCards = board.getPlayerCardMap();
 		
-		
 		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame
@@ -158,18 +177,25 @@ public class CardPanel extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 		
-//		// test filling in the data
-//		panel.setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
-//		panel.setGuess( "I have no guess");
-//		panel.setGuessResult( "So you have nothing?");
-		for(Player playerL : playerCards.keySet()) {
-			if(playerL.getName() != "Red") {
-				for(Card card : playerCards.get(playerL)) {
-					player.updateSeen(card);
-					System.out.println("The player has seen: "+ card);
-				}
-			}
-		}
-		panel.updateDisplay();
+		player.updateSeen(new Card("Hospital", CardType.ROOM));
+		
+//		for(Player playerL : playerCards.keySet()) {
+//			if(playerL.getPlayerColor() != Color.RED) {
+//				for(Card card : playerCards.get(playerL)) {
+//					player.updateSeen(card);
+//				}
+//			}
+//		}
+		
+		/**
+		 * Not sure what is going wrong here?  The functions work when adding a single card
+		 * to the seen list but the for loop breaks the entire thing. 
+		 * 
+		 * Also clueSetupFinal was added to add temporary player names and only 6 players
+		 */
+		
+		panel.updateRoom();
+		panel.updatePeople();
+		panel.updateWeapon();
 	}
 }
