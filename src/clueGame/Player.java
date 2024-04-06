@@ -115,6 +115,10 @@ public abstract class Player {
 	public boolean getCanPlay() {
 		return canPlay;
 	}
+	
+	public Color getPlayerColor() {
+		return playerColor;
+	}
 
 	public void setCanPlay(boolean canPlay) {
 		this.canPlay = canPlay;
