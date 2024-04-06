@@ -1,7 +1,6 @@
 package clueGame;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,7 +10,6 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +26,8 @@ public class CardPanel extends JPanel {
 	private static Map<Player, List<Card>> playerCards;
 	JTextField noneLabel;
 	
-	private static final Color LIGHT_RED = new Color(255,51,51); private static final Color LIGHT_BLUE = new Color(51,153,255);
-	private static final Color LIGHT_GREEN = new Color(0,255,51);
+	private static final Color LIGHT_RED = new Color(255, 51, 51); private static final Color LIGHT_BLUE = new Color(51, 153, 255);
+	private static final Color LIGHT_GREEN = new Color(0, 255, 51);
 	private static final Map<Color, Color> COLORMAP = new HashMap<>();
 	
 	/**
@@ -46,12 +44,12 @@ public class CardPanel extends JPanel {
 		
 		//Set Person List
 		//Should this be refactored to loop through playerHand in peoplePanel to reduce the need for 3 different lists?
-		for(Card card : player.getCards()) {
+		for (Card card : player.getCards()) {
 			if (card.getCardType() == CardType.PERSON) {
 				people.add(card);
-			}else if(card.getCardType() == CardType.WEAPON) {
+			} else if(card.getCardType() == CardType.WEAPON) {
 				weapons.add(card);
-			}else {
+			} else {
 				rooms.add(card);
 			}
 		}
@@ -60,93 +58,77 @@ public class CardPanel extends JPanel {
 		roomPanel = new JPanel();
 		weaponPanel= new JPanel();
 
-		createCardPanel(peoplePanel,"People", CardType.PERSON);
-		createCardPanel(roomPanel,"Rooms", CardType.ROOM);
-		createCardPanel(weaponPanel,"Weapons", CardType.WEAPON);
+		createCardPanel(peoplePanel, people, "People", CardType.PERSON);
+		createCardPanel(roomPanel, rooms, "Rooms", CardType.ROOM);
+		createCardPanel(weaponPanel, weapons, "Weapons", CardType.WEAPON);
 		
 		mainPanel.add(peoplePanel);
 		mainPanel.add(roomPanel);
 		mainPanel.add(weaponPanel);
-		
 	}
 	
-	private void createCardPanel(JPanel panel, String title, CardType cardType) {
+	private void createCardPanel(JPanel panel, ArrayList<Card> cardSet, String title, CardType cardType) {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("In Hand:"));
 		panel.setBorder(new TitledBorder (new EtchedBorder(), title));
 		
 		//In Hand List
-		if(people.isEmpty()) {
+		if (cardSet.isEmpty()) {
 			panel.add(new JTextField("None"));
-		}else{
-			for(Card card : player.getCards()) {
-				if(card.getCardType() == cardType) {
+		} else {
+			for (Card card : player.getCards()) {
+				if (card.getCardType() == cardType) {
 					JTextField people = new JTextField(card.getName());
 					people.setBackground(Color.LIGHT_GRAY);
 					panel.add(people);
 				}
 			}
 		}
+		
 		//Seen List
 		panel.add(new JLabel("Seen:"));
 		boolean seenCard = false;
-		for(Card card : player.getSeenCards()) {
-			if(card.getCardType() == cardType) {
+		for (Card card : player.getSeenCards()) {
+			if (card.getCardType() == cardType) {
 				JTextField people = new JTextField(card.getName());
 				people.setBackground(getPlayerCardColor(card));
 				panel.add(people);
 				seenCard = true;
 			}
 		}
-		if(!seenCard) {
+		
+		if (!seenCard) {
 			panel.add(new JTextField("None"));
 		}
 	}
 	
 	private Color getPlayerCardColor(Card card) {
-		for(Player player : playerCards.keySet()) {
-			if(playerCards.get(player).contains(card)) {
+		for (Player player : playerCards.keySet()) {
+			if (playerCards.get(player).contains(card)) {
 				return COLORMAP.get(player.getPlayerColor());
 			}
 		}
-		System.out.println("You fucked up");
+		System.out.println("Errored!");
 		return Color.DARK_GRAY;
-	}
-	
-	public void setTurn(Player player, int rollNumber) {
-		
-	}
-	
-	public void updateDisplay() {
-		
 	}
 	
 	private void updateRoom() {
 		roomPanel.removeAll();
-		createCardPanel(roomPanel,"Rooms", CardType.ROOM);
-		System.out.println(rooms);
+		createCardPanel(roomPanel, rooms, "Rooms", CardType.ROOM);
+		roomPanel.revalidate();
 	}
 
 	private void updatePeople() {
 		peoplePanel.removeAll();
-		createCardPanel(peoplePanel,"People", CardType.PERSON);
-		System.out.println(people);
+		createCardPanel(peoplePanel, people, "People", CardType.PERSON);
+		peoplePanel.revalidate();
 	}
 
 	private void updateWeapon() {
 		weaponPanel.removeAll();
-		createCardPanel(weaponPanel,"Weapons", CardType.WEAPON);
-		System.out.println(weapons);
+		createCardPanel(weaponPanel, weapons, "Weapons", CardType.WEAPON);
+		weaponPanel.revalidate();
 	}
-
-	public void setGuess(String guess) {
-		
-	}
-	
-	public void setGuessResult(String result) {
-		
-	}
-	
 	
 	/**
 	 * Main to test the panel
@@ -166,8 +148,8 @@ public class CardPanel extends JPanel {
 		COLORMAP.put(Color.PINK, Color.PINK);
 		COLORMAP.put(Color.CYAN, Color.CYAN);
 		
-		player = (HumanPlayer)board.getPlayers().get("Red");
-		System.out.println(player);
+		player = (HumanPlayer) board.getPlayers().get("Red");
+//		System.out.println("Player: " + player);
 		playerCards = board.getPlayerCardMap();
 		
 		CardPanel panel = new CardPanel();  // create the panel
@@ -176,23 +158,14 @@ public class CardPanel extends JPanel {
 		frame.setSize(180, 720);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
-		
-		player.updateSeen(new Card("Hospital", CardType.ROOM));
-		
-//		for(Player playerL : playerCards.keySet()) {
-//			if(playerL.getPlayerColor() != Color.RED) {
-//				for(Card card : playerCards.get(playerL)) {
-//					player.updateSeen(card);
-//				}
-//			}
-//		}
-		
-		/**
-		 * Not sure what is going wrong here?  The functions work when adding a single card
-		 * to the seen list but the for loop breaks the entire thing. 
-		 * 
-		 * Also clueSetupFinal was added to add temporary player names and only 6 players
-		 */
+				
+		for (Player playerL : playerCards.keySet()) {
+			if (playerL.getPlayerColor() != Color.RED) {
+				for (Card card : playerCards.get(playerL)) {
+					player.updateSeen(card);
+				}
+			}
+		}
 		
 		panel.updateRoom();
 		panel.updatePeople();

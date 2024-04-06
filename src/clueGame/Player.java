@@ -45,7 +45,7 @@ public abstract class Player {
 	
 	public void updateSeen(Card card) {
 		seenCards.add(card);
-		if(card.getCardType()==CardType.WEAPON) {
+		if(card.getCardType() == CardType.WEAPON) {
 			seenWeapon = true;
 		}
 	}
@@ -133,5 +133,4 @@ public abstract class Player {
 	public String toString() {
 		return "Player [name=" + name + ", playerColor=" + playerColor + ", playerDeck=" + playerDeck + "]";
 	}
-
 }
