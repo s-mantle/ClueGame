@@ -15,17 +15,11 @@ import java.awt.GridLayout;
 
 public class GameControlPanel extends JPanel {
 	// Reference the layout template from C22A-1 to understand what each instance variable represents
-	JPanel mainPanel;
-	JPanel gameInfoPanel, guessFieldPanel;
+	private JPanel mainPanel,gameInfoPanel, guessFieldPanel, turnPanel, rollPanel, guessPanel, resultPanel;
+	private JButton nextButton, accusationButton;
+	private JLabel turnLabel, rollLabel; 
+	private JTextField turnPlayerName, rollNumber, guessText, guessResults;
 	
-	JPanel turnPanel, rollPanel;
-	JButton nextButton, accusationButton;
-	
-	JLabel turnLabel; JTextField turnPlayerName;
-	JLabel rollLabel; JTextField rollNumber;
-	
-	JPanel guessPanel, resultPanel;
-	JTextField guessText, guessResults;
 	private String rollNum, playerName, guess, result;
 	private Color playerColor;
 	
@@ -116,10 +110,6 @@ public class GameControlPanel extends JPanel {
 		this.playerName = player.getName();
 		this.playerColor = player.getPlayerColor();
 		this.rollNum = Integer.toString(rollNumber);
-		System.out.println("Players name is: " + playerName);
-		System.out.println("Players color is: " + playerColor);
-		System.out.println("Roll number is: " + rollNum);
-		repaint();
 	}
 	
 	public void updateDisplay() {
@@ -152,7 +142,7 @@ public class GameControlPanel extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 		
-//		// test filling in the data
+		// test filling in the data
 		panel.setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
 		panel.setGuess( "I have public void setGuess");
 		panel.setGuessResult( "So you have nothing?");
