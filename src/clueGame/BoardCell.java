@@ -80,6 +80,7 @@ public class BoardCell {
 		}
 		graphic.setEditable(false);
 		mainPanel.add(graphic);
+		mainPanel.revalidate();
 	}
 	
 	public int getRow() {

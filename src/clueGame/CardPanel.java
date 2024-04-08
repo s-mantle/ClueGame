@@ -34,6 +34,24 @@ public class CardPanel extends JPanel {
 	 * Constructor for the panel, it does 90% of the work
 	 */
 	public CardPanel(int width, int height)  {
+		// Added for C23A
+		// -------------------------------------------------
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
+		board.initialize();
+		board.dealCards();
+		
+		COLORMAP.put(Color.RED, LIGHT_RED);
+		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
+		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
+		COLORMAP.put(Color.YELLOW, Color.ORANGE);
+		COLORMAP.put(Color.PINK, Color.PINK);
+		COLORMAP.put(Color.CYAN, Color.CYAN);
+		
+		player = (HumanPlayer) board.getPlayers().get("Red");
+		playerCards = board.getPlayerCardMap();
+		// -------------------------------------------------
+		
 		mainPanel = new JPanel();
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -132,26 +150,28 @@ public class CardPanel extends JPanel {
 		weaponPanel.revalidate();
 	}
 	
+	
+	
 	/**
 	 * Main to test the panel
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
-		board.initialize();
-		board.dealCards();
+//		board = Board.getInstance();
+//		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
+//		board.initialize();
+//		board.dealCards();
 		
-		COLORMAP.put(Color.RED, LIGHT_RED);
-		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
-		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
-		COLORMAP.put(Color.YELLOW, Color.ORANGE);
-		COLORMAP.put(Color.PINK, Color.PINK);
-		COLORMAP.put(Color.CYAN, Color.CYAN);
+//		COLORMAP.put(Color.RED, LIGHT_RED);
+//		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
+//		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
+//		COLORMAP.put(Color.YELLOW, Color.ORANGE);
+//		COLORMAP.put(Color.PINK, Color.PINK);
+//		COLORMAP.put(Color.CYAN, Color.CYAN);
 		
-		player = (HumanPlayer) board.getPlayers().get("Red");
-		playerCards = board.getPlayerCardMap();
+//		player = (HumanPlayer) board.getPlayers().get("Red");
+//		playerCards = board.getPlayerCardMap();
 		
 		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
 //		CardPanel panel = new CardPanel();  // create the panel

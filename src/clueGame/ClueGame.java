@@ -1,7 +1,11 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,25 +30,27 @@ public class ClueGame extends JFrame {
 		this.numCols = numCols;
 		
 		mainFrame = new JFrame();
-		mainFrame.setSize(panelWidth, panelHeight);
+		mainFrame.setSize(frameWidth, frameHeight);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 		
 		mainPanel = new JPanel();
-		mainPanel.setSize(600, 600);
-		mainPanel.setLayout(new GridLayout(numRows, numCols));
+		mainPanel.setSize(panelWidth, panelHeight);
+		mainPanel.setLayout(new GridLayout(this.numRows, this.numCols));
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
-//		gameControlPanel = new GameControlPanel(frameWidth, 200);
-//		cardPanel = new CardPanel(200, frameHeight);
+//		System.out.println(frameWidth + " - " + frameHeight + " - " + panelWidth + " - " + panelHeight);
 		
-//		mainFrame.add(mainFrame);
+		gameControlPanel = new GameControlPanel(frameWidth, 200);
+		mainFrame.add(gameControlPanel, BorderLayout.SOUTH);
+		
+		cardPanel = new CardPanel(200, frameHeight);
+		mainFrame.add(cardPanel, BorderLayout.EAST);
 	}
 	
 	public void paintComponent(Board board) {
 //		super.paintComponents(/*Add parameters as needed*/);
 		
-		// This will need to be adjusted to not cutoff the control panels
 		int cellWidths = (int) panelWidth / numRows;
 		int cellHeights = (int) panelHeight / numCols;
 		board.drawCells(mainPanel, cellWidths, cellHeights); // This seems to randomly misdraw the board - will need debugging
