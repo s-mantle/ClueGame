@@ -10,8 +10,12 @@
  */
 package clueGame;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class BoardCell {
 	//Cells position on the board
@@ -40,6 +44,8 @@ public class BoardCell {
 	
 	//Cells adj list of where a player can move
 	private Set<BoardCell> adjList;
+	
+	private JTextField graphic;
 
 	/**
 	 * Sets up the basic variables in TestBoardCell
@@ -59,6 +65,21 @@ public class BoardCell {
 		this.isOccupied = false;
 		this.letter = ' ';
 		this.adjList = new HashSet<BoardCell>();
+		this.graphic = new JTextField();
+	}
+	
+	public void drawCell(JPanel mainPanel, int cellWidth, int cellHeight) {
+		if (letter == 'X') {
+			graphic.setBackground(Color.BLACK);
+		}
+		else if (isRoom) {
+			graphic.setBackground(Color.LIGHT_GRAY);
+		}
+		else if (!isRoom){
+			graphic.setBackground(Color.YELLOW);
+		}
+		graphic.setEditable(false);
+		mainPanel.add(graphic);
 	}
 	
 	public int getRow() {

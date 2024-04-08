@@ -27,11 +27,12 @@ public class GameControlPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel()  {
+	public GameControlPanel(int width, int height)  {
 		mainPanel = new JPanel();
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new GridLayout(2,0));
 		
+		mainPanel.setSize(width, height);	// Added for C23A
 		setVisible(true);		
 		
 		gameInfoPanel = new JPanel();
@@ -134,7 +135,8 @@ public class GameControlPanel extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();  // create the panel
+		GameControlPanel panel = new GameControlPanel(750, 180);  // Added for C23A
+//		GameControlPanel panel = new GameControlPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(750, 180);  // size the frame

@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 
 public class Board{
 	private BoardCell[][] grid;
@@ -510,6 +512,14 @@ public class Board{
 			}
 		}
 		return null;
+	}
+	
+	public void drawCells(JPanel mainPanel, int cellWidths, int cellHeights) {
+		for (int i = 0; i < this.ROWS; i++) {
+			for (int j = 0; j < this.COLS; j ++) {
+				theInstance.getCell(i, j).drawCell(mainPanel, cellWidths, cellHeights);
+			}
+		}
 	}
 	
 	

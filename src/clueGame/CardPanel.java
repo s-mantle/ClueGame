@@ -33,11 +33,13 @@ public class CardPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public CardPanel()  {
+	public CardPanel(int width, int height)  {
 		mainPanel = new JPanel();
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
+		
+		mainPanel.setSize(width, height);	// Added for C23A
 		
 		setVisible(true);
 		add(mainPanel, BorderLayout.CENTER);
@@ -151,7 +153,8 @@ public class CardPanel extends JPanel {
 		player = (HumanPlayer) board.getPlayers().get("Red");
 		playerCards = board.getPlayerCardMap();
 		
-		CardPanel panel = new CardPanel();  // create the panel
+		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
+//		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(180, 720);  // size the frame
