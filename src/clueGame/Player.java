@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.swing.JPanel;
+
 import java.util.Collections;
 
 public abstract class Player {
@@ -24,7 +27,7 @@ public abstract class Player {
 	protected List<Card> playerDeck = new ArrayList<>();
 	protected Set<Card> seenCards = new HashSet<>();
 	protected boolean canPlay = true, seenWeapon = false, seenRoom = false, seenPerson=false;
-	
+	protected JPanel foregroundGraphic;
 	
 	/**
 	 * Constructor for player, inputs all of the data into the player
@@ -39,6 +42,7 @@ public abstract class Player {
 		this.playerColor = playerColor;
 		this.row = row;
 		this.col = col;
+		this.foregroundGraphic = new JPanel();
 	}
 	
 	public abstract void createAccusation(Card room, Card person, Card weapon);
@@ -84,6 +88,15 @@ public abstract class Player {
 		if(foundCard)
 			return returnList.remove(0);
 		return null;
+	}
+	
+	public void drawPlayer(JPanel mainPanel, int cellWidth, int cellHeight) {
+		// Update this to draw a circle on the cell instead of a square overriding the cell
+		foregroundGraphic.setBackground(playerColor);
+		
+		System.out.println('a');
+		mainPanel.add(foregroundGraphic);
+		mainPanel.revalidate();
 	}
 	
 	//Used for testing

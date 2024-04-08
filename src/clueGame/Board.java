@@ -75,10 +75,10 @@ public class Board{
 	 */
 	public void initialize() {
 		grid = new BoardCell[ROWS][COLS];
+		
 		try {
 			File file = new File(layoutConfigFile);
 			Scanner scanner = new Scanner(file);
-			
 			//Loops through the rows
 			for (int i = 0; i < ROWS; i++) {
 				String[] line = scanner.nextLine().split(",");
@@ -134,6 +134,12 @@ public class Board{
 					}
 				}
 			}
+			
+			// Added for C23A
+			for (Player player: allPlayers) {
+				grid[player.getRow()][player.getCol()].setOccupied(true);
+			}
+			
 			scanner.close();
 			theInstance.calcAdjList();
 		}
@@ -514,14 +520,23 @@ public class Board{
 		return null;
 	}
 	
-	public void drawCells(JPanel mainPanel, int cellWidths, int cellHeights) {
+	public void drawBoard(JPanel mainPanel, int cellWidths, int cellHeights) {
 		for (int i = 0; i < this.ROWS; i++) {
 			for (int j = 0; j < this.COLS; j ++) {
-				theInstance.getCell(i, j).drawCell(mainPanel, cellWidths, cellHeights);
+				if (theInstance.getCell(i, j).getOccupied()) {
+					for (Player player: allPlayers) {
+						if ((player.getRow() == i) && (player.getCol() == j)) {
+							player.drawPlayer(mainPanel, cellWidths, cellHeights);
+							break;
+						}
+					}
+				}
+				else {
+					theInstance.getCell(i, j).drawCell(mainPanel, cellWidths, cellHeights);
+				}
 			}
 		}
 	}
-	
 	
 	/**
 	 * Returns the cell at the grids row,col
