@@ -149,7 +149,6 @@ public class CardPanel extends JPanel {
 		COLORMAP.put(Color.CYAN, Color.CYAN);
 		
 		player = (HumanPlayer) board.getPlayers().get("Red");
-//		System.out.println("Player: " + player);
 		playerCards = board.getPlayerCardMap();
 		
 		CardPanel panel = new CardPanel();  // create the panel
