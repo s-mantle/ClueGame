@@ -94,7 +94,6 @@ public abstract class Player {
 		// Update this to draw a circle on the cell instead of a square overriding the cell
 		foregroundGraphic.setBackground(playerColor);
 		
-		System.out.println('a');
 		mainPanel.add(foregroundGraphic);
 		mainPanel.revalidate();
 	}

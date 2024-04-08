@@ -33,13 +33,13 @@ public class CardPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public CardPanel(int width, int height)  {
+	public CardPanel(Board board, int width, int height)  {
 		// Added for C23A
 		// -------------------------------------------------
-		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
-		board.initialize();
-		board.dealCards();
+//		board = Board.getInstance();
+//		board.setConfigFiles("ClueLayoutUpdatedWalkways.csv", "ClueSetupFinal.txt");
+//		board.initialize();
+//		board.dealCards();
 		
 		COLORMAP.put(Color.RED, LIGHT_RED);
 		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
@@ -173,7 +173,7 @@ public class CardPanel extends JPanel {
 //		player = (HumanPlayer) board.getPlayers().get("Red");
 //		playerCards = board.getPlayerCardMap();
 		
-		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
+		CardPanel panel = new CardPanel(board, 180, 720);	// Added for C23A
 //		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame

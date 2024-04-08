@@ -21,7 +21,7 @@ public class ClueGame extends JFrame {
 	private int panelWidth, panelHeight;
 	private int numRows, numCols;
 	
-	public ClueGame(int width, int height, int numRows, int numCols) {
+	public ClueGame(Board board, int width, int height, int numRows, int numCols) {
 		this.frameWidth = width;
 		this.frameHeight = height;
 		this.panelWidth = frameWidth - 200;
@@ -39,12 +39,12 @@ public class ClueGame extends JFrame {
 		mainPanel.setLayout(new GridLayout(this.numRows, this.numCols));
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
-//		System.out.println(frameWidth + " - " + frameHeight + " - " + panelWidth + " - " + panelHeight);
 		
 		gameControlPanel = new GameControlPanel(frameWidth, 200);
 		mainFrame.add(gameControlPanel, BorderLayout.SOUTH);
 		
-		cardPanel = new CardPanel(200, frameHeight);
+		// CardPanel needs to be better integrated into this. It shouldn't take board as a parameter, but I have yet to refactor
+		cardPanel = new CardPanel(board, 200, frameHeight);
 		mainFrame.add(cardPanel, BorderLayout.EAST);
 	}
 	
@@ -59,11 +59,11 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String[] args) {
 		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
+		board.setConfigFiles("ClueLayoutUpdatedWalkways.csv", "ClueSetupFinal.txt");
 		board.initialize();
 		board.dealCards();
 		
-		ClueGame main = new ClueGame(1000, 1000, board.getNumRows(), board.getNumColumns());
+		ClueGame main = new ClueGame(board, 1000, 1000, board.getNumRows(), board.getNumColumns());
 		main.paintComponent(board);
 	}
 }
