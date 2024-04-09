@@ -53,7 +53,7 @@ public class ClueGame extends JFrame {
 		
 		int cellWidths = (int) panelWidth / numRows;
 		int cellHeights = (int) panelHeight / numCols;
-		board.drawBoard(mainPanel, cellWidths, cellHeights); // This seems to randomly misdraw the board - will need debugging
+		board.drawBoard(mainPanel, cellWidths, cellHeights);
 	}
 	
 	

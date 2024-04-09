@@ -10,6 +10,7 @@
  */
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -521,20 +522,57 @@ public class Board{
 	}
 	
 	public void drawBoard(JPanel mainPanel, int cellWidths, int cellHeights) {
+		ArrayList<Integer> roomRows = new ArrayList<>();
+		ArrayList<Integer> roomCols = new ArrayList<>();
+		ArrayList<String> roomNames = new ArrayList<>();
+		
 		for (int i = 0; i < this.ROWS; i++) {
 			for (int j = 0; j < this.COLS; j ++) {
 				if (theInstance.getCell(i, j).getOccupied()) {
 					for (Player player: allPlayers) {
 						if ((player.getRow() == i) && (player.getCol() == j)) {
-							player.drawPlayer(mainPanel, cellWidths, cellHeights);
+							player.drawPlayer(mainPanel);
 							break;
 						}
 					}
 				}
 				else {
-					theInstance.getCell(i, j).drawCell(mainPanel, cellWidths, cellHeights);
+					theInstance.getCell(i, j).drawCell(mainPanel);
+				}
+				
+				if (theInstance.getCell(i, j).isDoorway()) {
+					DoorDirection doorDir = theInstance.getCell(i, j).getDoorDirection();
+					int doorThickness = 8;
+					
+					if (doorDir == DoorDirection.UP) {
+						BoardCell queriedCell = grid[i-1][j];
+						queriedCell.drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
+					} else if (doorDir == DoorDirection.DOWN) {
+						BoardCell queriedCell = grid[i+1][j];
+						queriedCell.drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
+					} else if (doorDir == DoorDirection.LEFT) {
+						BoardCell queriedCell = grid[i][j-1];
+						queriedCell.drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
+					} else if (doorDir == DoorDirection.RIGHT) {
+						BoardCell queriedCell = grid[i][j+1];
+						queriedCell.drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
+					}
+					
+				}
+				
+				if (theInstance.getCell(i, j).isLabel()) {
+					roomRows.add(i);
+					roomCols.add(j);
+					String roomName = roomMap.get(theInstance.getCell(i, j).getLetter()).getName();
+					roomNames.add(roomName);
 				}
 			}
+		}
+		
+		
+		
+		for (int i = 0; i < roomRows.size(); i++) {
+			theInstance.getCell(roomRows.get(i), roomCols.get(i)).drawRoomLabel(roomNames.get(i));
 		}
 	}
 	

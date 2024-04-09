@@ -90,7 +90,7 @@ public abstract class Player {
 		return null;
 	}
 	
-	public void drawPlayer(JPanel mainPanel, int cellWidth, int cellHeight) {
+	public void drawPlayer(JPanel mainPanel) {
 		// Update this to draw a circle on the cell instead of a square overriding the cell
 		foregroundGraphic.setBackground(playerColor);
 		

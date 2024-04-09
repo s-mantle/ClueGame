@@ -10,11 +10,16 @@
  */
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -47,7 +52,9 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	
 	private JPanel backgroundGraphic;
+	private JPanel doorGraphic;
 	private final static Color LIGHT_YELLOW = new Color(255, 255, 204);
+	
 
 	/**
 	 * Sets up the basic variables in TestBoardCell
@@ -68,9 +75,10 @@ public class BoardCell {
 		this.letter = ' ';
 		this.adjList = new HashSet<BoardCell>();
 		this.backgroundGraphic = new JPanel();
+		this.doorGraphic = new JPanel();
 	}
 	
-	public void drawCell(JPanel mainPanel, int cellWidth, int cellHeight) {
+	public void drawCell(JPanel mainPanel) {
 		if (letter == 'X') {
 			backgroundGraphic.setBackground(Color.BLACK);
 		}
@@ -80,10 +88,29 @@ public class BoardCell {
 		else if (!isRoom){
 			// Either need to make Yellow a nonplayable color or adjust the background hue. I'm okay with either
 			backgroundGraphic.setBackground(LIGHT_YELLOW);
+			backgroundGraphic.setBorder(BorderFactory.createLineBorder(Color.black));
 		}
 		
 		mainPanel.add(backgroundGraphic);
 		mainPanel.revalidate();
+	}
+	
+	public void drawDoor(String side, int doorWidth, int doorHeight) {
+		backgroundGraphic.setLayout(new BorderLayout());
+		doorGraphic.setPreferredSize(new Dimension(doorWidth, doorHeight));
+		doorGraphic.setBackground(Color.BLUE);
+		backgroundGraphic.add(doorGraphic, side);
+		backgroundGraphic.revalidate();
+	}
+	
+	public void drawRoomLabel(String roomName) {
+		JLabel roomLabel = new JLabel(roomName);
+		// Source: https://www.codejava.net/java-se/swing/jlabel-basic-tutorial-and-examples
+		roomLabel.setFont(new java.awt.Font("Impact", Font.ITALIC, 20));
+		roomLabel.setForeground(Color.BLUE);
+		
+		backgroundGraphic.add(roomLabel);
+		backgroundGraphic.revalidate();
 	}
 	
 	public int getRow() {
