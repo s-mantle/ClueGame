@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ClueGame extends JFrame {
 		this.numRows = numRows;
 		this.numCols = numCols;
 		
-		mainFrame = new JFrame();
+		mainFrame = new JFrame("Sam & Ben's Clue Game!");
 		mainFrame.setSize(frameWidth, frameHeight);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
@@ -49,7 +50,7 @@ public class ClueGame extends JFrame {
 	}
 	
 	public void paintComponent(Board board) {
-//		super.paintComponents(/*Add parameters as needed*/);
+//		super.paintComponents(/*TODO: Add parameters*/);
 		
 		int cellWidths = (int) panelWidth / numRows;
 		int cellHeights = (int) panelHeight / numCols;

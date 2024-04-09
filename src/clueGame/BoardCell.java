@@ -54,6 +54,7 @@ public class BoardCell {
 	private JPanel backgroundGraphic;
 	private JPanel doorGraphic;
 	private final static Color LIGHT_YELLOW = new Color(255, 255, 204);
+	private final static Color BROWN = new Color(139, 69, 19);
 	
 
 	/**
@@ -98,7 +99,7 @@ public class BoardCell {
 	public void drawDoor(String side, int doorWidth, int doorHeight) {
 		backgroundGraphic.setLayout(new BorderLayout());
 		doorGraphic.setPreferredSize(new Dimension(doorWidth, doorHeight));
-		doorGraphic.setBackground(Color.BLUE);
+		doorGraphic.setBackground(BROWN);
 		backgroundGraphic.add(doorGraphic, side);
 		backgroundGraphic.revalidate();
 	}
