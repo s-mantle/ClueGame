@@ -1,0 +1,45 @@
+Fully Pair Programmed:
+I, Ben Isenhart, certify that I participated equitably in the creation of assignment C23A, dated 4-8-24.
+I, Sam Mantle, certify that I participated equitably in the creation of this assignment C23A, dated 4-8-24.
+
+commit 0096bc82e1e5acf1bcdc824cbc6d127176aec38f
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 22:03:00 2024 -0600
+
+    Submitting Version
+
+commit c600e1962fcd2531f3c58088c4a16a3c9f2b03fb
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 20:24:19 2024 -0600
+
+    TODO: GameControlPanel & CardPanel resizing, roomLabel overlapping
+
+commit 074596663e0710b0b6fc82cc66a0e837a6f1850d
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 20:05:35 2024 -0600
+
+    Nasty Layout debuggings & door implementation
+
+commit 09df5f3ed09fe5a239c954da2408467e1e195551
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 11:20:26 2024 -0600
+
+    Updated Walkways - might be reverted
+
+commit c3e4fc06e8ef87eddbe96a909d4dac9914e6eb14
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 11:10:06 2024 -0600
+
+    Color refactoring & isOccupied initializing bugfix
+
+commit 407985f9b2f5f680c6937d634721f55e723b1ae1
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 10:31:47 2024 -0600
+
+    All panels basic implementation
+
+commit 59b6209164d0d233411a40eb82682dfc1c942898
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Mon Apr 8 10:15:51 2024 -0600
+
+    Base game building

@@ -1,0 +1,31 @@
+// Rooms and room cards - should be 10
+Room, Armory, A
+Room, Ballet Room, B
+Room, Choir Hall, C
+Room, Dungeon, D
+Room, Engine Room, E
+Room, Fireplace, F
+Room, Great Hall, G
+Room, Hospital, H
+Room, Inglenook, I
+Room, Jailroom, J
+
+// Other spaces on board - should be 2
+Space, Unused, X
+Space, Walkway, W
+
+// Player Cards - should be 6
+Player, Red, Mr. Red, Human, 4, 0
+Player, Blue, Mrs. Blue, Computer, 0, 4
+Player, Green, Sarge Green, Computer, 0, 8
+Player, Yellow, Mrs. Sunflower, Computer, 4, 12
+Player, Cyan, AQUAMAN!, Computer, 10, 12
+Player, Pink, Mrs. Rose, Computer, 14, 8
+
+// Weapons Cards - should be 6
+Weapon, Wrench, W
+Weapon, Knife, K
+Weapon, Candlestick, C
+Weapon, Pistol, P
+Weapon, Lead Pipe, L
+Weapon, Rope, R
