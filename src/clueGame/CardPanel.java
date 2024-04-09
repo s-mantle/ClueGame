@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +37,6 @@ public class CardPanel extends JPanel {
 	public CardPanel(Board board, int width, int height)  {
 		// Added for C23A
 		// -------------------------------------------------
-//		board = Board.getInstance();
-//		board.setConfigFiles("ClueLayoutUpdatedWalkways.csv", "ClueSetupFinal.txt");
-//		board.initialize();
-//		board.dealCards();
-		
 		COLORMAP.put(Color.RED, LIGHT_RED);
 		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
 		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
@@ -57,7 +53,9 @@ public class CardPanel extends JPanel {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
 		
-		mainPanel.setSize(width, height);	// Added for C23A
+		mainPanel.setSize(new Dimension(width, height));	// Added for C23A
+		mainPanel.setPreferredSize(new Dimension(width, height - 200));	// Added for C23A
+		mainPanel.setMaximumSize(new Dimension(width, height));
 		
 		setVisible(true);
 		add(mainPanel, BorderLayout.CENTER);
@@ -85,6 +83,21 @@ public class CardPanel extends JPanel {
 		mainPanel.add(peoplePanel);
 		mainPanel.add(roomPanel);
 		mainPanel.add(weaponPanel);
+		
+		// Added for C23A
+		// -------------------------------------------------
+		for (Player playerL : playerCards.keySet()) {
+			if (playerL.getPlayerColor() != Color.RED) {
+				for (Card card : playerCards.get(playerL)) {
+					player.updateSeen(card);
+				}
+			}
+		}
+		
+		updatePeople();
+		updateRoom();
+		updateWeapon();
+		// -------------------------------------------------
 	}
 	
 	private void createCardPanel(JPanel panel, ArrayList<Card> cardSet, String title, CardType cardType) {

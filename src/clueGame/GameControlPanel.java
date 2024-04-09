@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 public class GameControlPanel extends JPanel {
@@ -32,7 +33,8 @@ public class GameControlPanel extends JPanel {
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new GridLayout(2,0));
 		
-		mainPanel.setSize(width, height);	// Added for C23A
+		mainPanel.setSize(new Dimension(width, height));	// Added for C23A
+		mainPanel.setPreferredSize(new Dimension(width, height));	// Added for C23A
 		setVisible(true);		
 		
 		gameInfoPanel = new JPanel();
@@ -104,6 +106,14 @@ public class GameControlPanel extends JPanel {
 		mainPanel.add(guessFieldPanel);
 		add(mainPanel);
 		
+		// Added for C23A
+		// -------------------------------------------------
+		setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
+		setGuess( "I have no guess");
+		setGuessResult( "So you have nothing?");
+		
+		updateDisplay();
+		// -------------------------------------------------
 	}
 	
 	public void setTurn(Player player, int rollNumber) {

@@ -24,8 +24,8 @@ public class ClueGame extends JFrame {
 	public ClueGame(Board board, int width, int height, int numRows, int numCols) {
 		this.frameWidth = width;
 		this.frameHeight = height;
-		this.panelWidth = frameWidth - 200;
-		this.panelHeight = frameHeight - 200;
+		this.panelWidth = frameWidth - 150;
+		this.panelHeight = frameHeight - 150;
 		this.numRows = numRows;
 		this.numCols = numCols;
 		
@@ -40,11 +40,11 @@ public class ClueGame extends JFrame {
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
 		
-		gameControlPanel = new GameControlPanel(frameWidth, 200);
+		gameControlPanel = new GameControlPanel(frameWidth, 150);
 		mainFrame.add(gameControlPanel, BorderLayout.SOUTH);
 		
 		// CardPanel needs to be better integrated into this. It shouldn't take board as a parameter, but I have yet to refactor
-		cardPanel = new CardPanel(board, 200, frameHeight);
+		cardPanel = new CardPanel(board, 150, frameHeight);
 		mainFrame.add(cardPanel, BorderLayout.EAST);
 	}
 	
