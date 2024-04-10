@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +35,10 @@ public class CardPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public CardPanel(Board board, int width, int height)  {
+	public CardPanel(int width, int height)  {
 		// Added for C23A
 		// -------------------------------------------------
+		board = Board.getInstance();		
 		COLORMAP.put(Color.RED, LIGHT_RED);
 		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
 		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
@@ -50,7 +52,7 @@ public class CardPanel extends JPanel {
 		
 		mainPanel = new JPanel();
 		mainPanel.setVisible(true);
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
 		mainPanel.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
 		
 		mainPanel.setSize(new Dimension(width, height));	// Added for C23A
@@ -113,6 +115,7 @@ public class CardPanel extends JPanel {
 				if (card.getCardType() == cardType) {
 					JTextField people = new JTextField(card.getName());
 					people.setBackground(Color.LIGHT_GRAY);
+					people.setEditable(false);
 					panel.add(people);
 				}
 			}
@@ -125,6 +128,7 @@ public class CardPanel extends JPanel {
 			if (card.getCardType() == cardType) {
 				JTextField people = new JTextField(card.getName());
 				people.setBackground(getPlayerCardColor(card));
+				people.setEditable(false);
 				panel.add(people);
 				seenCard = true;
 			}
@@ -186,7 +190,7 @@ public class CardPanel extends JPanel {
 //		player = (HumanPlayer) board.getPlayers().get("Red");
 //		playerCards = board.getPlayerCardMap();
 		
-		CardPanel panel = new CardPanel(board, 180, 720);	// Added for C23A
+		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
 //		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame

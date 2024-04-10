@@ -45,7 +45,7 @@ public class ClueGame extends JFrame {
 		mainFrame.add(gameControlPanel, BorderLayout.SOUTH);
 		
 		// CardPanel needs to be better integrated into this. It shouldn't take board as a parameter, but I have yet to refactor
-		cardPanel = new CardPanel(board, 150, frameHeight);
+		cardPanel = new CardPanel(150, frameHeight);
 		mainFrame.add(cardPanel, BorderLayout.EAST);
 	}
 	
