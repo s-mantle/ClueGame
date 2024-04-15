@@ -4,11 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClueGame extends JFrame {
@@ -17,7 +16,7 @@ public class ClueGame extends JFrame {
 	
 	private JPanel gameControlPanel;
 	private JPanel cardPanel;
-	
+		
 	private int frameWidth, frameHeight;
 	private int panelWidth, panelHeight;
 	private int numRows, numCols;
@@ -40,6 +39,8 @@ public class ClueGame extends JFrame {
 		mainPanel.setLayout(new GridLayout(this.numRows, this.numCols));
 		mainFrame.add(mainPanel, BorderLayout.CENTER);
 		
+		JLabel paneDialogue = new JLabel("<html><center>You are " + board.getPlayerList().get(0).getName() + "<br>Can you find the solution before the Computer players?");
+		JOptionPane.showMessageDialog(mainFrame, paneDialogue, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		
 		gameControlPanel = new GameControlPanel(frameWidth, 150);
 		mainFrame.add(gameControlPanel, BorderLayout.SOUTH);
@@ -49,14 +50,15 @@ public class ClueGame extends JFrame {
 		mainFrame.add(cardPanel, BorderLayout.EAST);
 	}
 	
-	public void paintComponent(Board board) {
-//		super.paintComponents(/*TODO: Add parameters*/);
-		
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
+	}
+	
+	public void drawComponents(Board board) {
 		int cellWidths = (int) panelWidth / numRows;
 		int cellHeights = (int) panelHeight / numCols;
 		board.drawBoard(mainPanel, cellWidths, cellHeights);
 	}
-	
 	
 	public static void main(String[] args) {
 		Board board = Board.getInstance();
@@ -65,6 +67,6 @@ public class ClueGame extends JFrame {
 		board.dealCards();
 		
 		ClueGame main = new ClueGame(board, 1000, 1000, board.getNumRows(), board.getNumColumns());
-		main.paintComponent(board);
+		main.drawComponents(board);
 	}
 }
