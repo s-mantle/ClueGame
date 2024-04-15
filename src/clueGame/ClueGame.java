@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,14 +22,19 @@ public class ClueGame extends JFrame {
 	private int frameWidth, frameHeight;
 	private int panelWidth, panelHeight;
 	private int numRows, numCols;
+	private int cellWidths, cellHeights;
 	
-	public ClueGame(Board board, int width, int height, int numRows, int numCols) {
+	Board board = Board.getInstance();
+	
+	public ClueGame(int width, int height, int numRows, int numCols) {
 		this.frameWidth = width;
 		this.frameHeight = height;
 		this.panelWidth = frameWidth - 150;
 		this.panelHeight = frameHeight - 150;
 		this.numRows = numRows;
 		this.numCols = numCols;
+		this.cellWidths = (int) this.panelWidth / numRows;
+		this.cellHeights = (int) this.panelHeight / numCols;
 		
 		mainFrame = new JFrame("Sam & Ben's Clue Game!");
 		mainFrame.setSize(frameWidth, frameHeight);
@@ -54,10 +61,37 @@ public class ClueGame extends JFrame {
 		super.paintComponents(g);
 	}
 	
-	public void drawComponents(Board board) {
-		int cellWidths = (int) panelWidth / numRows;
-		int cellHeights = (int) panelHeight / numCols;
+	public void drawComponents() {
 		board.drawBoard(mainPanel, cellWidths, cellHeights);
+	}
+	
+	private class BoardClickListener implements MouseListener {
+		public void mousePressed(MouseEvent event) {}
+		public void mouseReleased(MouseEvent event) {}
+		public void mouseEntered(MouseEvent event) {}
+		public void mouseExited(MouseEvent event) {}
+		public void mouseClicked(MouseEvent event) {
+			// Is it human player turn?
+			
+			// Was the click on a target?			
+			int startX, startY = 0;
+			for (int i = 0; i < numRows; i++) {
+				startX = i * cellWidths;
+				for (int j = 0; j < numCols; j++) {
+					startY = j * cellHeights;
+					if (board.getCell(i, j).containsClick(event.getX(), event.getY(), startX, startY, cellWidths, cellHeights)) {
+						// TODO
+					}
+				}
+			}
+			
+			// Move player
+			
+			// In room?
+			
+			// If so, handle suggestion
+			
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -66,7 +100,7 @@ public class ClueGame extends JFrame {
 		board.initialize();
 		board.dealCards();
 		
-		ClueGame main = new ClueGame(board, 1000, 1000, board.getNumRows(), board.getNumColumns());
-		main.drawComponents(board);
+		ClueGame main = new ClueGame(1000, 1000, board.getNumRows(), board.getNumColumns());
+		main.drawComponents();
 	}
 }

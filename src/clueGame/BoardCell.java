@@ -15,6 +15,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -112,6 +114,14 @@ public class BoardCell {
 		
 		backgroundGraphic.add(roomLabel);
 		backgroundGraphic.revalidate();
+	}
+	
+	public boolean containsClick(int mouseX, int mouseY, int startX, int startY, int cellWidth, int cellHeight) {
+		Rectangle rect = new Rectangle(startX, startY, cellWidth, cellHeight);
+		if (rect.contains(new Point(mouseX, mouseY))) {
+			return true;
+		}
+		return false;
 	}
 	
 	public int getRow() {

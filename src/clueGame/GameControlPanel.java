@@ -13,6 +13,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameControlPanel extends JPanel {
 	// Reference the layout template from C22A-1 to understand what each instance variable represents
@@ -138,6 +140,32 @@ public class GameControlPanel extends JPanel {
 		this.result = result;
 	}
 	
+	class ButtonListener implements ActionListener {
+		// Next player pressed
+		public void actionPerformed(ActionEvent e) {
+			// Current human player finished?
+			
+			// Update current player
+			
+			// Roll the dice
+			
+			// Calc targets
+			
+			// Update GameControlPanel
+			
+			// Is new player human?
+			
+			// If human, display targets
+			
+			// If human, flag unfinished
+			
+			// If not human, do accusation?
+			
+			// If not human, do move
+			
+			// If not human, make suggestion? 
+		}
+	}
 	
 	/**
 	 * Main to test the panel
