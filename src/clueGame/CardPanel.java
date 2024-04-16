@@ -123,6 +123,7 @@ public class CardPanel extends JPanel {
 		
 		//Seen List
 		panel.add(new JLabel("Seen:"));
+		System.out.println("Player Seen List: "+ player.getSeenCards());
 		boolean seenCard = false;
 		for (Card card : player.getSeenCards()) {
 			if (card.getCardType() == cardType) {
@@ -175,21 +176,21 @@ public class CardPanel extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		board = Board.getInstance();
-//		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
-//		board.initialize();
-//		board.dealCards();
-		
-//		COLORMAP.put(Color.RED, LIGHT_RED);
-//		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
-//		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
-//		COLORMAP.put(Color.YELLOW, Color.ORANGE);
-//		COLORMAP.put(Color.PINK, Color.PINK);
-//		COLORMAP.put(Color.CYAN, Color.CYAN);
-		
-//		player = (HumanPlayer) board.getPlayers().get("Red");
-//		playerCards = board.getPlayerCardMap();
-		
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
+		board.initialize();
+		board.dealCards();
+//		
+////		COLORMAP.put(Color.RED, LIGHT_RED);
+////		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
+////		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
+////		COLORMAP.put(Color.YELLOW, Color.ORANGE);
+////		COLORMAP.put(Color.PINK, Color.PINK);
+////		COLORMAP.put(Color.CYAN, Color.CYAN);
+//		
+////		player = (HumanPlayer) board.getPlayers().get("Red");
+////		playerCards = board.getPlayerCardMap();
+//		
 		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
 //		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
@@ -197,17 +198,17 @@ public class CardPanel extends JPanel {
 		frame.setSize(180, 720);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
-				
-		for (Player playerL : playerCards.keySet()) {
-			if (playerL.getPlayerColor() != Color.RED) {
-				for (Card card : playerCards.get(playerL)) {
-					player.updateSeen(card);
-				}
-			}
-		}
-		
-		panel.updateRoom();
-		panel.updatePeople();
-		panel.updateWeapon();
+//				
+////		for (Player playerL : playerCards.keySet()) {
+////			if (playerL.getPlayerColor() != Color.RED) {
+////				for (Card card : playerCards.get(playerL)) {
+////					player.updateSeen(card);
+////				}
+////			}
+////		}
+//		
+//		panel.updateRoom();
+//		panel.updatePeople();
+//		panel.updateWeapon();
 	}
 }

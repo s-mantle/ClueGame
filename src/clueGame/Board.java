@@ -12,6 +12,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -25,6 +27,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -577,6 +580,7 @@ public class Board{
 			theInstance.getCell(roomRows.get(i), roomCols.get(i)).drawRoomLabel(roomNames.get(i));
 		}
 	}
+	
 	
 	/**
 	 * Returns the cell at the grids row,col
