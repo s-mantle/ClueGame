@@ -12,6 +12,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -524,28 +525,37 @@ public class Board{
 	}
 	
 	public void drawBoard(JPanel mainPanel, int cellWidths, int cellHeights) {
+		// Initialize lists to store information about each room for drawing room labels later on
 		ArrayList<Integer> roomRows = new ArrayList<>();
 		ArrayList<Integer> roomCols = new ArrayList<>();
 		ArrayList<String> roomNames = new ArrayList<>();
 		
+		// Loop through every cell in the grid to draw all cells
 		for (int i = 0; i < this.ROWS; i++) {
 			for (int j = 0; j < this.COLS; j ++) {
+				// If there is a player on this tile, figure out which player is present on the tile
 				if (theInstance.getCell(i, j).getOccupied()) {
 					for (Player player: allPlayers) {
 						if ((player.getRow() == i) && (player.getCol() == j)) {
+							// Once we have identified the player, have the player draw themself instead of the default background graphic
 							player.drawPlayer(mainPanel);
 							break;
 						}
 					}
 				}
+				// If the tile is unoccupied, draw the default background graphic instead
 				else {
 					theInstance.getCell(i, j).drawCell(mainPanel);
 				}
 				
+				// Draw the doorways - this uses a similar method to room calculation where we map door direction to pinpoint the correct adjacent cell
 				if (theInstance.getCell(i, j).isDoorway()) {
+					// Getting the door direction for comparisons
 					DoorDirection doorDir = theInstance.getCell(i, j).getDoorDirection();
 					int doorThickness = 8;
 					
+					// Map the door direction to the cell on which a door should be drawn. Once this cell has been found,
+					// draw the door on the cell with the given default thickness such that the cell retains a majority of its background graphic
 					if (doorDir == DoorDirection.UP) {
 						BoardCell queriedCell = grid[i-1][j];
 						queriedCell.drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
@@ -562,6 +572,8 @@ public class Board{
 					
 				}
 				
+				// If the cell queried is a roomLabel cell, then we save the coordinates and the name of the room.
+				// This is necessary such that we can draw the labels after the fact so they are not overlapping
 				if (theInstance.getCell(i, j).isLabel()) {
 					roomRows.add(i);
 					roomCols.add(j);
@@ -571,8 +583,7 @@ public class Board{
 			}
 		}
 		
-		
-		
+		// Once we have drawn every cell and all other elements of the board, we draw every roomLabel such that they remain in the foreground
 		for (int i = 0; i < roomRows.size(); i++) {
 			theInstance.getCell(roomRows.get(i), roomCols.get(i)).drawRoomLabel(roomNames.get(i));
 		}
