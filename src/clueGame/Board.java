@@ -564,19 +564,14 @@ public class Board{
 					// Map the door direction to the cell on which a door should be drawn. Once this cell has been found,
 					// draw the door on the cell with the given default thickness such that the cell retains a majority of its background graphic
 					if (doorDir == DoorDirection.UP) {
-						BoardCell queriedCell = grid[i-1][j];
-						queriedCell.drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
+						grid[i-1][j].drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
 					} else if (doorDir == DoorDirection.DOWN) {
-						BoardCell queriedCell = grid[i+1][j];
-						queriedCell.drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
+						grid[i-1][j].drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
 					} else if (doorDir == DoorDirection.LEFT) {
-						BoardCell queriedCell = grid[i][j-1];
-						queriedCell.drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
+						grid[i-1][j].drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
 					} else if (doorDir == DoorDirection.RIGHT) {
-						BoardCell queriedCell = grid[i][j+1];
-						queriedCell.drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
+						grid[i-1][j].drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
 					}
-					
 				}
 				
 				// If the cell queried is a roomLabel cell, then we save the coordinates and the name of the room.
