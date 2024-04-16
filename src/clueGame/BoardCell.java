@@ -81,37 +81,59 @@ public class BoardCell {
 		this.doorGraphic = new JPanel();
 	}
 	
+	/**
+	 * Draws the default background for a cell. This is set to black for nonmoveable cells, gray for rooms, and yellow for walkways
+	 * @param mainPanel The JPanel housing the game board
+	 */
 	public void drawCell(JPanel mainPanel) {
+		// If the cell is a nonplayable area
 		if (letter == 'X') {
 			backgroundGraphic.setBackground(Color.BLACK);
 		}
+		// If the cell is a room
 		else if (isRoom) {
 			backgroundGraphic.setBackground(Color.LIGHT_GRAY);
 		}
+		// If the cell is anything else (this is equal to walkways)
 		else if (!isRoom){
 			// Either need to make Yellow a nonplayable color or adjust the background hue. I'm okay with either
 			backgroundGraphic.setBackground(LIGHT_YELLOW);
 			backgroundGraphic.setBorder(BorderFactory.createLineBorder(Color.black));
 		}
 		
+		// Add elements to the panel in the gridlayout perscribed previously. Also forces a redraw
 		mainPanel.add(backgroundGraphic);
 		mainPanel.revalidate();
 	}
 	
+	/**
+	 * Handles the drawing of doors on top of the existing cell backgrounds
+	 * @param side The side of a cell on which the door should be drawn
+	 * @param doorWidth The width of the door
+	 * @param doorHeight The height of the door
+	 */
 	public void drawDoor(String side, int doorWidth, int doorHeight) {
+		// Set the default position and size for the door
 		backgroundGraphic.setLayout(new BorderLayout());
 		doorGraphic.setPreferredSize(new Dimension(doorWidth, doorHeight));
+		// Update the color of the door and add it to this cell's background graphic. This forces a redraw
 		doorGraphic.setBackground(BROWN);
 		backgroundGraphic.add(doorGraphic, side);
 		backgroundGraphic.revalidate();
 	}
 	
+	/**
+	 * Handles the drawing of room labels on top of rooms and their adjacent cells
+	 * @param roomName The name of the room to be displayed
+	 */
 	public void drawRoomLabel(String roomName) {
+		// Create a new JLabel to store the string for the room's name
 		JLabel roomLabel = new JLabel(roomName);
 		// Source: https://www.codejava.net/java-se/swing/jlabel-basic-tutorial-and-examples
 		roomLabel.setFont(new java.awt.Font("Impact", Font.ITALIC, 20));
 		roomLabel.setForeground(Color.BLUE);
 		
+		// Add the new roomLabel to this cell's background graphic. This also forces a redraw
 		backgroundGraphic.add(roomLabel);
 		backgroundGraphic.revalidate();
 	}
