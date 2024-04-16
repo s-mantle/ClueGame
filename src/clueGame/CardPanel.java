@@ -175,23 +175,7 @@ public class CardPanel extends JPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		board = Board.getInstance();
-//		board.setConfigFiles("ClueLayout.csv", "ClueSetupFinal.txt");
-//		board.initialize();
-//		board.dealCards();
-		
-//		COLORMAP.put(Color.RED, LIGHT_RED);
-//		COLORMAP.put(Color.BLUE, LIGHT_BLUE);
-//		COLORMAP.put(Color.GREEN, LIGHT_GREEN);
-//		COLORMAP.put(Color.YELLOW, Color.ORANGE);
-//		COLORMAP.put(Color.PINK, Color.PINK);
-//		COLORMAP.put(Color.CYAN, Color.CYAN);
-		
-//		player = (HumanPlayer) board.getPlayers().get("Red");
-//		playerCards = board.getPlayerCardMap();
-		
 		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
-//		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(180, 720);  // size the frame

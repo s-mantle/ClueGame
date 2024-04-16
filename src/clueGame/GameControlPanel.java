@@ -174,7 +174,6 @@ public class GameControlPanel extends JPanel {
 	 */
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel(750, 180);  // Added for C23A
-//		GameControlPanel panel = new GameControlPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 	    frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(750, 180);  // size the frame
