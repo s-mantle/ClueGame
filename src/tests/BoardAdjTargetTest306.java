@@ -248,7 +248,7 @@ public class BoardAdjTargetTest306 {
 		// test a roll of 4
 		board.calcTargets(board.getCell(13, 7), 4);
 		targets= board.getTargets();
-		assertEquals(15, targets.size());
+		assertEquals(14, targets.size());	// Updated for new ClueLayoutUpdatedWalkways
 		assertTrue(targets.contains(board.getCell(14, 2)));
 		assertTrue(targets.contains(board.getCell(15, 9)));
 		assertTrue(targets.contains(board.getCell(11, 5)));	
@@ -262,9 +262,8 @@ public class BoardAdjTargetTest306 {
 		board.calcTargets(board.getCell(13, 7), 4);
 		board.getCell(15, 7).setOccupied(false);
 		Set<BoardCell> targets = board.getTargets();
-		assertEquals(13, targets.size());
+		assertEquals(10, targets.size());	 // Updated for new ClueLayoutUpdatedWalkways
 		assertTrue(targets.contains(board.getCell(14, 2)));
-		assertTrue(targets.contains(board.getCell(15, 9)));
 		assertTrue(targets.contains(board.getCell(11, 5)));	
 		assertFalse( targets.contains( board.getCell(15, 7))) ;
 		assertFalse( targets.contains( board.getCell(17, 7))) ;

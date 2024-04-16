@@ -524,6 +524,13 @@ public class Board{
 		return null;
 	}
 	
+	/**
+	 * Handles a call from ClueGame to draw all game elements. This is done by calling the appropriate cells to draw their own components
+	 * 
+	 * @param mainPanel The JPanel storing all board elements
+	 * @param cellWidths The default width for a single cell
+	 * @param cellHeights The default height for a single cell
+	 */
 	public void drawBoard(JPanel mainPanel, int cellWidths, int cellHeights) {
 		// Initialize lists to store information about each room for drawing room labels later on
 		ArrayList<Integer> roomRows = new ArrayList<>();
