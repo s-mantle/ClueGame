@@ -10,11 +10,14 @@
  */
 package clueGame;
 
+import java.util.ArrayList;
 
 public class Room {
 	private String name;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
+	private ArrayList<Player> playersInRoom;
+	private ArrayList<BoardCell> roomCells;
 	
 	/**
 	 * Constructor: Creates a new Room and sets its name
@@ -23,6 +26,8 @@ public class Room {
 	 */
 	public Room(String name) {
 		this.name = name;
+		this.playersInRoom = new ArrayList<>();
+		this.roomCells = new ArrayList<>();
 	}
 
 	/**
@@ -30,6 +35,26 @@ public class Room {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	public void addRoomCell(BoardCell cell) {
+		this.roomCells.add(cell);
+	}
+	
+	public ArrayList<BoardCell> getRoomCells(){
+		return this.roomCells;
+	}
+	
+	public void addPlayer(Player player) {
+		this.playersInRoom.add(player);
+	}
+	
+	public void removePlayer(Player player) {
+		this.playersInRoom.remove(player);
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return this.playersInRoom;
 	}
 	
 	/**

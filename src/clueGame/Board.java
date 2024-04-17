@@ -10,11 +10,9 @@
  */
 package clueGame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -29,11 +27,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class Board{
+public class Board extends JPanel{
 	private BoardCell[][] grid;
 	
 	//ROWS and COLS set to -1 to ensure that they are updated within loadLayoutConfig()
@@ -67,7 +64,7 @@ public class Board{
 	
 	private Player currentPlayer;
 	private int rollNumber;
-
+	
 	//Private board, solution
 	private static Board theInstance = new Board();
 	public static Solution theSolution;
@@ -106,6 +103,7 @@ public class Board{
 					//Checks if the cell is a room
 					if (cellLetter != 'W' && cellLetter != 'X') {
 						cell.setRoom(true);
+						roomMap.get(cell.getLetter()).addRoomCell(cell);
 					}
 					
 					//Checks if the cell has any extra character (could be a door, labelCell, ect...)
@@ -158,6 +156,9 @@ public class Board{
 		catch (Exception FileNotFoundException) {
 			System.out.println("The given file cannot be found");
 		}
+		
+		setSize(850, 850);
+		theInstance.addMouseListener(new BoardListener());
 	}
 	
 	/**
@@ -267,9 +268,9 @@ public class Board{
 			}
 		}
 		allPlayers = new ArrayList<>(playerMap.values());
-//		for(Player player: allPlayers) {
-//			System.out.println(player);
-//		}
+		currentPlayer = allPlayers.get(0);
+		currentPlayer.setHuman(true);
+		
 		scanner.close();
 	}
 	
@@ -446,6 +447,7 @@ public class Board{
 			
 			if (numSteps == 1) {
 				targets.add(adjCell);
+				adjCell.setTarget(true);
 			}
 			else {
 				findAllTargets(adjCell, numSteps - 1);
@@ -532,79 +534,82 @@ public class Board{
 		return null;
 	}
 	
-	/**
-	 * Handles a call from ClueGame to draw all game elements. This is done by calling the appropriate cells to draw their own components
-	 * 
-	 * @param mainPanel The JPanel storing all board elements
-	 * @param cellWidths The default width for a single cell
-	 * @param cellHeights The default height for a single cell
-	 */
-	public void drawBoard(JPanel mainPanel, int cellWidths, int cellHeights) {
-		// Initialize lists to store information about each room for drawing room labels later on
-		ArrayList<Integer> roomRows = new ArrayList<>();
-		ArrayList<Integer> roomCols = new ArrayList<>();
-		ArrayList<String> roomNames = new ArrayList<>();
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		System.out.println("Board Class: paintComponent()");
+		// FOR TESTING ONLY:
+		calcTargets(grid[4][0], 4);
 		
-		// Loop through every cell in the grid to draw all cells
-		for (int i = 0; i < this.ROWS; i++) {
-			for (int j = 0; j < this.COLS; j ++) {
-				// If there is a player on this tile, figure out which player is present on the tile
-				if (theInstance.getCell(i, j).getOccupied()) {
-					for (Player player: allPlayers) {
-						if ((player.getRow() == i) && (player.getCol() == j)) {
-							// Once we have identified the player, have the player draw themself instead of the default background graphic
-							player.drawPlayer(mainPanel);
-							break;
-						}
+		setBackground(Color.BLACK);
+
+		int cellHeight = (int) (getHeight() / ROWS);
+		int cellWidth = (int) (getWidth() / COLS);
+		
+		int xPos = this.getX() + ((getWidth() - cellWidth * COLS) / 2);
+		int yPos = this.getY();
+		
+		// Handles painting each cell
+		for (BoardCell[] row: grid) {
+			for (BoardCell cell: row) {
+				if (cell.isRoom()) {
+					if (roomMap.get(cell.getLetter()).getCenterCell().isTarget()) {
+						cell.setTarget(true);
+						System.out.println("Target!");
+					}
+					else {
+						cell.setTarget(false);
 					}
 				}
-				// If the tile is unoccupied, draw the default background graphic instead
-				else {
-					if(targets != null) {
-						//This now accounts for targets and draws them as blue
-						if(targets.contains(theInstance.getCell(i, j))) {
-							theInstance.getCell(i, j).drawCell(mainPanel,true);
-						}else {
-							theInstance.getCell(i, j).drawCell(mainPanel,false);
-						}
-					}else {
-						theInstance.getCell(i, j).drawCell(mainPanel,false);
-					}
-				}
-				
-				// Draw the doorways - this uses a similar method to room calculation where we map door direction to pinpoint the correct adjacent cell
-				if (theInstance.getCell(i, j).isDoorway()) {
-					// Getting the door direction for comparisons
-					DoorDirection doorDir = theInstance.getCell(i, j).getDoorDirection();
-					int doorThickness = 8;
-					
-					// Map the door direction to the cell on which a door should be drawn. Once this cell has been found,
-					// draw the door on the cell with the given default thickness such that the cell retains a majority of its background graphic
-					if (doorDir == DoorDirection.UP) {
-						grid[i-1][j].drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
-					} else if (doorDir == DoorDirection.DOWN) {
-						grid[i+1][j].drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
-					} else if (doorDir == DoorDirection.LEFT) {
-						grid[i][j-1].drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
-					} else if (doorDir == DoorDirection.RIGHT) {
-						grid[i][j+1].drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
-					}
-				}
-				
-				// If the cell queried is a roomLabel cell, then we save the coordinates and the name of the room.
-				// This is necessary such that we can draw the labels after the fact so they are not overlapping
-				if (theInstance.getCell(i, j).isLabel()) {
-					roomRows.add(i);
-					roomCols.add(j);
-					String roomName = roomMap.get(theInstance.getCell(i, j).getLetter()).getName();
-					roomNames.add(roomName);
-				}
+				cell.drawCell(g, cell.isTarget(), xPos, yPos, cellWidth, cellHeight);
+				xPos += cellWidth;
+			}
+			xPos = this.getX() + ((getWidth() - cellWidth * COLS) / 2);
+			yPos += cellHeight;
+		}
+		
+		// Handles painting players
+		for (Player player: allPlayers) {
+			int xPosPlayer = this.getX() + player.getCol() * cellWidth;
+			int yPosPlayer = this.getY() + player.getRow() * cellHeight;
+			int xOffset = 3, yOffset = 3, xPlayerOffset = 1, yPlayerOffset = 1;
+			
+			// If the player is in a room
+//			if (player.getRoom() == '-') {
+//				Room room = roomMap.get(player.getRoom());
+//			}
+			
+			// If the player isn't in a room
+			if (player.getRoom() == '-') {
+				player.drawPlayer(g, xPosPlayer + xPlayerOffset + ((getWidth() - cellWidth * getNumColumns())/2), yPosPlayer + yPlayerOffset,
+						  		  cellWidth - xOffset, cellHeight - yOffset);
 			}
 		}
 		
-		// Once we have drawn every cell and all other elements of the board, we draw every roomLabel such that they remain in the foreground
-		for (int i = 0; i < roomRows.size(); i++) {
-			theInstance.getCell(roomRows.get(i), roomCols.get(i)).drawRoomLabel(roomNames.get(i));
+		// Door time!
+		int xPosDoor = 0, yPosDoor = 0;
+		for (BoardCell[] row: grid) {
+			for (BoardCell cell: row) {
+				cell.drawDoor(g, xPosDoor + ((getWidth() - cellWidth * COLS) / 2), yPosDoor, cellWidth, cellHeight);
+				xPosDoor += cellWidth;
+			}
+			xPosDoor = 0;
+			yPosDoor += cellHeight;
+		}
+		
+		// Handles painting room names
+		for (Map.Entry<Character, Room> vals: roomMap.entrySet()) {
+			Room room = vals.getValue();
+			Font font = new Font("Times New Roman", Font.BOLD, 25);
+			g.setFont(font);
+			g.setColor(Color.BLUE);
+			
+			if (room.getLabelCell() != null) {
+				int rowAdj = 1, colAdj = 0;
+
+				int xPosLabel = (int) ((room.getLabelCell().getCol() + colAdj) * cellWidth) + ((getWidth() - cellWidth * COLS) / 2);
+				int yPosLabel = (int) (room.getLabelCell().getRow() + rowAdj) * cellHeight;
+				g.drawString(room.getName(), xPosLabel, yPosLabel);
+			}
 		}
 	}
 	
@@ -626,6 +631,82 @@ public class Board{
 			if(grid[player.getRow()][player.getCol()].isRoom()) {
 				//Player is in a room and can make a suggestion
 			}
+		}
+	}
+	
+	private class BoardListener implements MouseListener {
+		public void mousePressed (MouseEvent event) {}
+		public void mouseReleased (MouseEvent event) {}
+		public void mouseEntered (MouseEvent event) {}
+		public void mouseExited (MouseEvent event) {}
+		public void mouseClicked (MouseEvent event) {
+			System.out.println("Mouse Clicked!!!");
+			if (!currentPlayer.isHuman()) {
+				return;
+			}
+			
+			int cellWidth = (int) (getWidth() / COLS);
+			int cellHeight = (int) (getHeight() / ROWS);
+			
+			int xPos = event.getX();
+			int yPos = event.getY();
+			
+			boolean selectedTile = false;
+
+			for (BoardCell cell: targets) {
+				System.out.println(cell);
+				System.out.println(targets);
+				if (selectedTile) { break; }
+				
+				// Double check this
+				int cellX = getX() + cell.getCol() * cellWidth + ((getWidth() - cellWidth * COLS) / 2);
+				int cellY = getY() + cell.getRow() * cellHeight;
+
+				if (cell.isRoom()) {
+					Room room = roomMap.get(cell.getLetter());
+					for (BoardCell roomCell: room.getRoomCells()) {
+						int roomCellX = getX() + cell.getCol() * cellWidth + ((getWidth() - cellWidth * COLS) / 2);
+						int roomCellY = getY() + cell.getRow() * cellHeight;
+						
+						if ((xPos > roomCellX) && (yPos > roomCellY) && (yPos < roomCellY + cellHeight) && (xPos < roomCellX + cellWidth)) {
+							if (currentPlayer.getRoom() != '-') {
+								roomMap.get(currentPlayer.getRoom()).removePlayer(currentPlayer);
+								currentPlayer.setRoom('-');
+							}
+							currentPlayer.movePlayer(room.getCenterCell().getRow(), room.getCenterCell().getCol());
+							currentPlayer.setRoom(room.getName().charAt(0));
+							selectedTile = true;
+							
+							// TODO: Handle suggestions
+							break;
+						}
+					}
+				}
+				else {
+					if ((xPos > cellX) && (yPos > cellY) && (yPos < cellY + cellHeight) && (xPos < cellX + cellWidth)) {
+						currentPlayer.movePlayer(cell.getRow(), cell.getCol());
+						
+						if (currentPlayer.getRoom() != '-') {
+							roomMap.get(currentPlayer.getRoom()).removePlayer(currentPlayer);
+							currentPlayer.setRoom('-');
+						}
+						
+						selectedTile = true;
+						currentPlayer.setFinished(true);
+						break;
+					}
+				}
+			}
+			if (!selectedTile) {
+				// TODO: Error messaging
+			}
+			else {
+				for (BoardCell cell: targets) {
+					cell.setTarget(false);
+				}
+			}
+			
+			repaint();
 		}
 	}
 	

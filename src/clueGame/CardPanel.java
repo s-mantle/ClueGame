@@ -123,7 +123,7 @@ public class CardPanel extends JPanel {
 		
 		//Seen List
 		panel.add(new JLabel("Seen:"));
-		System.out.println("Player Seen List: "+ player.getSeenCards());
+//		System.out.println("Player Seen List: "+ player.getSeenCards());
 		boolean seenCard = false;
 		for (Card card : player.getSeenCards()) {
 			if (card.getCardType() == cardType) {

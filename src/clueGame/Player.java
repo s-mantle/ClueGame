@@ -10,6 +10,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,8 @@ public abstract class Player {
 	protected Set<Card> seenCards = new HashSet<>();
 	protected boolean canPlay = true, seenWeapon = false, seenRoom = false, seenPerson=false;
 	protected JPanel foregroundGraphic;
+	protected boolean finished = false, isHuman = false;
+	protected char room;
 	
 	/**
 	 * Constructor for player, inputs all of the data into the player
@@ -43,6 +46,7 @@ public abstract class Player {
 		this.row = row;
 		this.col = col;
 		this.foregroundGraphic = new JPanel();
+		this.room = '-';
 	}
 	
 	public abstract void createAccusation(Card room, Card person, Card weapon);
@@ -52,6 +56,13 @@ public abstract class Player {
 		if(card.getCardType() == CardType.WEAPON) {
 			seenWeapon = true;
 		}
+	}
+	
+	public void drawPlayer(Graphics g, int xPos, int yPos, int width, int height) {
+		g.setColor(Color.BLACK);
+		g.drawOval(xPos, yPos, width, height);
+		g.setColor(playerColor);
+		g.fillOval(xPos, yPos, width, height);
 	}
 	
 	/**
@@ -96,6 +107,31 @@ public abstract class Player {
 		
 		mainPanel.add(foregroundGraphic);
 		mainPanel.revalidate();
+	}
+	
+	public void setFinished(boolean isFinished) {
+		this.finished = true;
+	}
+	
+	public void movePlayer(int newRow, int newCol) {
+		this.row = newRow;
+		this.col = newCol;
+	}
+	
+	public void setHuman(boolean isHuman){
+		this.isHuman = isHuman;
+	}
+	
+	public boolean isHuman() {
+		return this.isHuman;
+	}
+	
+	public void setRoom(char room) {
+		this.room = room;
+	}
+
+	public char getRoom() {
+		return this.room;
 	}
 	
 	//Used for testing
