@@ -61,6 +61,7 @@ public class Board{
 	ArrayList<Card> weaponList = new ArrayList<>();
 	ArrayList<Card> roomList = new ArrayList<>();
 	
+	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
 	
@@ -559,7 +560,16 @@ public class Board{
 				}
 				// If the tile is unoccupied, draw the default background graphic instead
 				else {
-					theInstance.getCell(i, j).drawCell(mainPanel);
+					if(targets != null) {
+						//This now accounts for targets and draws them as blue
+						if(targets.contains(theInstance.getCell(i, j))) {
+							theInstance.getCell(i, j).drawCell(mainPanel,true);
+						}else {
+							theInstance.getCell(i, j).drawCell(mainPanel,false);
+						}
+					}else {
+						theInstance.getCell(i, j).drawCell(mainPanel,false);
+					}
 				}
 				
 				// Draw the doorways - this uses a similar method to room calculation where we map door direction to pinpoint the correct adjacent cell
@@ -600,16 +610,20 @@ public class Board{
 	
 	public void playerTurn() {
 		if(currentPlayer.getName().equals("Mr. Red")){
-			//Display targets, flag unfinshed and wait for mouseListener
+			//Display targets, flag unfinished and wait for mouseListener
+			HumanPlayer player = (HumanPlayer)currentPlayer;
+			calcTargets(grid[player.getRow()][player.getCol()],rollNumber);
+			//Not sure how to call draw components from here?
+//			ClueGame.drawComponents();
 		}else {
-			//Desperatly needs to be moved inside of board lol
-			if(currentPlayer.getCanPlay() && currentPlayer.seenCards.size()-3 == cards.size()) {
+			ComputerPlayer player = (ComputerPlayer)currentPlayer;
+			if(player.getCanPlay() && player.seenCards.size()-3 == cards.size()) {
 				//make accusation
 			}else {
-				//Move
+				player.moveTo();
 			}
-			if(/*In room, make suggestion*/) {
-				
+			if(grid[player.getRow()][player.getCol()].isRoom()) {
+				//Player is in a room and can make a suggestion
 			}
 		}
 		

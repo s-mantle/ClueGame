@@ -61,22 +61,25 @@ public class BoardCell {
 	 * Draws the default background for a cell. This is set to black for nonmoveable cells, gray for rooms, and yellow for walkways
 	 * @param mainPanel The JPanel housing the game board
 	 */
-	public void drawCell(JPanel mainPanel) {
+	public void drawCell(JPanel mainPanel, boolean isTarget) {
 		// If the cell is a nonplayable area
-		if (letter == 'X') {
-			backgroundGraphic.setBackground(Color.BLACK);
+		if(isTarget) {
+			backgroundGraphic.setBackground(Color.DARK_GRAY);
+		}else {
+			if (letter == 'X') {
+				backgroundGraphic.setBackground(Color.BLACK);
+			}
+			// If the cell is a room
+			else if (isRoom) {
+				backgroundGraphic.setBackground(Color.LIGHT_GRAY);
+			}
+			// If the cell is anything else (this is equal to walkways)
+			else if (!isRoom){
+				// Either need to make Yellow a nonplayable color or adjust the background hue. I'm okay with either
+				backgroundGraphic.setBackground(LIGHT_YELLOW);
+				backgroundGraphic.setBorder(BorderFactory.createLineBorder(Color.black));
+			}
 		}
-		// If the cell is a room
-		else if (isRoom) {
-			backgroundGraphic.setBackground(Color.LIGHT_GRAY);
-		}
-		// If the cell is anything else (this is equal to walkways)
-		else if (!isRoom){
-			// Either need to make Yellow a nonplayable color or adjust the background hue. I'm okay with either
-			backgroundGraphic.setBackground(LIGHT_YELLOW);
-			backgroundGraphic.setBorder(BorderFactory.createLineBorder(Color.black));
-		}
-		
 		// Add elements to the panel in the gridlayout perscribed previously. Also forces a redraw
 		mainPanel.add(backgroundGraphic);
 		mainPanel.revalidate();

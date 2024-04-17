@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 public class ClueGame extends JFrame {
 	private JFrame mainFrame;
-	private JPanel mainPanel;
+	public JPanel mainPanel;
 	
 	private JPanel gameControlPanel;
 	private JPanel cardPanel;
@@ -23,11 +23,12 @@ public class ClueGame extends JFrame {
 	private int frameWidth, frameHeight;
 	private int panelWidth, panelHeight;
 	private int numRows, numCols;
-	private int cellWidths, cellHeights;
+	public int cellWidths, cellHeights;
 	private static int playerTurn;
 	
 	
 	Board board = Board.getInstance();
+	
 	
 	private ArrayList<Player> allPlayers = board.getPlayerList();
 	
@@ -110,6 +111,7 @@ public class ClueGame extends JFrame {
 			
 		}
 	}
+	
 	
 	public static void main(String[] args) {
 		Board board = Board.getInstance();
