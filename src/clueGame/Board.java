@@ -566,11 +566,11 @@ public class Board{
 					if (doorDir == DoorDirection.UP) {
 						grid[i-1][j].drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
 					} else if (doorDir == DoorDirection.DOWN) {
-						grid[i-1][j].drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
+						grid[i+1][j].drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
 					} else if (doorDir == DoorDirection.LEFT) {
-						grid[i-1][j].drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
+						grid[i][j-1].drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
 					} else if (doorDir == DoorDirection.RIGHT) {
-						grid[i-1][j].drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
+						grid[i][j+1].drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
 					}
 				}
 				

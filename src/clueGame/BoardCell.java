@@ -57,6 +57,7 @@ public class BoardCell {
 	private JPanel doorGraphic;
 	private final static Color LIGHT_YELLOW = new Color(255, 255, 204);
 	private final static Color BROWN = new Color(139, 69, 19);
+	private JLabel roomLabel;
 	
 
 	/**
@@ -78,7 +79,8 @@ public class BoardCell {
 		this.letter = ' ';
 		this.adjList = new HashSet<BoardCell>();
 		this.backgroundGraphic = new JPanel();
-		this.doorGraphic = new JPanel();
+		this.doorGraphic = null;
+		this.roomLabel = null;
 	}
 	
 	/**
@@ -113,6 +115,7 @@ public class BoardCell {
 	 * @param doorHeight The height of the door
 	 */
 	public void drawDoor(String side, int doorWidth, int doorHeight) {
+		this.doorGraphic = new JPanel();
 		// Set the default position and size for the door
 		backgroundGraphic.setLayout(new BorderLayout());
 		doorGraphic.setPreferredSize(new Dimension(doorWidth, doorHeight));
@@ -127,15 +130,17 @@ public class BoardCell {
 	 * @param roomName The name of the room to be displayed
 	 */
 	public void drawRoomLabel(String roomName) {
-		// Create a new JLabel to store the string for the room's name
-		JLabel roomLabel = new JLabel(roomName);
-		// Source: https://www.codejava.net/java-se/swing/jlabel-basic-tutorial-and-examples
-		roomLabel.setFont(new java.awt.Font("Impact", Font.ITALIC, 20));
-		roomLabel.setForeground(Color.BLUE);
-		
-		// Add the new roomLabel to this cell's background graphic. This also forces a redraw
-		backgroundGraphic.add(roomLabel);
-		backgroundGraphic.revalidate();
+		if (isRoomLabel) {
+			// Create a new JLabel to store the string for the room's name
+			JLabel roomLabel = new JLabel(roomName);
+			// Source: https://www.codejava.net/java-se/swing/jlabel-basic-tutorial-and-examples
+			roomLabel.setFont(new java.awt.Font("Impact", Font.ITALIC, 20));
+			roomLabel.setForeground(Color.BLUE);
+			
+			// Add the new roomLabel to this cell's background graphic. This also forces a redraw
+			backgroundGraphic.add(roomLabel);
+			backgroundGraphic.revalidate();
+		}
 	}
 	
 	public boolean containsClick(int mouseX, int mouseY, int startX, int startY, int cellWidth, int cellHeight) {
