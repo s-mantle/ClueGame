@@ -620,19 +620,15 @@ public class Board{
 			if(player.getCanPlay() && player.seenCards.size()-3 == cards.size()) {
 				//make accusation
 			}else {
+				calcTargets(grid[player.getRow()][player.getCol()],rollNumber);
 				player.moveTo();
 			}
 			if(grid[player.getRow()][player.getCol()].isRoom()) {
 				//Player is in a room and can make a suggestion
 			}
 		}
-		
-		// If not human, do accusation?
-		
-		// If not human, do move
-		
-		// If not human, make suggestion? 
 	}
+	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}

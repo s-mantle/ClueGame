@@ -70,6 +70,7 @@ public class GameControlPanel extends JPanel {
 		
 		//nextButton*************************************************************************
 		nextButton = new JButton("NEXT!");
+		nextButton.addActionListener(new ButtonListener());
 		//***********************************************************************************
 		
 		gameInfoPanel.add(turnPanel);
@@ -110,7 +111,7 @@ public class GameControlPanel extends JPanel {
 		
 		// Added for C23A
 		// -------------------------------------------------
-		setTurn(new ComputerPlayer(Color.RED, "Mr. Red", 4, 0), 5);
+		setTurn(new ComputerPlayer(Color.white,"Lets Play!", 0, 0), 0);
 		setGuess( "I have no guess");
 		setGuessResult( "So you have nothing?");
 		
@@ -140,40 +141,25 @@ public class GameControlPanel extends JPanel {
 		this.result = result;
 	}
 	
-	class ButtonListener implements ActionListener {
+	public class ButtonListener implements ActionListener {
 		// Next player pressed
 		public void actionPerformed(ActionEvent e) {
 			// Current human player finished?
 			
 			// Update current player
 			board.updateCurrentPlayer();
+			Player player = board.getCurrentPlayer();
+			playerName = player.getName();
+			playerColor = player.getPlayerColor();
 			// Roll the dice
 			rollNum = String.valueOf(board.rollDice());
 			// Calc targets
-			//Do this inside of board
-			BoardCell cell = board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getCol());
-			board.calcTargets(cell, Integer.parseInt(rollNum));
+			board.playerTurn();
 			// Update GameControlPanel
 			updateDisplay();
 			// Is new player human?
-//			if(board.getCurrentPlayer().getName().equals("Mr. Red")){
-//				//Display targets, flag unfinshed and wait for mouseListener
-//			}else {
-//				//Desperatly needs to be moved inside of board lol
-//				if(board.getCurrentPlayer().getCanPlay() && board.getCurrentPlayer().seenCards.size()-3 == board.getCards().size()) {
-//					//make accusation
-//				}else {
-//					//Move
-//				}
-//				if(/*In room, make suggestion*/) {
-//					
-//				}
-//			}
-			
 			// If not human, do accusation?
-			
 			// If not human, do move
-			
 			// If not human, make suggestion? 
 		}
 	}
