@@ -242,6 +242,10 @@ public class BoardCell {
 		this.isRoomLabel = status;
 	}
 	
+	public boolean getRoomLabel() {
+		return isRoomLabel;
+	}
+	
 	/**
 	 * Returns if the cell is a label cell
 	 */

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,8 +24,12 @@ public class ClueGame extends JFrame {
 	private int panelWidth, panelHeight;
 	private int numRows, numCols;
 	private int cellWidths, cellHeights;
+	private static int playerTurn;
+	
 	
 	Board board = Board.getInstance();
+	
+	private ArrayList<Player> allPlayers = board.getPlayerList();
 	
 	public ClueGame(int width, int height, int numRows, int numCols) {
 		this.frameWidth = width;
@@ -65,6 +70,8 @@ public class ClueGame extends JFrame {
 		board.drawBoard(mainPanel, cellWidths, cellHeights);
 	}
 	
+	//This just listens for a click.  if next is clicked then it will ask if the player is human
+	//If the player is human then it will get the roll number and display the targets
 	private class BoardClickListener implements MouseListener {
 		public void mousePressed(MouseEvent event) {}
 		public void mouseReleased(MouseEvent event) {}
@@ -72,24 +79,34 @@ public class ClueGame extends JFrame {
 		public void mouseExited(MouseEvent event) {}
 		public void mouseClicked(MouseEvent event) {
 			// Is it human player turn?
-			
-			// Was the click on a target?			
-			int startX, startY = 0;
-			for (int i = 0; i < numRows; i++) {
-				startX = i * cellWidths;
-				for (int j = 0; j < numCols; j++) {
-					startY = j * cellHeights;
-					if (board.getCell(i, j).containsClick(event.getX(), event.getY(), startX, startY, cellWidths, cellHeights)) {
-						// TODO
+			if(allPlayers.get(playerTurn).getName().equals("Mr. Red")) {
+				
+				// Was the click on a target?			
+				int startX, startY = 0;
+				for (int i = 0; i < numRows; i++) {
+					startX = i * cellWidths;
+					for (int j = 0; j < numCols; j++) {
+						startY = j * cellHeights;
+						if (board.getCell(i, j).containsClick(event.getX(), event.getY(), startX, startY, cellWidths, cellHeights)) {}
+							// TODO				}
 					}
 				}
+				
+				// Move player
+				
+				// In room?
+				
+				// If so, handle suggestion
+				
+			}else {
+				ComputerPlayer player = (ComputerPlayer)allPlayers.get(playerTurn);
+				player.moveTo();
+				if(board.getInstance().getCell(player.getRow(), player.getCol()).isRoom()) {
+					//Create a suggestion
+//					player.createSuggestion();
+				}
+				playerTurn = (playerTurn+1) % allPlayers.size();
 			}
-			
-			// Move player
-			
-			// In room?
-			
-			// If so, handle suggestion
 			
 		}
 	}
@@ -102,5 +119,6 @@ public class ClueGame extends JFrame {
 		
 		ClueGame main = new ClueGame(1000, 1000, board.getNumRows(), board.getNumColumns());
 		main.drawComponents();
+		playerTurn = 0;
 	}
 }

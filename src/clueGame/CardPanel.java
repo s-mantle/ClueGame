@@ -123,6 +123,7 @@ public class CardPanel extends JPanel {
 		
 		//Seen List
 		panel.add(new JLabel("Seen:"));
+		System.out.println("Player Seen List: "+ player.getSeenCards());
 		boolean seenCard = false;
 		for (Card card : player.getSeenCards()) {
 			if (card.getCardType() == cardType) {
@@ -181,17 +182,17 @@ public class CardPanel extends JPanel {
 		frame.setSize(180, 720);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
-				
-		for (Player playerL : playerCards.keySet()) {
-			if (playerL.getPlayerColor() != Color.RED) {
-				for (Card card : playerCards.get(playerL)) {
-					player.updateSeen(card);
-				}
-			}
-		}
-		
-		panel.updateRoom();
-		panel.updatePeople();
-		panel.updateWeapon();
+//				
+////		for (Player playerL : playerCards.keySet()) {
+////			if (playerL.getPlayerColor() != Color.RED) {
+////				for (Card card : playerCards.get(playerL)) {
+////					player.updateSeen(card);
+////				}
+////			}
+////		}
+//		
+//		panel.updateRoom();
+//		panel.updatePeople();
+//		panel.updateWeapon();
 	}
 }
