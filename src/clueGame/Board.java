@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -62,6 +63,9 @@ public class Board{
 	
 	//Set used to store all of the cards - could be changed to store each card type?
 	private Set<Card> cards = new HashSet<>();
+	
+	private Player currentPlayer;
+	private int rollNumber;
 
 	//Private board, solution
 	private static Board theInstance = new Board();
@@ -594,6 +598,41 @@ public class Board{
 		}
 	}
 	
+	public void playerTurn() {
+		if(currentPlayer.getName().equals("Mr. Red")){
+			//Display targets, flag unfinshed and wait for mouseListener
+		}else {
+			//Desperatly needs to be moved inside of board lol
+			if(currentPlayer.getCanPlay() && currentPlayer.seenCards.size()-3 == cards.size()) {
+				//make accusation
+			}else {
+				//Move
+			}
+			if(/*In room, make suggestion*/) {
+				
+			}
+		}
+		
+		// If not human, do accusation?
+		
+		// If not human, do move
+		
+		// If not human, make suggestion? 
+	}
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
+	public void updateCurrentPlayer() {
+		int count = allPlayers.indexOf(currentPlayer);
+		currentPlayer = allPlayers.get((count+1)%allPlayers.size());
+	}
+	
+	public int rollDice() {
+		Random random = new Random();
+		rollNumber = random.nextInt(6)+1;
+		return rollNumber;
+	}
 	
 	/**
 	 * Returns the cell at the grids row,col

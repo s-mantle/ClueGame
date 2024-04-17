@@ -26,6 +26,7 @@ public class GameControlPanel extends JPanel {
 	private String rollNum, playerName, guess, result;
 	private Color playerColor;
 	
+	Board board = Board.getInstance();
 	
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -145,18 +146,29 @@ public class GameControlPanel extends JPanel {
 			// Current human player finished?
 			
 			// Update current player
-			
+			board.updateCurrentPlayer();
 			// Roll the dice
-			
+			rollNum = String.valueOf(board.rollDice());
 			// Calc targets
-			
+			//Do this inside of board
+			BoardCell cell = board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getCol());
+			board.calcTargets(cell, Integer.parseInt(rollNum));
 			// Update GameControlPanel
-			
+			updateDisplay();
 			// Is new player human?
-			
-			// If human, display targets
-			
-			// If human, flag unfinished
+//			if(board.getCurrentPlayer().getName().equals("Mr. Red")){
+//				//Display targets, flag unfinshed and wait for mouseListener
+//			}else {
+//				//Desperatly needs to be moved inside of board lol
+//				if(board.getCurrentPlayer().getCanPlay() && board.getCurrentPlayer().seenCards.size()-3 == board.getCards().size()) {
+//					//make accusation
+//				}else {
+//					//Move
+//				}
+//				if(/*In room, make suggestion*/) {
+//					
+//				}
+//			}
 			
 			// If not human, do accusation?
 			
