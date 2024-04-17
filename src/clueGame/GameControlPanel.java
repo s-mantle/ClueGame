@@ -43,8 +43,7 @@ public class GameControlPanel extends JPanel {
 		gameInfoPanel.setLayout(new GridLayout(1,4));
 		
 		//roll Panel ************************************************************************
-		rollPanel = new JPanel();
-		rollLabel = new JLabel("Roll:");
+		rollPanel = new JPanel(); rollLabel = new JLabel("Roll:");
 		//Arbitrary Player and Player Color
 		rollNumber = new JTextField(rollNum);
 		rollNumber.setEditable(false);
