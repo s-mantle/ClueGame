@@ -110,7 +110,7 @@ public class GameControlPanel extends JPanel {
 		
 		// Added for C23A
 		// -------------------------------------------------
-		setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
+		setTurn(new ComputerPlayer(Color.RED, "Mr. Red", 4, 0), 5);
 		setGuess( "I have no guess");
 		setGuessResult( "So you have nothing?");
 		
