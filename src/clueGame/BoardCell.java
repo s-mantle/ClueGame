@@ -27,39 +27,20 @@ import javax.swing.JTextField;
 
 public class BoardCell {
 	//Cells position on the board
-	private int row;
-	private int col;
-	
+	private int row, col;	
 	//If the cell is a doorway and its direction
-	private boolean isDoorway;
 	private DoorDirection doorDirection;
-	
-	//Cells center and label
-	private boolean isRoomLabel;
-	private boolean isRoomCenter;
-	
+	private boolean isDoorway, isRoomLabel, isRoomCenter, isRoom, isOccupied = false;
 	//Cells secretPassage connection
-	private char secretPassage;
-	
-	//Cell is a room
-	private boolean isRoom;
-	
-	//Cell is occupied by another player
-	private boolean isOccupied;
-	
-	//Cells letter
-	private char letter;
-	
+	private char letter, secretPassage;	
 	//Cells adj list of where a player can move
 	private Set<BoardCell> adjList;
 	
-	private JPanel backgroundGraphic;
-	private JPanel doorGraphic;
+	private JPanel backgroundGraphic, doorGraphic;
 	private final static Color LIGHT_YELLOW = new Color(255, 255, 204);
 	private final static Color BROWN = new Color(139, 69, 19);
 	private JLabel roomLabel;
 	
-
 	/**
 	 * Sets up the basic variables in TestBoardCell
 	 * 
@@ -68,19 +49,12 @@ public class BoardCell {
 	 */
 	public BoardCell(int row, int col) {
 		super();
-		this.row = row;
-		this.col = col;
-		this.isDoorway = false;
-		this.isRoomLabel = false;
-		this.isRoomCenter = false;
+		this.row = row; this.col = col;
 		this.secretPassage = '-';
-		this.isRoom = false;
-		this.isOccupied = false;
 		this.letter = ' ';
 		this.adjList = new HashSet<BoardCell>();
 		this.backgroundGraphic = new JPanel();
-		this.doorGraphic = null;
-		this.roomLabel = null;
+		this.doorGraphic = null; this.roomLabel = null;
 	}
 	
 	/**
