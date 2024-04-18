@@ -1,0 +1,91 @@
+I, Sam Mantle, certify that I participated equitably in the creation of assignment C25A-2, dated 4/16/24.
+I, Ben Isenhart, certify that I participated equitably in the creation of this assignment C25A-2, dated 4/16/24.
+
+commit c5b36f2b3d422923b648bdc36e7dabbf60ca1776
+Merge: a9583cb 75f2e48
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 18:27:39 2024 -0600
+
+    Conflict Resolutions
+
+commit a9583cb6b90002ab8fcbfbf1d4e8f98fe265de0c
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 18:26:16 2024 -0600
+
+    Refactoring VIII: Further cleaned up GameControlPanel constructor
+
+commit 4c0e0409844726f603fc3ffdeb4cd3e3dd3d8027
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 18:24:35 2024 -0600
+
+    Refactoring VII: Cleaned up BoardCell's private variables and constructor
+
+commit 8a3a5035febae241d25703e43e98245a3fb77dcd
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 18:22:01 2024 -0600
+
+    Refactoring VI: Debugging Doors!
+
+commit ba0511b62f13d1722b14f4aa7e45f3a1c8ab58e2
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 17:57:34 2024 -0600
+
+    Refactoring V: Recommenting/ reformatting a majority of the draw() components in BoardCell
+
+commit 75f2e489890c4a2e0c628be79e28750c50a212aa
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Tue Apr 16 17:18:59 2024 -0600
+
+    Understanding code and setting up buttonListener flow
+
+commit e403cecf521320fece38b00eb72935463ee0b488
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 17:08:52 2024 -0600
+
+    Refactoring IV: Further work on simplifying drawBoard()
+
+commit 16049e023214da4f70c250944e2ac9daf6ca104e
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 17:02:22 2024 -0600
+
+    Refactoring III: Updated test cases to match with a slightly modified layout.csv file
+
+commit 0ad6f14c2802771a71bb68a775af4256d29eb323
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 16:58:28 2024 -0600
+
+    Refactoring II: Moved implementation from main() in GameControlPanel & CardPanel to the constructor
+
+commit d05be72d00a869906f961c1adb1f6e448b26f962
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Tue Apr 16 16:55:56 2024 -0600
+
+    Refactor I: Thorough documentation of drawBoard()
+
+One of the more significant changes we implemented was refactoring our DoorDirection if-else chain into a separate method with multiple implementations. We use this chunk of code 3 times throughout the Board class with relatively minor differences inside the if statement contents. In order to abstract this complexity out, we built a helper method doorHandler which takes in parameters for the variables to update and returns those variable values. The specific variables are different depending on what the DoorDirection identifier is implementing specifically, so we have provided one example below of the initial code and the refactored method. This if-else chain was further refined to eliminate the need for creating a new BoardCell variable by simply calling our draw() methods on the grid itself.
+
+Before:
+if (doorDir == DoorDirection.UP) {
+	BoardCell queriedCell = grid[i-1][j];
+	queriedCell.drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
+} else if (doorDir == DoorDirection.DOWN) {
+	BoardCell queriedCell = grid[i+1][j];
+	queriedCell.drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
+} else if (doorDir == DoorDirection.LEFT) {
+	BoardCell queriedCell = grid[i][j-1];
+	queriedCell.drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
+} else if (doorDir == DoorDirection.RIGHT) {
+	BoardCell queriedCell = grid[i][j+1];
+	queriedCell.drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
+}
+
+After:
+if (doorDir == DoorDirection.UP) {
+	grid[i-1][j].drawDoor(BorderLayout.SOUTH, cellWidths, doorThickness);
+} else if (doorDir == DoorDirection.DOWN) {
+	grid[i+1][j].drawDoor(BorderLayout.NORTH, cellWidths, doorThickness);
+} else if (doorDir == DoorDirection.LEFT) {
+	grid[i][j-1].drawDoor(BorderLayout.EAST, doorThickness, cellHeights);
+} else if (doorDir == DoorDirection.RIGHT) {
+	grid[i][j+1].drawDoor(BorderLayout.WEST, doorThickness, cellHeights);
+}
