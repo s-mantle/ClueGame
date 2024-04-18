@@ -675,7 +675,6 @@ public class Board extends JPanel{
 	}
 	
 	public void turnOperator(GameControlPanel gameControlPanel) {
-		System.out.println(currentPlayer.getName() + ": " + currentPlayer.getFinished());
 		if (!currentPlayer.getFinished()) {
 			JOptionPane.showMessageDialog(null, "Please finish your turn first", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -692,7 +691,6 @@ public class Board extends JPanel{
 			if (currentPlayer.isHuman()) {
 				repaint();
 				currentPlayer.setFinished(false);
-				System.out.println(currentPlayer.getName() + ":= " + currentPlayer.getFinished());
 			}
 			else {
 				ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;

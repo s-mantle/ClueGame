@@ -35,7 +35,7 @@ public class CardPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public CardPanel(int width, int height)  {
+	public CardPanel()  {
 		// Added for C23A
 		// -------------------------------------------------
 		board = Board.getInstance();		
@@ -54,10 +54,6 @@ public class CardPanel extends JPanel {
 		mainPanel.setVisible(true);
 		mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
 		mainPanel.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
-		
-		mainPanel.setSize(new Dimension(width, height));	// Added for C23A
-		mainPanel.setPreferredSize(new Dimension(width, height - 200));	// Added for C23A
-		mainPanel.setMaximumSize(new Dimension(width, height));
 		
 		setVisible(true);
 		add(mainPanel, BorderLayout.CENTER);
@@ -88,13 +84,13 @@ public class CardPanel extends JPanel {
 		
 		// Added for C23A
 		// -------------------------------------------------
-		for (Player playerL : playerCards.keySet()) {
-			if (playerL.getPlayerColor() != Color.RED) {
-				for (Card card : playerCards.get(playerL)) {
-					player.updateSeen(card);
-				}
-			}
-		}
+//		for (Player playerL : playerCards.keySet()) {
+//			if (playerL.getPlayerColor() != Color.RED) {
+//				for (Card card : playerCards.get(playerL)) {
+//					player.updateSeen(card);
+//				}
+//			}
+//		}
 		
 		updatePeople();
 		updateRoom();
@@ -166,33 +162,5 @@ public class CardPanel extends JPanel {
 		weaponPanel.removeAll();
 		createCardPanel(weaponPanel, weapons, "Weapons", CardType.WEAPON);
 		weaponPanel.revalidate();
-	}
-	
-	
-	
-	/**
-	 * Main to test the panel
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		CardPanel panel = new CardPanel(180, 720);	// Added for C23A
-		JFrame frame = new JFrame();  // create the frame 
-	    frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(180, 720);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-//				
-////		for (Player playerL : playerCards.keySet()) {
-////			if (playerL.getPlayerColor() != Color.RED) {
-////				for (Card card : playerCards.get(playerL)) {
-////					player.updateSeen(card);
-////				}
-////			}
-////		}
-//		
-//		panel.updateRoom();
-//		panel.updatePeople();
-//		panel.updateWeapon();
 	}
 }

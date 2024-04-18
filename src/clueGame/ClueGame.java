@@ -14,7 +14,7 @@ public class ClueGame extends JFrame {
 	public ClueGame() {
 		setLayout(new BorderLayout());
 		
-		gameControlPanel = new GameControlPanel(1000, 150);
+		gameControlPanel = new GameControlPanel();
 		add(gameControlPanel, BorderLayout.SOUTH);
 		
 		board = Board.getInstance();
@@ -24,7 +24,7 @@ public class ClueGame extends JFrame {
 		board.prepareFirstTurn(gameControlPanel);
 		add(board, BorderLayout.CENTER);
 		
-		cardPanel = new CardPanel(150, 1000);
+		cardPanel = new CardPanel();
 		add(cardPanel, BorderLayout.EAST);
 	}
 

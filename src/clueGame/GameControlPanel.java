@@ -27,7 +27,7 @@ public class GameControlPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel(int width, int height)  {
+	public GameControlPanel()  {
 		setLayout(new GridLayout(2, 0));
 		
 		// Build Control Panel
