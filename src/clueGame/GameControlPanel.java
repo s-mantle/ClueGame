@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -18,170 +19,110 @@ import java.awt.event.ActionListener;
 
 public class GameControlPanel extends JPanel {
 	// Reference the layout template from C22A-1 to understand what each instance variable represents
-	private JPanel mainPanel,gameInfoPanel, guessFieldPanel, turnPanel, rollPanel, guessPanel, resultPanel;
+	private JTextField guessField, resultField, turnField, rollField;
 	private JButton nextButton, accusationButton;
-	private JLabel turnLabel, rollLabel; 
-	private JTextField turnPlayerName, rollNumber, guessText, guessResults;
 	
-	private String rollNum, playerName, guess, result;
-	private Color playerColor;
-	
-	Board board = Board.getInstance();
+	private Board board = Board.getInstance();
+//	private AccusationDialogue accusationDialogue;
 	
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
 	public GameControlPanel(int width, int height)  {
-		mainPanel = new JPanel();
-		mainPanel.setVisible(true);
-		mainPanel.setLayout(new GridLayout(2,0));
+		setLayout(new GridLayout(2, 0));
 		
-		mainPanel.setSize(new Dimension(width, height));	// Added for C23A
-		mainPanel.setPreferredSize(new Dimension(width, height));	// Added for C23A
-		setVisible(true);		
+		// Build Control Panel
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new GridLayout(0, 4));
 		
-		gameInfoPanel = new JPanel();
-		gameInfoPanel.setLayout(new GridLayout(1,4));
+		JPanel turnPanel = new JPanel();
+		JLabel turnLabel = new JLabel("Whose turn is it?");
 		
-		//roll Panel ************************************************************************
-		rollPanel = new JPanel(); rollLabel = new JLabel("Roll:");
-		//Arbitrary Player and Player Color
-		rollNumber = new JTextField(rollNum);
-		rollNumber.setEditable(false);
-		rollPanel.add(rollLabel); rollPanel.add(rollNumber);
-		//***********************************************************************************
-		
-		//turnPanel**************************************************************************
-		turnPanel = new JPanel();
-		turnPanel.setLayout(new BoxLayout(turnPanel, BoxLayout.Y_AXIS));
-		
-		turnLabel = new JLabel("Whose Turn?");
-		//Arbitrary Player and Player Color
-		turnPlayerName = new JTextField(playerName);
-		turnPlayerName.setBackground(playerColor);
-		turnPlayerName.setEditable(false);
+		turnField = new JTextField(15);
 		turnPanel.add(turnLabel);
-		turnPanel.add(turnPlayerName);
-		//***********************************************************************************
+		turnPanel.add(turnField);
+		controlPanel.add(turnPanel);
+		// -----------------------------------------------------------
 		
-		//accustaionButton*******************************************************************
-		accusationButton = new JButton("Make Accusation");
-		//***********************************************************************************
+		// Build Roll Panel
+		JPanel rollPanel = new JPanel();
+		JLabel roll = new JLabel("Roll: ");
+		rollField = new JTextField(5);
+		rollPanel.add(roll);
+		rollPanel.add(rollField);
+		controlPanel.add(rollPanel);
+		// -----------------------------------------------------------
+
+		// Build Accusation Button
+		accusationButton = new JButton("Make an Accusation?");
+		accusationButton.addActionListener(new ButtonListener());
 		
-		//nextButton*************************************************************************
-		nextButton = new JButton("NEXT!");
+		nextButton = new JButton("Next");
 		nextButton.addActionListener(new ButtonListener());
-		//***********************************************************************************
+		controlPanel.add(accusationButton);
+		controlPanel.add(nextButton);
+		// -----------------------------------------------------------
 		
-		gameInfoPanel.add(turnPanel);
-		gameInfoPanel.add(rollPanel);
-		gameInfoPanel.add(accusationButton);
-		gameInfoPanel.add(nextButton);
+		add(controlPanel);
 		
+		// Build Guess Panel
+		JPanel guessPanel = new JPanel();
+		guessPanel.setLayout(new GridLayout(0, 2));
 		
-		guessFieldPanel = new JPanel();
-		guessFieldPanel.setLayout(new GridLayout(0,2));
+		JPanel guessPanelNested = new JPanel();
+		guessPanelNested.setLayout(new GridLayout(1, 0));
+		guessPanelNested.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		guessField = new JTextField(20);
+		guessPanelNested.add(guessField);
+		guessPanel.add(guessPanelNested);
+		// -----------------------------------------------------------
 		
-		//guessPanel*************************************************************************
-		guessPanel = new JPanel();
-		guessPanel.setLayout(new GridLayout(1,0));
+		// Build Guess Results Panel
+		JPanel guessResultsPanel = new JPanel();
+		guessResultsPanel.setLayout(new GridLayout(1, 0));
+		guessResultsPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+		guessPanel.add(guessResultsPanel);
+		resultField = new JTextField(20);
+		guessResultsPanel.add(resultField);
+		guessPanel.add(guessResultsPanel);
+		// -----------------------------------------------------------
 		
-		guessText = new JTextField(guess);
-		guessText.setEditable(false);
-		guessPanel.add(guessText);
-		guessPanel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
-		//***********************************************************************************
+		add(guessPanel);
 		
-		//guessResultPanel*******************************************************************
-		resultPanel = new JPanel();
-		resultPanel.setLayout(new GridLayout(1,0));
-		
-		guessResults =  new JTextField(result);
-		guessResults.setEditable(false);
-		resultPanel.add(guessResults);
-		resultPanel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Result"));
-		//***********************************************************************************
-		
-		guessFieldPanel.add(guessPanel, BorderLayout.CENTER);
-		guessFieldPanel.add(resultPanel, BorderLayout.EAST);
-		
-		mainPanel.add(gameInfoPanel);
-		mainPanel.add(guessFieldPanel);
-		add(mainPanel);
-		
-		// Added for C23A
-		// -------------------------------------------------
-		setTurn(new ComputerPlayer(Color.white,"Lets Play!", 0, 0), 0);
-		setGuess( "I have no guess");
-		setGuessResult( "So you have nothing?");
-		
-		updateDisplay();
-		// -------------------------------------------------
 	}
 	
-	public void setTurn(Player player, int rollNumber) {
-		this.playerName = player.getName();
-		this.playerColor = player.getPlayerColor();
-		this.rollNum = Integer.toString(rollNumber);
-	}
-	
-	public void updateDisplay() {
-		guessText.setText(guess);
-		guessResults.setText(result);
-		rollNumber.setText(rollNum);
-		turnPlayerName.setText(playerName);
-		turnPlayerName.setBackground(playerColor);
+	public void setTurn(Player player, int rollValue) {
+		this.turnField.setText(player.getName());
+		this.turnField.setBackground(player.getPlayerColor());
+		this.rollField.setText("" + rollValue);
 	}
 	
 	public void setGuess(String guess) {
-		this.guess = guess;
+		this.guessField.setText(guess);
 	}
 	
 	public void setGuessResult(String result) {
-		this.result = result;
+		this.resultField.setText(result);
 	}
 	
-	public class ButtonListener implements ActionListener {
-		// Next player pressed
-		public void actionPerformed(ActionEvent e) {
-			// Current human player finished?
-			
-			// Update current player
-			board.updateCurrentPlayer();
-			Player player = board.getCurrentPlayer();
-			playerName = player.getName();
-			playerColor = player.getPlayerColor();
-			// Roll the dice
-			rollNum = String.valueOf(board.rollDice());
-			// Calc targets
-			board.playerTurn();
-			// Update GameControlPanel
-			updateDisplay();
-			// Is new player human?
-			// If not human, do accusation?
-			// If not human, do move
-			// If not human, make suggestion? 
+	private class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			if (event.getSource() == nextButton) {
+				boardTurnCaller();
+			}
+			else {
+				if (board.getCurrentPlayer().isHuman() && !board.getCurrentPlayer().getFinished()) {
+//					dialog = new AccusationDialog();
+//					dialog.setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Please wait for your turn", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
 	}
 	
-	/**
-	 * Main to test the panel
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel(750, 180);  // Added for C23A
-		JFrame frame = new JFrame();  // create the frame 
-	    frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(750, 180);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-		
-		// test filling in the data
-		panel.setTurn(new ComputerPlayer(Color.ORANGE, "Col. Mustard", 0, 0), 5);
-		panel.setGuess( "I have no guess");
-		panel.setGuessResult( "So you have nothing?");
-		
-		panel.updateDisplay();
+	public void boardTurnCaller() {
+		board.turnOperator(this);
 	}
 }

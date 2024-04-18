@@ -13,15 +13,16 @@ public class ClueGame extends JFrame {
 	
 	public ClueGame() {
 		setLayout(new BorderLayout());
-
+		
+		gameControlPanel = new GameControlPanel(1000, 150);
+		add(gameControlPanel, BorderLayout.SOUTH);
+		
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayoutUpdatedWalkways.csv", "ClueSetupFinal.txt");
 		board.initialize();
 		board.dealCards();
+		board.prepareFirstTurn(gameControlPanel);
 		add(board, BorderLayout.CENTER);
-		
-		gameControlPanel = new GameControlPanel(1000, 150);
-		add(gameControlPanel, BorderLayout.SOUTH);
 		
 		cardPanel = new CardPanel(150, 1000);
 		add(cardPanel, BorderLayout.EAST);

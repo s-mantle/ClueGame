@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -51,6 +52,16 @@ public abstract class Player {
 	
 	public abstract void createAccusation(Card room, Card person, Card weapon);
 	
+//	public Color colorConversion(String colorName) {
+//		if (colorName.equals("Red")) { return Color.RED; }
+//		else if (colorName.equals("Blue")) { return Color.BLUE; }
+//		else if (colorName.equals("Green")) { return Color.GREEN; }
+//		else if (colorName.equals("Yellow")) { return Color.YELLOW; }
+//		else if (colorName.equals("Cyan")) { return Color.CYAN; }
+//		else if (colorName.equals("Pink")) { return Color.PINK; }
+//		return null;
+//	}
+	
 	public void updateSeen(Card card) {
 		seenCards.add(card);
 		if(card.getCardType() == CardType.WEAPON) {
@@ -77,28 +88,32 @@ public abstract class Player {
 		return seenCards;
 	}
 
-	/**
-	 * Shows a player a card which invalidates their suggestion
-	 * @param suggestionSet
-	 * @return
-	 */
-	public Card disproveSuggestion(Set<Card> suggestionSet) {
-		Set<Card> suggestion = new HashSet<>(suggestionSet);
-		boolean foundCard = false;
-		List<Card> returnList = new ArrayList<>();
+	public Card disproveSuggestion(Solution suggestion) {
+		ArrayList<Card> ownCards = (ArrayList<Card>) playerDeck;
+		Card person = suggestion.getPerson();
+		Card room = suggestion.getRoom();
+		Card weapon = suggestion.getWeapon();
 		
-		for(Card card: playerDeck) {
-			if(suggestion.contains(card)) {
-				returnList.add(card);
-				foundCard = true;
+		if (playerDeck.indexOf(person) == -1 && playerDeck.indexOf(room) == -1 && playerDeck.indexOf(weapon) == -1) {
+			return null;
+		}
+		else {
+			ArrayList<Card> matches = new ArrayList<>();
+			
+			for (Card card: playerDeck) {
+				if (card.equals(person) || card.equals(room) || card.equals(weapon)) {
+					matches.add(card);
+				}
+			}
+				
+			if (matches.size() == 1) {
+				return matches.get(0);
+			}
+			else {
+				Random random = new Random();
+				return matches.get(random.nextInt(matches.size()));
 			}
 		}
-		
-		Collections.shuffle(returnList);
-		
-		if(foundCard)
-			return returnList.remove(0);
-		return null;
 	}
 	
 	public void drawPlayer(JPanel mainPanel) {
@@ -110,12 +125,24 @@ public abstract class Player {
 	}
 	
 	public void setFinished(boolean isFinished) {
-		this.finished = true;
+		this.finished = isFinished;
+	}
+	
+	public boolean getFinished() {
+		return this.finished;
 	}
 	
 	public void movePlayer(int newRow, int newCol) {
 		this.row = newRow;
 		this.col = newCol;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
 	public void setHuman(boolean isHuman){

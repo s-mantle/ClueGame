@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Card{
 	private String cardName;
 	private CardType cardType;
+	private Player origin;
 	
 	/**
 	 * Constructor to create a new card
@@ -23,6 +24,7 @@ public class Card{
 	public Card(String cardName, CardType cardType) {
 		this.cardName = cardName;
 		this.cardType = cardType;
+		this.origin = null;
 	}
 	
 	/**
@@ -32,6 +34,10 @@ public class Card{
 	public boolean equals(Object obj) {
 		Card other = (Card) obj;
 		return Objects.equals(cardName, other.cardName) && cardType == other.cardType;
+	}
+	
+	public void setOrigin(Player player) {
+		this.origin = player;
 	}
 	
 	//Used for testing

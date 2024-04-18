@@ -45,6 +45,10 @@ public class Room {
 		return this.roomCells;
 	}
 	
+	public int getPlayerCount() {
+		return this.playersInRoom.size();
+	}
+	
 	public void addPlayer(Player player) {
 		this.playersInRoom.add(player);
 	}

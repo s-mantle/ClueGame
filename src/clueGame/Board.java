@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -63,7 +64,9 @@ public class Board extends JPanel{
 	private Set<Card> cards = new HashSet<>();
 	
 	private Player currentPlayer;
+	public Solution currentSolution;
 	private int rollNumber;
+	private boolean suggestionDisproven;
 	
 	//Private board, solution
 	private static Board theInstance = new Board();
@@ -157,6 +160,7 @@ public class Board extends JPanel{
 			System.out.println("The given file cannot be found");
 		}
 		
+		suggestionDisproven = true;
 		setSize(850, 850);
 		theInstance.addMouseListener(new BoardListener());
 	}
@@ -510,35 +514,32 @@ public class Board extends JPanel{
 		return accusation.equals(theSolution);
 	}
 	
-	/**
-	 * Processes a player's suggestion by comparing it to all other player's cards
-	 * @param suggestion
-	 * @param playerTurn
-	 * @return
-	 */
-	public Card handleSuggestion(Set<Card> suggestion, Player playerTurn) {
-		int start = allPlayers.indexOf(playerTurn) + 1;
-		int playerSize = allPlayers.size();
-		
-		for (int i = 0; i < playerSize; i++) {
-			int index = (start + i) % playerSize;
-			
-			if (!allPlayers.get(index).equals(playerTurn)) {
-				Card card = allPlayers.get(index).disproveSuggestion(suggestion);
-				
-				if (card != null) {
-					return card;
-				}
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Processes a player's suggestion by comparing it to all other player's cards
+//	 * @param suggestion
+//	 * @param playerTurn
+//	 * @return
+//	 */
+//	public Card handleSuggestion(Set<Card> suggestion, Player playerTurn) {
+//		int start = allPlayers.indexOf(playerTurn) + 1;
+//		int playerSize = allPlayers.size();
+//		
+//		for (int i = 0; i < playerSize; i++) {
+//			int index = (start + i) % playerSize;
+//			
+//			if (!allPlayers.get(index).equals(playerTurn)) {
+//				Card card = allPlayers.get(index).disproveSuggestion(suggestion);
+//				
+//				if (card != null) {
+//					return card;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("Board Class: paintComponent()");
-		// FOR TESTING ONLY:
-		calcTargets(grid[4][0], 4);
 		
 		setBackground(Color.BLACK);
 
@@ -554,7 +555,6 @@ public class Board extends JPanel{
 				if (cell.isRoom()) {
 					if (roomMap.get(cell.getLetter()).getCenterCell().isTarget()) {
 						cell.setTarget(true);
-						System.out.println("Target!");
 					}
 					else {
 						cell.setTarget(false);
@@ -565,35 +565,6 @@ public class Board extends JPanel{
 			}
 			xPos = this.getX() + ((getWidth() - cellWidth * COLS) / 2);
 			yPos += cellHeight;
-		}
-		
-		// Handles painting players
-		for (Player player: allPlayers) {
-			int xPosPlayer = this.getX() + player.getCol() * cellWidth;
-			int yPosPlayer = this.getY() + player.getRow() * cellHeight;
-			int xOffset = 3, yOffset = 3, xPlayerOffset = 1, yPlayerOffset = 1;
-			
-			// If the player is in a room
-//			if (player.getRoom() == '-') {
-//				Room room = roomMap.get(player.getRoom());
-//			}
-			
-			// If the player isn't in a room
-			if (player.getRoom() == '-') {
-				player.drawPlayer(g, xPosPlayer + xPlayerOffset + ((getWidth() - cellWidth * getNumColumns())/2), yPosPlayer + yPlayerOffset,
-						  		  cellWidth - xOffset, cellHeight - yOffset);
-			}
-		}
-		
-		// Door time!
-		int xPosDoor = 0, yPosDoor = 0;
-		for (BoardCell[] row: grid) {
-			for (BoardCell cell: row) {
-				cell.drawDoor(g, xPosDoor + ((getWidth() - cellWidth * COLS) / 2), yPosDoor, cellWidth, cellHeight);
-				xPosDoor += cellWidth;
-			}
-			xPosDoor = 0;
-			yPosDoor += cellHeight;
 		}
 		
 		// Handles painting room names
@@ -611,26 +582,44 @@ public class Board extends JPanel{
 				g.drawString(room.getName(), xPosLabel, yPosLabel);
 			}
 		}
-	}
-	
-	public void playerTurn() {
-		if(currentPlayer.getName().equals("Mr. Red")){
-			//Display targets, flag unfinished and wait for mouseListener
-			HumanPlayer player = (HumanPlayer)currentPlayer;
-			calcTargets(grid[player.getRow()][player.getCol()],rollNumber);
-			//Not sure how to call draw components from here?
-//			ClueGame.drawComponents();
-		}else {
-			ComputerPlayer player = (ComputerPlayer)currentPlayer;
-			if(player.getCanPlay() && player.seenCards.size()-3 == cards.size()) {
-				//make accusation
-			}else {
-				calcTargets(grid[player.getRow()][player.getCol()],rollNumber);
-				player.moveTo();
+		
+		// Handles painting players
+		ArrayList<Player> playersToPaint = (ArrayList<Player>) allPlayers.clone();
+		int xOffset = 3, yOffset = 3, xPlayerOffset = 1, yPlayerOffset = 1;
+		
+		for (Map.Entry<Character, Room> vals: roomMap.entrySet()) {
+			for (Player player: ((Room) vals.getValue()).getPlayers()) {
+				int xPosPlayer = (player.getCol() * cellWidth) + (((Room) vals.getValue()).getPlayers().indexOf(player) * cellWidth / 4);
+				int yPosPlayer = player.getRow() * cellHeight;
+				player.drawPlayer(g, xPosPlayer + xPlayerOffset + ((getWidth() - cellWidth * COLS) / 2), yPosPlayer + yPlayerOffset,
+								  cellWidth - xOffset, cellHeight - yOffset);
+				playersToPaint.remove(player);
 			}
-			if(grid[player.getRow()][player.getCol()].isRoom()) {
-				//Player is in a room and can make a suggestion
+		}
+		
+		for (Player player: playersToPaint) {
+			int xPosPlayer = getX() + player.getCol() * cellWidth;
+			int yPosPlayer = getY() + player.getRow() * cellHeight;
+			
+			if (player.getRoom() != '-') {
+				Room room = roomMap.get(player.getRoom());
+				if (room.getPlayerCount() > 1) {
+					xPosPlayer += room.getPlayers().indexOf(player) * cellWidth / 4;
+				}
 			}
+			player.drawPlayer(g, xPosPlayer + xPlayerOffset + ((getWidth() - cellWidth * COLS) / 2), yPosPlayer + yPlayerOffset,
+					  		  cellWidth - xOffset, cellHeight - yOffset);
+		}
+		
+		// Door time!
+		int xPosDoor = 0, yPosDoor = 0;
+		for (BoardCell[] row: grid) {
+			for (BoardCell cell: row) {
+				cell.drawDoor(g, xPosDoor + ((getWidth() - cellWidth * COLS) / 2), yPosDoor, cellWidth, cellHeight);
+				xPosDoor += cellWidth;
+			}
+			xPosDoor = 0;
+			yPosDoor += cellHeight;
 		}
 	}
 	
@@ -640,7 +629,6 @@ public class Board extends JPanel{
 		public void mouseEntered (MouseEvent event) {}
 		public void mouseExited (MouseEvent event) {}
 		public void mouseClicked (MouseEvent event) {
-			System.out.println("Mouse Clicked!!!");
 			if (!currentPlayer.isHuman()) {
 				return;
 			}
@@ -654,8 +642,6 @@ public class Board extends JPanel{
 			boolean selectedTile = false;
 
 			for (BoardCell cell: targets) {
-				System.out.println(cell);
-				System.out.println(targets);
 				if (selectedTile) { break; }
 				
 				// Double check this
@@ -677,7 +663,9 @@ public class Board extends JPanel{
 							currentPlayer.setRoom(room.getName().charAt(0));
 							selectedTile = true;
 							
-							// TODO: Handle suggestions
+							// TODO: Handle Suggestions
+							currentPlayer.setFinished(true);
+							room.addPlayer(currentPlayer);
 							break;
 						}
 					}
@@ -698,7 +686,7 @@ public class Board extends JPanel{
 				}
 			}
 			if (!selectedTile) {
-				// TODO: Error messaging
+				JOptionPane.showMessageDialog(null, "That is not a legal target", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else {
 				for (BoardCell cell: targets) {
@@ -710,13 +698,179 @@ public class Board extends JPanel{
 		}
 	}
 	
+	public void turnOperator(GameControlPanel gameControlPanel) {
+		System.out.println(currentPlayer.getName() + ": " + currentPlayer.getFinished());
+		if (!currentPlayer.getFinished()) {
+			JOptionPane.showMessageDialog(null, "Please finish your turn first", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		else {
+			currentPlayer = updateCurrentPlayer();
+			
+			Random random = new Random();
+			int roll = random.nextInt(6) + 1;
+			
+			calcTargets(grid[currentPlayer.getRow()][currentPlayer.getCol()], roll);
+			gameControlPanel.setTurn(currentPlayer, roll);
+			
+			if (currentPlayer.isHuman()) {
+				repaint();
+				currentPlayer.setFinished(false);
+				System.out.println(currentPlayer.getName() + ":= " + currentPlayer.getFinished());
+			}
+			else {
+				ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;
+				if ((!suggestionDisproven) && (theSolution != null)) {
+					Solution accusation = getAccuation();
+					if (checkAccusation(theSolution, accusation)) {
+						JOptionPane.showMessageDialog(null, compPlayer.getName() + " wins! The solution is " + theSolution.getPerson().getName() + " in the " + 
+													  theSolution.getRoom().getName() + " with the " + theSolution.getWeapon().getName() + '.');
+						System.exit(0);
+					}
+					else {
+						suggestionDisproven = true;
+						setCurrentSolution(null);
+					}
+				}
+				BoardCell compCell = compPlayer.moveTo();
+				
+				for (BoardCell cell: targets) {
+					cell.setTarget(false);
+				}
+				
+				if (compCell.isRoom()) {
+					Room room = roomMap.get(compCell.getLetter());
+					
+					if (currentPlayer.getRoom() != '-') {
+						roomMap.get(currentPlayer.getRoom()).removePlayer(currentPlayer);
+						currentPlayer.setRoom('-');
+					}
+					room.addPlayer(currentPlayer);
+					currentPlayer.setRoom(room.getName().charAt(0));
+					
+					Solution compSuggestion = compPlayer.createSuggestion();
+					Card result = manageSuggestion(compSuggestion, compPlayer, allPlayers);
+					
+					if (result == null) {
+						suggestionDisproven = false;
+						setCurrentSolution(compSuggestion);
+						
+						String guess = compSuggestion.getPerson().getName() + ", " + compSuggestion.getRoom().getName() + ", " + compSuggestion.getWeapon().getName();
+						gameControlPanel.setGuessResult("Not Disproven");
+						gameControlPanel.setGuess(guess);
+					}
+					else {
+						compPlayer.updateSeen(result);
+						String guess = compSuggestion.getPerson().getName() + ", " + compSuggestion.getRoom().getName() + ", " + compSuggestion.getWeapon().getName();
+						gameControlPanel.setGuessResult(result.getName());
+						gameControlPanel.setGuess(guess);
+					}
+					
+					currentPlayer.setRow(room.getCenterCell().getRow());
+					currentPlayer.setCol(room.getCenterCell().getCol());
+				}
+				else {
+					if (currentPlayer.getRoom() != '-') {
+						roomMap.get(currentPlayer.getRoom()).removePlayer(currentPlayer);
+						currentPlayer.setRoom('-');
+					}
+					currentPlayer.setRow(compCell.getRow());
+					currentPlayer.setCol(compCell.getCol());
+				}
+				currentPlayer.setFinished(true);
+				repaint();
+			}
+		}
+	}
+	
+	public Card manageSuggestion(Solution suggestion, Player accuser, ArrayList<Player> players) {
+		Card givenCard;
+		Player accused = getPlayer(suggestion.getPerson().getName());
+		
+		if (accused.getRoom() != accuser.getRoom() && !accuser.equals(accused)) {
+			roomMap.get(accuser.getRoom()).addPlayer(accused);
+			
+			if (accused.getRoom() != '-') {
+				roomMap.get(accused.getRoom()).removePlayer(accused);
+			}
+			
+			accused.setRoom(accuser.getRoom());
+			accused.setRow(roomMap.get(accuser.getRoom()).getCenterCell().getRow());
+			accused.setCol(roomMap.get(accuser.getRoom()).getCenterCell().getCol());
+		}
+		repaint();
+		
+		for (Player player: allPlayers) {
+			if (!player.equals(accuser)) {
+				givenCard = player.disproveSuggestion(suggestion);
+				if (givenCard != null) {
+					givenCard.setOrigin(player);
+					return givenCard;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void prepareFirstTurn(GameControlPanel gameControlPanel) {
+		currentPlayer = allPlayers.get(0);
+		Random random = new Random();
+		int roll = random.nextInt(6) + 1;
+		calcTargets(grid[currentPlayer.getRow()][currentPlayer.getCol()], roll);
+		gameControlPanel.setTurn(currentPlayer, roll);
+		repaint();
+	}
+	
+	public Player getPlayer(String playerName) {
+		for (Player player: allPlayers) {
+			if (player.getName().equals(playerName)) {
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	
+	public void setSuggestionDisproven (boolean status) {
+		theInstance.suggestionDisproven = status;
+	}
+	
+	public Solution getAccuation() {
+		return theInstance.currentSolution;
+	}
+	
+	public void setCurrentSolution(Solution sol) {
+		theInstance.currentSolution = sol;
+	}
+	
+	public Solution getCurrentSolution() {
+		return theInstance.currentSolution;
+	}
+	
+	public boolean checkAccusation(Solution answer, Solution guess) {
+		boolean same = true;
+		
+		if (!theSolution.getRoom().equals(answer.getRoom())) {
+			same = false;
+		}
+		else if (!theSolution.getPerson().equals(answer.getPerson())) {
+			same = false;
+		}
+		else if (!theSolution.getWeapon().equals(answer.getWeapon())) {
+			same = false;
+		}
+		
+		return same;
+	}
+	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 	
-	public void updateCurrentPlayer() {
-		int count = allPlayers.indexOf(currentPlayer);
-		currentPlayer = allPlayers.get((count+1)%allPlayers.size());
+	public Player updateCurrentPlayer() {
+		int index = allPlayers.indexOf(currentPlayer);
+		if (index == 5) { index = -1; }
+		return allPlayers.get(index + 1);
 	}
 	
 	public int rollDice() {

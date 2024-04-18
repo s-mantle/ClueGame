@@ -121,7 +121,7 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
-	public void moveTo() {
+	public BoardCell moveTo() {
 		// Creates a randomizes a list of targets for our existing BoardCell such that we can implement a (very poor) AI algorithm
 		// to decide where a computer will move to
 		Board board = Board.getInstance();
@@ -169,7 +169,7 @@ public class ComputerPlayer extends Player {
 				if (uniqRoom) {
 					this.row = board.getRoom(roomCell).getCenterCell().getRow();
 					this.col = board.getRoom(roomCell).getCenterCell().getCol();
-					return;
+					return board.getCell(this.row, this.col);
 				}
 			}
 		}
@@ -181,5 +181,6 @@ public class ComputerPlayer extends Player {
 		
 		this.row = targets.get(0).getRow();
 		this.col = targets.get(0).getCol();
+		return board.getCell(this.row, this.col);
 	}
 }
