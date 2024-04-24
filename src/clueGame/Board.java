@@ -484,6 +484,7 @@ public class Board extends JPanel{
 		
 		//First deal solutions
 		theSolution = new Solution(roomList2.remove(0), playerList2.remove(0), weaponList2.remove(0));
+		System.out.println(theSolution);
 		
 		//Add all cards into a big list and then shuffle the list
 		allComputerCards.addAll(playerList2);
@@ -515,6 +516,8 @@ public class Board extends JPanel{
 	 */
 	public boolean checkAccusation(Card room, Card person, Card weapon) {
 		Solution accusation = new Solution(room, person, weapon);
+		System.out.println(accusation);
+		System.out.println(theSolution);
 		return accusation.equals(theSolution);
 	}
 	

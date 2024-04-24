@@ -58,7 +58,7 @@ public class Accusation extends JDialog {
 			{add("Wrench"); add("Knife"); add("Candlestick");
 			 add("Pistol"); add("Lead Pipe"); add("Rope");}
 		};
-		for (String weapon: weaponNames) { personBox.addItem(weapon); }
+		for (String weapon: weaponNames) { weaponBox.addItem(weapon); }
 		
 		weaponBox.addActionListener(new CombinationListener());
 		add(weaponBox);
@@ -72,18 +72,21 @@ public class Accusation extends JDialog {
 		exitButton.addActionListener(new ButtonListener());
 		add(exitButton);
 		
-		personCard = new Card("Mrs. Rose", CardType.PERSON);
-		roomCard = new Card("Jailroom", CardType.ROOM);
-		weaponCard = new Card("Rope", CardType.WEAPON);
+		personCard = new Card("Arbitrary", CardType.PERSON);
+		roomCard = new Card("Arbitrary", CardType.ROOM);
+		weaponCard = new Card("Arbitrary", CardType.WEAPON);
 	}
 	
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == enterButton) {
+				System.out.println("Room Card: "+roomCard);
+				System.out.println("Person Card: "+personCard);
+				System.out.println("Weapon Card: "+weaponCard);
 				Solution accusation = new Solution(roomCard, personCard, weaponCard);
 				Board board = Board.getInstance();
 				
-				if (board.checkAccusation(board.getSolution(), accusation)) {
+				if (board.checkAccusation(roomCard, personCard, weaponCard)) {
 					JOptionPane.showMessageDialog(null, "You have won the game!");
 				}
 				else {
