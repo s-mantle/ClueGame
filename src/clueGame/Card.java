@@ -30,10 +30,8 @@ public class Card{
 	/**
 	 * Custom equals method for comparing card to each other, compare their names and card types
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		Card other = (Card) obj;
-		return Objects.equals(cardName, other.cardName) && cardType == other.cardType;
+	public boolean equals(Card comparedTo) {
+		return ((comparedTo.getName().equals(cardName)) && (comparedTo.getCardType() == this.cardType));
 	}
 	
 	public void setOrigin(Player player) {
@@ -61,6 +59,7 @@ public class Card{
 		return "Card [cardName=" + cardName + "]";
 	}
 
-	
-
+	public void setName(String name) {
+		this.cardName = name;
+	}
 }

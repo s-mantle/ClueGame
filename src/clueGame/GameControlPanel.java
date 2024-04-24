@@ -21,8 +21,14 @@ public class GameControlPanel extends JPanel {
 	// Reference the layout template from C22A-1 to understand what each instance variable represents
 	private JTextField guessField, resultField, turnField, rollField;
 	private JButton nextButton, accusationButton;
+	private Accusation accusationPopup;
 	
 	private Board board = Board.getInstance();
+	private static GameControlPanel gameControlPanel = new GameControlPanel();
+	
+	public static GameControlPanel getInstance() {
+		return gameControlPanel;
+	}
 	
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -111,7 +117,8 @@ public class GameControlPanel extends JPanel {
 			}
 			else {
 				if (board.getCurrentPlayer().isHuman() && !board.getCurrentPlayer().getFinished()) {
-					// TODO: Implement Accusation & Suggestions
+					accusationPopup = new Accusation();
+					accusationPopup.setVisible(true);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Please wait for your turn", "Error", JOptionPane.ERROR_MESSAGE);

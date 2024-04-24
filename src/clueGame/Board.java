@@ -67,6 +67,9 @@ public class Board extends JPanel{
 	public Solution currentSolution;
 	private int rollNumber;
 	private boolean suggestionDisproven;
+	private HumanPlayer humanPlayer;
+
+	private Suggestion suggestionPopup;
 	
 	//Private board, solution
 	private static Board theInstance = new Board();
@@ -240,7 +243,8 @@ public class Board extends JPanel{
 					//Checks for players and create new human/computer players while recording their appropriate data
 					}else if (line[0].equals("Player")) {
 						if (line[3].equals("Human")) {
-							Player tempPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
+							this.humanPlayer = new HumanPlayer(COLORMAP.get(line[1]), line[2], Integer.parseInt(line[4]), Integer.parseInt(line[5]));
+							Player tempPlayer = humanPlayer;
 							playerMap.put(line[1], tempPlayer);
 						}
 						else if (line[3].equals("Computer")){
@@ -639,7 +643,9 @@ public class Board extends JPanel{
 							currentPlayer.setRoom(room.getName().charAt(0));
 							selectedTile = true;
 							
-							// TODO: Handle Suggestions
+							suggestionPopup = new Suggestion();
+							suggestionPopup.setVisible(true);
+							
 							currentPlayer.setFinished(true);
 							room.addPlayer(currentPlayer);
 							break;
@@ -870,6 +876,15 @@ public class Board extends JPanel{
 		return theInstance.targets;
 	}
 	
+	public Card getCard(String name, CardType cardType) {
+		for (Card card: cards) {
+			if ((card.getCardType() == cardType) && (card.getName().equals(name))) {
+				return card;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Returns the room based on the character given
 	 * 
@@ -964,6 +979,10 @@ public class Board extends JPanel{
 	 */
 	public static Solution getSolution() {
 		return theSolution;
+	}
+	
+	public HumanPlayer getHumanPlayer() {
+		return theInstance.humanPlayer;
 	}
 	
 	public static void setSolution(Solution testSol) {

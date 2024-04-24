@@ -32,6 +32,12 @@ public class CardPanel extends JPanel {
 	private static final Color LIGHT_GREEN = new Color(0, 255, 51);
 	private static final Map<Color, Color> COLORMAP = new HashMap<>();
 	
+	private static CardPanel cardPanel = new CardPanel();
+	
+	public static CardPanel getInstance() {
+		return cardPanel;
+	}
+	
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
@@ -119,7 +125,6 @@ public class CardPanel extends JPanel {
 		
 		//Seen List
 		panel.add(new JLabel("Seen:"));
-//		System.out.println("Player Seen List: "+ player.getSeenCards());
 		boolean seenCard = false;
 		for (Card card : player.getSeenCards()) {
 			if (card.getCardType() == cardType) {
@@ -162,5 +167,11 @@ public class CardPanel extends JPanel {
 		weaponPanel.removeAll();
 		createCardPanel(weaponPanel, weapons, "Weapons", CardType.WEAPON);
 		weaponPanel.revalidate();
+	}
+	
+	public void updateAll() {
+		updateRoom();
+		updatePeople();
+		updateWeapon();
 	}
 }
