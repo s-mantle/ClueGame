@@ -44,7 +44,7 @@ public class Solution{
 	@Override
 	public boolean equals(Object obj) {
 		Solution other = (Solution) obj;
-		return Objects.equals(person, other.person) && Objects.equals(room, other.room) && Objects.equals(weapon, other.weapon);
+		return other.person.equals(person) && other.room.equals(room) && other.weapon.equals(weapon);
 	}
 
 	//Used for testing Solution

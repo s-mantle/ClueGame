@@ -183,7 +183,9 @@ public class ComputerAITest {
 		player.updateSeen(yellowCard);
 		player.updateSeen(pinkCard);
 		
+		
 		Solution suggestion = player.createSuggestion();
+		System.out.println(suggestion.getPerson());
 		assertTrue(suggestion.getRoom().equals(armoryCard));
 		assertTrue(suggestion.getWeapon().getCardType().equals(CardType.WEAPON));
 		assertTrue(suggestion.getPerson().equals(cyanCard) || suggestion.getPerson().equals(blackCard) || suggestion.getPerson().equals(whiteCard));

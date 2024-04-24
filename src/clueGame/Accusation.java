@@ -72,17 +72,14 @@ public class Accusation extends JDialog {
 		exitButton.addActionListener(new ButtonListener());
 		add(exitButton);
 		
-		personCard = new Card("Arbitrary", CardType.PERSON);
-		roomCard = new Card("Arbitrary", CardType.ROOM);
-		weaponCard = new Card("Arbitrary", CardType.WEAPON);
+		personCard = new Card("Mr. Red", CardType.PERSON);
+		roomCard = new Card("Armory", CardType.ROOM);
+		weaponCard = new Card("Wrench", CardType.WEAPON);
 	}
 	
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == enterButton) {
-				System.out.println("Room Card: "+roomCard);
-				System.out.println("Person Card: "+personCard);
-				System.out.println("Weapon Card: "+weaponCard);
 				Solution accusation = new Solution(roomCard, personCard, weaponCard);
 				Board board = Board.getInstance();
 				
