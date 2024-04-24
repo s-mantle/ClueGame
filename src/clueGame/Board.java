@@ -484,7 +484,7 @@ public class Board extends JPanel{
 		
 		//First deal solutions
 		theSolution = new Solution(roomList2.remove(0), playerList2.remove(0), weaponList2.remove(0));
-		
+		System.out.println(theSolution);
 		//Add all cards into a big list and then shuffle the list
 		allComputerCards.addAll(playerList2);
 		allComputerCards.addAll(weaponList2);

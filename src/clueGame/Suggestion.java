@@ -84,23 +84,28 @@ public class Suggestion extends JDialog {
 		
 		cards = new ArrayList<Card>(board.getCards());
 		
-		boolean personChoosen = false, weaponChoosen = false;
-		for (Card card: cards) {
-			if (personChoosen && weaponChoosen) { break; }
-			if (card.getCardType() == CardType.PERSON && (!personChoosen)) {
-				personCard = card;
-				personChoosen = true;
-			}
-			else if (card.getCardType() == CardType.WEAPON && (!weaponChoosen)) {
-				weaponCard = card;
-				weaponChoosen = true;
-			}
-		}
+//		boolean personChoosen = false, weaponChoosen = false;
+//		for (Card card: cards) {
+//			if (personChoosen && weaponChoosen) { break; }
+//			if (card.getCardType() == CardType.PERSON && (!personChoosen)) {
+//				personCard = card;
+//				personChoosen = true;
+//			}
+//			else if (card.getCardType() == CardType.WEAPON && (!weaponChoosen)) {
+//				weaponCard = card;
+//				weaponChoosen = true;
+//			}
+//		}
+		personCard = new Card("Mr. Red", CardType.PERSON);
+		weaponCard = new Card("Wrench", CardType.WEAPON);
 	}
 	
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == enterButton) {
+				System.out.println(roomCard);
+				System.out.println(weaponCard);
+				System.out.println(personCard);
 				Solution suggestion = new Solution(roomCard, personCard, weaponCard);
 				Board board = Board.getInstance();
 				
