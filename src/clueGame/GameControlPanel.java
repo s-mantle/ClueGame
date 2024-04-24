@@ -30,10 +30,14 @@ public class GameControlPanel extends JPanel {
 		return gameControlPanel;
 	}
 	
+	private GameControlPanel() {
+		super();
+	}
+	
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel()  {
+	public void initialize()  {
 		setLayout(new GridLayout(2, 0));
 		
 		// Build Control Panel
@@ -97,17 +101,17 @@ public class GameControlPanel extends JPanel {
 	}
 	
 	public void setTurn(Player player, int rollValue) {
-		this.turnField.setText(player.getName());
-		this.turnField.setBackground(player.getPlayerColor());
-		this.rollField.setText("" + rollValue);
+		turnField.setText(player.getName());
+		turnField.setBackground(player.getPlayerColor());
+		rollField.setText("" + rollValue);
 	}
 	
 	public void setGuess(String guess) {
-		this.guessField.setText(guess);
+		guessField.setText(guess);
 	}
 	
 	public void setGuessResult(String result) {
-		this.resultField.setText(result);
+		resultField.setText(result);
 	}
 	
 	private class ButtonListener implements ActionListener {
@@ -128,6 +132,6 @@ public class GameControlPanel extends JPanel {
 	}
 	
 	public void boardTurnCaller() {
-		board.turnOperator(this);
+		board.turnOperator(gameControlPanel);
 	}
 }

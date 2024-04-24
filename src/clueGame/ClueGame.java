@@ -7,14 +7,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
-	private static GameControlPanel gameControlPanel;
-	private static CardPanel cardPanel;
 	private static Board board = Board.getInstance();
+	private static GameControlPanel gameControlPanel = GameControlPanel.getInstance();
+	private static CardPanel cardPanel = CardPanel.getInstance();
 	
 	public ClueGame() {
 		setLayout(new BorderLayout());
 		
-		gameControlPanel = new GameControlPanel();
+		gameControlPanel.initialize();
 		add(gameControlPanel, BorderLayout.SOUTH);
 		
 		board = Board.getInstance();
@@ -24,7 +24,7 @@ public class ClueGame extends JFrame {
 		board.prepareFirstTurn(gameControlPanel);
 		add(board, BorderLayout.CENTER);
 		
-		cardPanel = new CardPanel();
+		cardPanel.initialize();
 		add(cardPanel, BorderLayout.EAST);
 	}
 

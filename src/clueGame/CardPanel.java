@@ -38,10 +38,14 @@ public class CardPanel extends JPanel {
 		return cardPanel;
 	}
 	
+	private CardPanel() {
+		super();
+	}
+	
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public CardPanel()  {
+	public void initialize()  {
 		// Added for C23A
 		// -------------------------------------------------
 		board = Board.getInstance();		
@@ -98,9 +102,7 @@ public class CardPanel extends JPanel {
 //			}
 //		}
 		
-		updatePeople();
-		updateRoom();
-		updateWeapon();
+//		updateAll();
 		// -------------------------------------------------
 	}
 	
@@ -147,7 +149,6 @@ public class CardPanel extends JPanel {
 				return COLORMAP.get(player.getPlayerColor());
 			}
 		}
-		System.out.println("Errored!");
 		return Color.DARK_GRAY;
 	}
 	
@@ -170,8 +171,8 @@ public class CardPanel extends JPanel {
 	}
 	
 	public void updateAll() {
-		updateRoom();
 		updatePeople();
+		updateRoom();
 		updateWeapon();
 	}
 }
