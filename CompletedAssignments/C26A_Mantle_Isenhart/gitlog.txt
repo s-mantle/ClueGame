@@ -1,0 +1,35 @@
+commit d718178ab025217961812b9ccea221eba4018018
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Apr 24 21:34:07 2024 -0600
+
+    Computer is no longer crazy good
+
+commit 4b2f86f20b5d0b85c19cd1b6244d5d1430f5d8bc
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Apr 24 17:19:39 2024 -0600
+
+    Suggestion fix
+
+commit 6dc2ef5ce7a704281cb3a6f50759ad0f0286db67
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Apr 24 16:07:25 2024 -0600
+
+    Accusation fixed
+
+commit c58aceac9fdd6496cd74ac15db422e03dbd84ff8
+Author: Sam Mantle <smantle10@gmail.com>
+Date:   Wed Apr 24 15:23:32 2024 -0600
+
+    Refactor accusation for boxs to be correct, gameSolutionTest runs
+
+commit c084c2971b2a63e20c20e75f8214467a8d7bd27b
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Apr 24 12:01:18 2024 -0600
+
+    IT WORKS!!! kinda
+
+commit 8628dde48674c7626dc229a28356f65d092e124f
+Author: Albitr <isenhart.ben@gmail.com>
+Date:   Wed Apr 24 11:23:51 2024 -0600
+
+    Idk why cards aren't being drawn on the cardpanel
