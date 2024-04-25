@@ -700,7 +700,8 @@ public class Board extends JPanel{
 			}
 			else {
 				ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;
-				if ((!suggestionDisproven) && (theSolution != null)) {
+//				if ((!suggestionDisproven) && (theSolution != null)) {	// Turns out the computer is way too good under this condition lol
+				if (compPlayer.getCards().size() == 19) {
 					Solution accusation = getAccuation();
 					if (checkAccusation(theSolution, accusation)) {
 						JOptionPane.showMessageDialog(null, compPlayer.getName() + " wins! The solution is " + theSolution.getPerson().getName() + " in the " + 
@@ -735,13 +736,13 @@ public class Board extends JPanel{
 						suggestionDisproven = false;
 						setCurrentSolution(compSuggestion);
 						
-						String guess = compSuggestion.getPerson().getName() + ", " + compSuggestion.getRoom().getName() + ", " + compSuggestion.getWeapon().getName();
+						String guess = compSuggestion.getPerson().getName() + " in the " + compSuggestion.getRoom().getName() + " with the " + compSuggestion.getWeapon().getName();
 						gameControlPanel.setGuessResult("Not Disproven");
 						gameControlPanel.setGuess(guess);
 					}
 					else {
 						compPlayer.updateSeen(result);
-						String guess = compSuggestion.getPerson().getName() + ", " + compSuggestion.getRoom().getName() + ", " + compSuggestion.getWeapon().getName();
+						String guess = compSuggestion.getPerson().getName() + " in the " + compSuggestion.getRoom().getName() + " with the " + compSuggestion.getWeapon().getName();
 						gameControlPanel.setGuessResult(result.getName());
 						gameControlPanel.setGuess(guess);
 					}

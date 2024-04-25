@@ -28,7 +28,6 @@ public class ComputerPlayer extends Player {
 
 	@Override
 	public void createAccusation(Card room, Card person, Card weapon) {
-		// TODO Auto-generated method stub
 		if(Board.getInstance().checkAccusation(room, person, weapon)){
 			setCanPlay(false);
 		}

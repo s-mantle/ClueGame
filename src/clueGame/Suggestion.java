@@ -120,9 +120,7 @@ public class Suggestion extends JDialog {
 					gameControlPanel.setGuess(guess);
 				}
 				else {
-//					System.out.println(board.getCurrentPlayer().getSeenCards());
 					board.getCurrentPlayer().updateSeen(outcome);
-//					System.out.println(board.getCurrentPlayer().getSeenCards());
 
 					String result = outcome.getName();
 					String guess = personCard.getName() + " in the " + roomCard.getName() + " with the " + weaponCard.getName();
